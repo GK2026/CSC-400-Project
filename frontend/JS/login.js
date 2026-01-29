@@ -1,6 +1,6 @@
 let xmlhttp = new XMLHttpRequest();
 document.getElementById('signUp').addEventListener('click', function() {
-window.location.href = 'file:///Users/gracekirby/Desktop/CSC%20400/signup.html';
+window.location.href = 'signup.html';
 });
 
 document.getElementById("loginBtn").addEventListener("click", async () => {
