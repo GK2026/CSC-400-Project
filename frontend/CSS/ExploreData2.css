@@ -1,0 +1,240 @@
+/* ===================== RESET ===================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+body {
+    background-color: #f0ebff;
+    min-height: 100vh;
+}
+
+/* ================= HEADER ================= */
+header {
+    background-color: #ffffff;           /* White background */
+    padding: 15px 40px;                  /* Top/bottom 15px, left/right 40px */
+    display: flex;                       /* Flexbox layout */
+    justify-content: space-between;      /* Space between title and nav */
+    align-items: center;                 /* Vertically center items */
+    border-bottom: 1px solid #e2e8f0;   /* Light gray bottom border */
+}
+
+header h1 {
+    font-size: 1.5rem;                   /* Title size */
+    color: #1e293b;                      /* Dark gray text */
+}
+
+header h1 span {
+    background-color: #7c3aed;           /* Purple background */
+    color: white;                        /* White text */
+    padding: 6px 10px;                   /* Inner spacing */
+    border-radius: 6px;                  /* Rounded corners */
+    font-size: 0.9rem;                   /* Smaller font inside span */
+    margin-right: 6px;                    /* Space between span and rest of text */
+}
+
+nav {
+    display: flex;                       /* Flex container for links and dropdown */
+    align-items: center;
+    gap: 24px;                           /* Space between nav items */
+}
+
+nav a {
+    text-decoration: none;               /* Remove underline */
+    color: #111827;                      /* Dark gray links */
+    font-weight: 500;                    /* Medium weight */
+}
+
+nav a:hover {
+    color: #7c3aed;                      /* Purple on hover */
+}
+
+/* ================= STUDENT DROPDOWN ================= */
+nav .form-group select {
+    padding: 6px 12px;                   /* Inner padding */
+    border-radius: 6px;                  /* Rounded corners */
+    border: none;                         /* No border */
+    font-size: 0.9rem;                   /* Smaller font */
+    cursor: pointer;                     /* Pointer on hover */
+    background-color: #7c3aed;           /* Purple background */
+    color: white;                        /* White text */
+    font-weight: 500;
+}
+
+nav .form-group select option {
+    color: black;                        /* Dropdown options text */
+}
+
+/* ===================== DROPDOWNS (ALL) ===================== */
+nav select,
+.student-btn,
+.left-column select {
+    padding: 10px 20px;
+    background-color: #7c3aed;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+nav select:hover,
+.student-btn:hover,
+.left-column select:hover {
+    background-color: #6d28d9;
+}
+
+nav select option,
+.student-btn option,
+.left-column select option {
+    font-weight: normal;
+    color: black;
+}
+
+/* ===================== MAIN SECTION ===================== */
+main {
+    margin: 40px 60px;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    color: #6b7280;
+}
+
+.breadcrumb a {
+    text-decoration: none;
+    color: #6b7280;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+/* Titles */
+h2 {
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    margin-bottom: 30px;
+    color: #6b7280;
+}
+
+/* ===================== FORM GROUPS ===================== */
+.form-group {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+}
+
+/* Search above Country */
+.search-filter-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px; /* space between search bar and dropdowns */
+}
+
+.search-filter-container input {
+    width: 260px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+}
+
+/* ===================== EXPORT BUTTON ===================== */
+.export-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #7c3aed;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.export-btn:hover {
+    background-color: #6d28d9;
+}
+
+/* ===================== THREE-COLUMN LAYOUT ===================== */
+.three-column-container {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+    margin-top: 20px;
+}
+
+/* Columns */
+.left-column {
+    flex: 1;
+}
+
+.middle-column {
+    width: 300px;
+}
+
+.right-column {
+    width: 400px;
+}
+
+/* ===================== TABLES ===================== */
+.tables-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.table-container h3 {
+    margin-bottom: 8px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid #374151;
+    padding: 6px;
+    text-align: center;
+}
+
+td {
+    background-color: #f9f9f9;
+    cursor: text;
+}
+
+td:focus {
+    outline: 2px solid #7c3aed;
+}
+
+/* ===================== CHART ===================== */
+canvas {
+    width: 100%;
+    height: 300px;
+    background-color: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    padding: 10px;
+}
+
+/* Right column buttons (if any) */
+.right-column button {
+    margin-top: 10px;
+    padding: 8px 12px;
+    background-color: #7c3aed;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.right-column button:hover {
+    background-color: #6d28d9;
+}

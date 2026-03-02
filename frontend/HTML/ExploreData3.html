@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GapMinder - Explore Data</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="./CSS/ExploreData3.css" />    
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<!-- ================= HEADER ================= -->
+<header>
+    <h1><span>GM</span>GapMinders Project</h1>
+
+    <nav>
+        <a href="#" id="link-explore">Explore Data</a>
+        <a href="#" id="link-correlation">Correlation Check</a>
+
+        <div class="form-group">
+            <select id="student-select">
+                <option>Student Name</option>
+                <option>Logout</option>
+            </select>
+        </div>
+    </nav>
+</header>
+
+
+<main>
+    <!-- THREE COLUMN LAYOUT -->
+    <div class="three-column-container">
+
+        <!-- LEFT: Existing Content -->
+        <div class="left-column">
+            <div class="breadcrumb">
+                <a href="#" id="Return">Home</a> ➔
+                <a href="#" id="Back">Explore Data Choices</a> ➔
+                <a href="#" id="Current">Explore Data Choices: Across Countries</a>
+            </div>
+
+            <h2>Explore your data</h2>
+            <div class="subtitle">Select a country and indicators</div>
+
+            <div class="search-filter-container">
+                <label>Search / Filter Indicators</label>
+                <input type="text" placeholder="Search Box">
+
+                <div class="form-group">
+                    <select><option>Select 1 Year</option></select>
+                    <select><option>Select 1 Indicator</option></select>
+                    <select><option>Select up to 10 Countries</option></select>
+                </div>
+            </div>
+
+            <button class="export-btn">Export Data into Sheets</button>
+        </div>
+
+        <!-- MIDDLE: 1x10 TABLE -->
+        <div class="middle-column">
+            <h2>Country Values</h2>
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <th>Country</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- 10 editable rows -->
+                    <tr><td contenteditable>Country 1</td><td contenteditable>10</td></tr>
+                    <tr><td contenteditable>Country 2</td><td contenteditable>20</td></tr>
+                    <tr><td contenteditable>Country 3</td><td contenteditable>30</td></tr>
+                    <tr><td contenteditable>Country 4</td><td contenteditable>40</td></tr>
+                    <tr><td contenteditable>Country 5</td><td contenteditable>50</td></tr>
+                    <tr><td contenteditable>Country 6</td><td contenteditable>60</td></tr>
+                    <tr><td contenteditable>Country 7</td><td contenteditable>70</td></tr>
+                    <tr><td contenteditable>Country 8</td><td contenteditable>80</td></tr>
+                    <tr><td contenteditable>Country 9</td><td contenteditable>90</td></tr>
+                    <tr><td contenteditable>Country 10</td><td contenteditable>100</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- RIGHT: GRAPH -->
+        <div class="right-column">
+            <h2>Visualization</h2>
+            <canvas id="dataChart"></canvas>
+        </div>
+
+    </div>
+</main>
+
+<!-- JS -->
+<script src="JS/ExploreData3.js"></script>
+</body>
+</html>
