@@ -2,18 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Explore Your Data - GapMinders Project</title>
-    
-    <!-- CSS -->
-    <link rel="stylesheet" href="./CSS/ExploreData2.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- CSS -->
+    <link rel="stylesheet" href="./CSS/ExploreData2.css"/>
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
-<!-- ================= HEADER ================= -->
 <header>
     <h1><span>GM</span>GapMinders Project</h1>
 
@@ -31,10 +29,9 @@
 </header>
 
 <main>
-    <!-- THREE-COLUMN CONTAINER -->
     <div class="three-column-container">
 
-        <!-- LEFT: Filters -->
+        <!-- LEFT -->
         <div class="left-column">
             <div class="breadcrumb">
                 <a href="#" id="Return">Home</a> ➔
@@ -46,8 +43,8 @@
             <div class="subtitle">Select a country and indicators</div>
 
             <div class="search-filter-container">
-                <label for="indicator-search">Search / Filter Indicators</label>
-                <input type="text" id="indicator-search" placeholder="Search Box">
+                <label>Search / Filter Indicators</label>
+                <input type="text" placeholder="Search Box">
 
                 <div class="form-group">
                     <select><option>Country Name</option></select>
@@ -61,12 +58,13 @@
             <button class="export-btn">Export Data into Sheets</button>
         </div>
 
-        <!-- MIDDLE: Tables -->
+        <!-- MIDDLE -->
         <div class="middle-column">
             <h2>Compare Two Tables</h2>
             <div class="subtitle">Edit values in both tables</div>
 
             <div class="tables-wrapper">
+
                 <div class="table-container">
                     <h3>Table 1</h3>
                     <table id="table1">
@@ -94,18 +92,18 @@
                         </tbody>
                     </table>
                 </div>
+
             </div>
         </div>
 
-        <!-- RIGHT: Chart -->
+        <!-- RIGHT -->
         <div class="right-column">
             <h2>Visualization</h2>
-            <canvas id="diffChart"></canvas>
+            <canvas id="DiffChart"></canvas>
         </div>
 
     </div>
 </main>
-
 <script src="JS/ExploreData2.js"></script>
 </body>
 </html>

@@ -1,5 +1,4 @@
-/* ===================== RESET ===================== */
-* {
+å* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -13,58 +12,58 @@ body {
 
 /* ================= HEADER ================= */
 header {
-    background-color: #ffffff;           /* White background */
-    padding: 15px 40px;                  /* Top/bottom 15px, left/right 40px */
-    display: flex;                       /* Flexbox layout */
-    justify-content: space-between;      /* Space between title and nav */
-    align-items: center;                 /* Vertically center items */
-    border-bottom: 1px solid #e2e8f0;   /* Light gray bottom border */
+    background-color: #ffffff;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e2e8f0;
 }
 
 header h1 {
-    font-size: 1.5rem;                   /* Title size */
-    color: #1e293b;                      /* Dark gray text */
+    font-size: 1.5rem;
+    color: #1e293b;
 }
 
 header h1 span {
-    background-color: #7c3aed;           /* Purple background */
-    color: white;                        /* White text */
-    padding: 6px 10px;                   /* Inner spacing */
-    border-radius: 6px;                  /* Rounded corners */
-    font-size: 0.9rem;                   /* Smaller font inside span */
-    margin-right: 6px;                    /* Space between span and rest of text */
+    background-color: #7c3aed;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    margin-right: 6px;
 }
 
 nav {
-    display: flex;                       /* Flex container for links and dropdown */
+    display: flex;
     align-items: center;
-    gap: 24px;                           /* Space between nav items */
+    gap: 24px;
 }
 
 nav a {
-    text-decoration: none;               /* Remove underline */
-    color: #111827;                      /* Dark gray links */
-    font-weight: 500;                    /* Medium weight */
+    text-decoration: none;
+    color: #111827;
+    font-weight: 500;
 }
 
 nav a:hover {
-    color: #7c3aed;                      /* Purple on hover */
+    color: #7c3aed;
 }
 
 /* ================= STUDENT DROPDOWN ================= */
 nav .form-group select {
-    padding: 6px 12px;                   /* Inner padding */
-    border-radius: 6px;                  /* Rounded corners */
-    border: none;                         /* No border */
-    font-size: 0.9rem;                   /* Smaller font */
-    cursor: pointer;                     /* Pointer on hover */
-    background-color: #7c3aed;           /* Purple background */
-    color: white;                        /* White text */
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+    background-color: #7c3aed;
+    color: white;
     font-weight: 500;
 }
 
 nav .form-group select option {
-    color: black;                        /* Dropdown options text */
+    color: black;
 }
 
 /* ===================== DROPDOWNS (ALL) ===================== */
@@ -132,11 +131,19 @@ h2 {
     flex-wrap: wrap;
 }
 
+/* STACK DROPDOWNS IN MAIN SECTION */
+.search-filter-container .form-group {
+    display: flex;
+    flex-direction: column;   /* vertical stacking */
+    gap: 12px;
+    align-items: flex-start;
+}
+
 /* Search above Country */
 .search-filter-container {
     display: flex;
     flex-direction: column;
-    gap: 16px; /* space between search bar and dropdowns */
+    gap: 16px;
 }
 
 .search-filter-container input {
@@ -171,17 +178,9 @@ h2 {
 }
 
 /* Columns */
-.left-column {
-    flex: 1;
-}
-
-.middle-column {
-    width: 300px;
-}
-
-.right-column {
-    width: 400px;
-}
+.left-column { flex: 1; }
+.middle-column { width: 300px; }
+.right-column { width: 400px; }
 
 /* ===================== TABLES ===================== */
 .tables-wrapper {
@@ -224,7 +223,7 @@ canvas {
     padding: 10px;
 }
 
-/* Right column buttons (if any) */
+/* Right column buttons */
 .right-column button {
     margin-top: 10px;
     padding: 8px 12px;
