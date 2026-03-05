@@ -1,0 +1,139 @@
+/* General Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #F3F1FF; /* Light lavender background */
+    min-height: 100vh;
+}
+
+/* ================= HEADER ================= */
+header {
+    background-color: #ffffff;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+header h1 {
+    font-size: 1.5rem;
+    color: #1e293b;
+}
+
+header h1 span {
+    background-color: #7c3aed;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    margin-right: 6px;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #111827;
+    font-weight: 500;
+}
+
+nav a:hover {
+    color: #7c3aed;
+}
+
+/* Dashboard Content */
+.dashboard-container {
+    padding: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.dashboard-title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+
+/* Search Section */
+/* Search above Country */
+.search-filter-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.search-filter-container input {
+    width: 260;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+}
+}
+
+/* Table Styling */
+.table-wrapper {
+    background-color: #E9E6F7; /* Slightly darker than body for the table area */
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.dashboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #f1f0f7;
+}
+
+.dashboard-table th {
+    background-color: #F1F0F7;
+    border: 1px solid #ccc;
+    padding: 15px 10px;
+    text-align: left;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.dashboard-table td {
+    border: 1px solid #ccc;
+    padding: 20px;
+}
+
+/* Responsive spacer for the extra column on the right */
+.scroll-filler {
+    width: 20px;
+}
+
+nav select,
+.student-btn,
+.left-column select {
+    padding: 10px 20px;
+    background-color: #7c3aed;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+nav select:hover,
+.student-btn:hover,
+.left-column select:hover {
+    background-color: #6d28d9;
+}
+
+nav select option,
+.student-btn option,
+.left-column select option {
+    font-weight: normal;
+    color: black;
+}

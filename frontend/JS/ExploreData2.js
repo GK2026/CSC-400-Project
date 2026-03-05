@@ -10,30 +10,23 @@ document.addEventListener("DOMContentLoaded", () => {
 // ---------------- Breadcrumb Navigation ----------------
 function attachBreadcrumbListeners() {
 
-    document.getElementById('Return')?.addEventListener('click', e => {
-        e.preventDefault();
-        window.location.href = 'Home.html';
-    });
+    const goTo = (id, page) => {
+        const element = document.getElementById(id);
 
-    document.getElementById('Back')?.addEventListener('click', e => {
-        e.preventDefault();
-        window.location.href = 'ExploreData1.html';
-    });
+        if (element) {
+            element.addEventListener("click", function(e){
+                e.preventDefault();
+                window.location.href = page;
+            });
+        }
+    };
 
-    document.getElementById('Current')?.addEventListener('click', e => {
-        e.preventDefault();
-        window.location.href = 'ExploreData2.html';
-    });
+    goTo("Return", "Home.html");
+    goTo("Back", "ExploreData1.html");
+    goTo("Current", "ExploreData2.html");
 
-    document.getElementById('link-explore')?.addEventListener('click', e => {
-        e.preventDefault();
-        window.location.href = 'ExploreData1.html';
-    });
-
-    document.getElementById('link-correlation')?.addEventListener('click', e => {
-        e.preventDefault();
-        window.location.href = 'Assignments.html';
-    });
+    goTo("link-explore", "ExploreData1.html");
+    goTo("link-correlation", "Assignments.html");
 }
 
 
@@ -42,28 +35,34 @@ function getAllTableData() {
 
     const tableIds = ["table1", "table2"];
     const colors = ["#7c3aed", "#f97316"];
+
     const datasets = [];
 
-    tableIds.forEach((id, idx) => {
+    tableIds.forEach((id, index) => {
 
         const rows = document.querySelectorAll(`#${id} tbody tr`);
         const points = [];
 
         rows.forEach(row => {
-            const x = parseFloat(row.cells[0].innerText.trim());
-            const y = parseFloat(row.cells[1].innerText.trim());
+
+            const x = parseFloat(row.cells[0].textContent);
+            const y = parseFloat(row.cells[1].textContent);
 
             if (!isNaN(x) && !isNaN(y)) {
-                points.push({ x, y });
+                points.push({x:x,y:y});
             }
+
         });
 
         datasets.push({
-            label: `Table ${idx + 1}`,
+            label: `Table ${index + 1}`,
             data: points,
-            backgroundColor: colors[idx],
-            pointRadius: 6
+            backgroundColor: colors[index],
+            borderColor: colors[index],
+            pointRadius: 7,
+            showLine: false
         });
+
     });
 
     return datasets;
@@ -84,36 +83,71 @@ function updateDiffChart() {
     }
 
     diffChart = new Chart(ctx, {
+
         type: "scatter",
-        data: { datasets },
+
+        data: {
+            datasets: datasets
+        },
+
         options: {
+
             responsive: true,
+
             scales: {
+
                 x: {
-                    title: { display: true, text: "X" },
-                    beginAtZero: true
+                    type: "linear",
+                    position: "bottom",
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: "X"
+                    }
                 },
+
                 y: {
-                    title: { display: true, text: "Y" },
-                    beginAtZero: true
-                }
-            },
-            plugins: {
-                legend: { position: "top" },
-                tooltip: {
-                    callbacks: {
-                        label: ctx => `(${ctx.raw.x}, ${ctx.raw.y})`
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: "Y"
                     }
                 }
+
+            },
+
+            plugins: {
+
+                legend: {
+                    position: "top"
+                },
+
+                tooltip: {
+                    callbacks: {
+                        label: function(context){
+                            return `(${context.raw.x}, ${context.raw.y})`;
+                        }
+                    }
+                }
+
             }
+
         }
+
     });
+
 }
 
 
 // ---------------- Update Chart on Edit ----------------
 function attachTableListeners() {
+
     document.querySelectorAll("#table1 td, #table2 td").forEach(cell => {
-        cell.addEventListener("input", updateDiffChart);
+
+        cell.addEventListener("input", function(){
+            updateDiffChart();
+        });
+
     });
+
 }
