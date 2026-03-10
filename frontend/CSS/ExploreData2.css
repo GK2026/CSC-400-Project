@@ -1,14 +1,13 @@
-/* ===================== RESET ===================== */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 }
 
-body {
-    background-color: #f0ebff;
-    min-height: 100vh;
+body{
+background-color:#f0ebff;
+min-height:100vh;
 }
 
 /* ================= HEADER ================= */
@@ -80,57 +79,108 @@ nav select,
     cursor: pointer;
     min-width: 200px;
 }
+/* HEADER */
 
-nav select:hover,
-.student-btn:hover,
-.left-column select:hover {
-    background-color: #6d28d9;
+header{
+background-color:#ffffff;
+padding:15px 40px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+border-bottom:1px solid #e2e8f0;
 }
 
-nav select option,
-.student-btn option,
-.left-column select option {
-    font-weight: normal;
-    color: black;
+header h1{
+font-size:1.5rem;
+color:#1e293b;
 }
 
-/* ===================== MAIN SECTION ===================== */
-main {
-    margin: 40px 60px;
+header h1 span{
+background-color:#7c3aed;
+color:white;
+padding:6px 10px;
+border-radius:6px;
+font-size:0.9rem;
+margin-right:6px;
 }
 
-/* Breadcrumb */
-.breadcrumb {
-    font-size: 0.9rem;
-    margin-bottom: 20px;
-    color: #6b7280;
+nav{
+display:flex;
+align-items:center;
+gap:24px;
 }
 
-.breadcrumb a {
-    text-decoration: none;
-    color: #6b7280;
+nav a{
+text-decoration:none;
+color:#111827;
+font-weight:500;
 }
 
-.breadcrumb a:hover {
-    text-decoration: underline;
+nav a:hover{
+color:#7c3aed;
 }
 
-/* Titles */
-h2 {
-    margin-bottom: 8px;
+nav select{
+padding:6px 12px;
+border-radius:6px;
+border:none;
+font-size:0.9rem;
+cursor:pointer;
+background-color:#7c3aed;
+color:white;
+}
+
+
+/* MAIN */
+
+main{
+margin:40px 60px;
+}
+
+
+/* BREADCRUMB */
+
+.breadcrumb{
+font-size:0.9rem;
+margin-bottom:20px;
+color:#6b7280;
+}
+
+.breadcrumb a{
+text-decoration:none;
+color:#6b7280;
+}
+
+
+/* TITLES */
+
+h2{
+margin-bottom:8px;
+}
+
+.subtitle{
+margin-bottom:30px;
+color:#6b7280;
 }
 
 .subtitle {
     margin-bottom: 18px;
     color: #6b7280;
+
+/* SEARCH FILTER AREA */
+
+.search-filter-container{
+display:flex;
+flex-direction:column;
+gap:12px;
+margin-bottom:20px;
 }
 
-/* ===================== FORM GROUPS ===================== */
-.form-group {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 18px;
-    flex-wrap: wrap;
+.search-filter-container input{
+width:260px;
+padding:8px 12px;
+border-radius:6px;
+border:1px solid #d1d5db;
 }
 
 /* Search above Country */
@@ -165,10 +215,24 @@ h2 {
     border-radius: 6px;
     cursor: pointer;
     font-weight: 500;
+
+/* ROWS */
+
+.form-row{
+display:flex;
+gap:12px;
 }
 
-.export-btn:hover {
-    background-color: #6d28d9;
+.country-row select{
+width:260px;
+}
+
+.indicator-row select{
+width:200px;
+}
+
+.year-row select{
+width:130px;
 }
 
 /* ===================== THREE-COLUMN LAYOUT ===================== */
@@ -193,13 +257,46 @@ h2 {
 .right-column {
     flex: 1.1;
     min-width: 420px;
+
+/* DROPDOWNS */
+
+select{
+padding:10px;
+border-radius:6px;
+border:1px solid black;
+background-color:white;
+cursor:pointer;
 }
 
-/* ===================== TABLES ===================== */
-.tables-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+
+/* EXPORT BUTTON */
+
+.export-btn{
+margin-top:20px;
+padding:10px 20px;
+background-color:#7c3aed;
+color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+font-weight:500;
+}
+
+.export-btn:hover{
+background-color:#6d28d9;
+}
+
+
+/* THREE COLUMN LAYOUT */
+
+.three-column-container{
+display:flex;
+gap:40px;
+align-items:flex-start;
+}
+
+.left-column{
+flex:1;
 }
 
 .table-container {
@@ -232,10 +329,32 @@ th {
 td {
     background-color: #f9f9f9;
     cursor: text;
+.middle-column{
+width:300px;
 }
 
-td:focus {
-    outline: 2px solid #7c3aed;
+.right-column{
+width:400px;
+}
+
+
+/* TABLES */
+
+.tables-wrapper{
+display:flex;
+flex-direction:column;
+gap:20px;
+}
+
+table{
+border-collapse:collapse;
+width:100%;
+}
+
+th,td{
+border:1px solid #374151;
+padding:6px;
+text-align:center;
 }
 
 /* ===================== BIGGER DATA TABLES ===================== */
@@ -258,19 +377,26 @@ canvas {
     border: 1px solid #d1d5db;
     border-radius: 6px;
     padding: 10px;
+td{
+background-color:#f9f9f9;
+cursor:text;
 }
 
-/* Right column buttons (if any) */
-.right-column button {
-    margin-top: 10px;
-    padding: 8px 12px;
-    background-color: #7c3aed;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
+td:focus{
+outline:2px solid #7c3aed;
 }
 
 .right-column button:hover {
     background-color: #6d28d9;
+}
+
+/* CHART */
+
+canvas{
+width:100%;
+height:300px;
+background:white;
+border:1px solid #d1d5db;
+border-radius:6px;
+padding:10px;
 }

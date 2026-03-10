@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GapMinders Project</title>
+    <link rel="stylesheet" href="CSS/Home.css">
+</head>
+<body>
+    <header>
+    <div class="logo">
+        <span class="logo-icon">GM</span>
+        <span class="logo-text">GapMinder Project</span>
+    </div>
+
+    <nav>
+        <a href="#" id="link-explore">Explore Data</a>
+        <a href="#" id="link-correlation">Correlation Check</a>
+        <div id="nav-auth"></div>
+    </nav>
+</header>
+
+    <main class="hero-section">
+        <div class="hero-content">
+            <h1>Welcome to GapMinders Project</h1>
+            <p>An educational web app that helps students<br> 
+               explore real-world data and understand correlations</p>
+               <div id="welcomeMessage"></div>
+        </div>
+
+        <section class="card-container">
+            <div class="card">
+                <div class="card-header">
+                    <span class="emoji-icon">🔍</span>
+                    <h3>Explore Data</h3>
+                </div>
+                <p>Choose a dataset to analyze and explore correlation</p>
+                <button id="card-explore-btn" class="btn-solid">Explore Data</button>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <span class="emoji-icon">📊</span>
+                    <h3>Submit Correlation</h3>
+                </div>
+                <p>Submit your correlation for review and correction</p>
+                <button id="card-submit-btn" class="btn-solid">Submit Correlation</button>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <span class="emoji-icon">📁</span>
+                    <h3>View Previous Submission</h3>
+                </div>
+                <p>See how much you have improved since your last submission</p>
+                <button id="card-view-btn" class="btn-solid">View Previous Submissions</button>
+            </div>
+        </section>
+    </main>
+
+    <script src="JS/Home.js"></script>
+</body>
+</html>
