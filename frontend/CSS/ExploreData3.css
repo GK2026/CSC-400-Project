@@ -10,6 +10,74 @@ background-color:#f0ebff;
 min-height:100vh;
 }
 
+/* ================= HEADER ================= */
+header {
+    background-color: #ffffff;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+header h1 {
+    font-size: 1.5rem;
+    color: #1e293b;
+}
+
+header h1 span {
+    background-color: #7c3aed;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    margin-right: 6px;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #111827;
+    font-weight: 500;
+}
+
+nav a:hover {
+    color: #7c3aed;
+}
+
+/* ================= STUDENT DROPDOWN ================= */
+nav .form-group select {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+    background-color: #7c3aed;
+    color: white;
+    font-weight: 500;
+}
+
+nav .form-group select option {
+    color: black;
+}
+
+/* ===================== DROPDOWNS (ALL) ===================== */
+nav select,
+.student-btn,
+.left-column select {
+    padding: 10px 16px;
+    background-color: #7c3aed;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    min-width: 210px;
 /* HEADER */
 
 header{
@@ -123,6 +191,9 @@ gap:12px;
 width:260px;
 }
 
+.subtitle {
+    margin-bottom: 18px;
+    color: #6b7280;
 .indicator-row select{
 width:200px;
 }
@@ -145,6 +216,68 @@ cursor:pointer;
 .search-filter-container .form-group {
     display: flex;
     flex-direction: column;
+    gap: 16px;
+}
+
+.search-filter-container input {
+    width: 100%;
+    max-width: 350px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+}
+
+/* ===================== STATUS MESSAGE ===================== */
+#statusMessage {
+    margin-top: 6px;
+    font-size: 0.95rem;
+    color: #4b5563;
+}
+
+/* ===================== EXPORT / ACTION BUTTONS ===================== */
+.export-btn,
+#addCountryBtn,
+#clearCountriesBtn,
+#selectedCountriesTable button {
+    margin-top: 6px;
+    padding: 10px 16px;
+    background-color: #7c3aed;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.export-btn:hover,
+#addCountryBtn:hover,
+#clearCountriesBtn:hover,
+#selectedCountriesTable button:hover {
+    background-color: #6d28d9;
+}
+
+/* ===================== THREE-COLUMN LAYOUT ===================== */
+.three-column-container {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+    margin-top: 20px;
+}
+
+/* Columns */
+.left-column {
+    flex: 1.1;
+    min-width: 320px;
+}
+
+.middle-column {
+    flex: 1.2;
+    min-width: 420px;
+}
+
+.right-column {
+    flex: 1.1;
+    min-width: 420px;
     gap: 12px; /* optional spacing between dropdowns */
 }
 
@@ -186,6 +319,25 @@ flex:1;
 width:300px;
 }
 
+table {
+    border-collapse: collapse;
+    width: 100%;
+    background-color: white;
+}
+
+th, td {
+    border: 1px solid #374151;
+    padding: 10px 8px;
+    text-align: center;
+}
+
+th {
+    background-color: #ede9fe;
+}
+
+td {
+    background-color: #f9f9f9;
+    cursor: text;
 .right-column{
 width:400px;
 }
@@ -210,6 +362,39 @@ padding:6px;
 text-align:center;
 }
 
+/* ===================== BIGGER DATA TABLE ===================== */
+#dataTable {
+    min-height: 520px;
+    table-layout: fixed;
+}
+
+#dataTable th,
+#dataTable td {
+    font-size: 0.95rem;
+}
+
+#dataTable tbody tr {
+    height: 38px;
+}
+
+/* ===================== SELECTED COUNTRIES TABLE ===================== */
+#selectedCountriesTable {
+    margin-top: 8px;
+}
+
+#selectedCountriesTable td,
+#selectedCountriesTable th {
+    padding: 8px;
+}
+
+/* ===================== CHART ===================== */
+canvas {
+    width: 100%;
+    height: 420px;
+    background-color: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    padding: 10px;
 td{
 background-color:#f9f9f9;
 cursor:text;
@@ -219,6 +404,9 @@ td:focus{
 outline:2px solid #7c3aed;
 }
 
+.right-column button:hover {
+    background-color: #6d28d9;
+}
 
 /* CHART */
 
