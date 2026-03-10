@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Explore Your Data - GapMinders Project</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="CSS/Assignments.css">
+</head>
+
+<body>
+
+<header>
+    <h1><span>GM</span> GapMinder Project</h1>
+    <nav>
+        <a href="#" id="link-explore">Explore Data</a>
+        <a href="#" id="link-correlation">Correlation Check</a>
+        <div class="form-group">
+            <select id="student-select">
+                <option>Student Name</option>
+                <option>Logout</option>
+            </select>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <div class="left-column">
+
+        <div class="breadcrumb">
+            <a href="#" id="Return">Home</a> ➔
+            <a href="#" id="Current">Assignments</a>
+        </div>
+
+        <h2>Check Your Correlation</h2>
+
+
+        <!-- Country -->
+        <div class="form-row country-row">
+            <select id="country-select">
+                <option>Numerical Correlation</option>
+                <option>Positive</option>
+                <option>None</option>
+                <option>Negative</option>
+            </select>
+        </div>
+
+        <div class="search-filter-container">
+            <label>Verbal Correlation</label>
+            <input type="text" placeholder="Text Box">
+        </div>
+
+        <h2>Past Correlations</h2>
+
+        <div class="tables-wrapper">
+            <div class="table-container">
+                <h3>Table 1</h3>
+                <table id="table1">
+                    <thead>
+                        <tr>
+                            <th>X</th>
+                            <th>Y</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td contenteditable>1</td><td contenteditable>2</td></tr>
+                        <tr><td contenteditable>2</td><td contenteditable>4</td></tr>
+                        <tr><td contenteditable>3</td><td contenteditable>6</td></tr>
+                        <tr><td contenteditable>4</td><td contenteditable>8</td></tr>
+                        <tr><td contenteditable>5</td><td contenteditable>10</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div> <!-- end left-column -->
+</main>
+<script src="JS/Assignments.js"></script>
+<!-- or inline -->
+<script>
+/* JS from above here */
+</script>
+</body>
+</html>

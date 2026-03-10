@@ -1,0 +1,152 @@
+/* Reset and fonts */
+* {
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+}
+
+body {
+    background-color:#f0ebff;
+    min-height:100vh;
+}
+
+/* HEADER */
+header {
+    background-color:#ffffff;
+    padding:15px 40px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:1px solid #e2e8f0;
+}
+
+header h1 {
+    font-size:1.5rem;
+    color:#1e293b;
+}
+
+header h1 span {
+    background-color:#7c3aed;
+    color:white;
+    padding:6px 10px;
+    border-radius:6px;
+    font-size:0.9rem;
+    margin-right:6px;
+}
+
+nav {
+    display:flex;
+    align-items:center;
+    gap:24px;
+}
+
+nav a {
+    text-decoration:none;
+    color:#111827;
+    font-weight:500;
+}
+
+nav a:hover {
+    color:#7c3aed;
+}
+
+nav select {
+    padding:6px 12px;
+    border-radius:6px;
+    border:none;
+    font-size:0.9rem;
+    cursor:pointer;
+    background-color:#7c3aed;
+    color:white;
+}
+
+/* MAIN CONTENT */
+main {
+    margin:40px auto;
+    max-width:800px; /* center content */
+}
+
+/* BREADCRUMB */
+.breadcrumb {
+    font-size:0.9rem;
+    margin-bottom:15px;
+    color:#6b7280;
+}
+
+.breadcrumb a {
+    text-decoration:none;
+    color:#6b7280;
+}
+
+/* TITLES AND SUBTITLE */
+h2 {
+    margin-bottom:4px; /* small space below heading */
+}
+
+.subtitle {
+    margin-bottom:6px; /* space between subtitle and dropdown */
+    color:#6b7280;
+    font-weight:500;
+}
+
+/* FORM ROWS */
+.form-row {
+    display:flex;
+    gap:12px;
+    margin-bottom:20px; /* space below row */
+}
+
+.country-row select {
+    width:260px;
+    padding:8px 10px;
+    border-radius:6px;
+    border:1px solid #d1d5db;
+    background-color:white;
+    cursor:pointer;
+    font-size:0.95rem;
+}
+
+/* SEARCH FILTER AREA */
+.search-filter-container {
+    display:flex;
+    flex-direction:column;
+    gap:10px; /* small space between label and input */
+    margin-bottom:20px;
+}
+
+.search-filter-container input {
+    width:260px;
+    padding:8px 12px;
+    border-radius:6px;
+    border:1px solid #d1d5db;
+}
+
+/* TABLES */
+.tables-wrapper {
+    display:flex;
+    flex-direction:column;
+    gap:20px; /* vertical spacing between tables */
+    max-height:400px; /* scroll if table grows */
+    overflow-y:auto;
+}
+
+table {
+    border-collapse:collapse;
+    width:100%;
+}
+
+th, td {
+    border:1px solid #374151;
+    padding:8px; /* more breathing room in cells */
+    text-align:center;
+}
+
+td {
+    background-color:#f9f9f9;
+    cursor:text;
+}
+
+td:focus {
+    outline:2px solid #7c3aed;
+}
