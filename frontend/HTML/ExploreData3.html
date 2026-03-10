@@ -6,7 +6,8 @@
     <title>GapMinder - Explore Data</title>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="./CSS/ExploreData3.css" />    
+    <!-- Edited By Amir: corrected directory path -->
+    <link rel="stylesheet" href="../CSS/ExploreData3.css" />
 
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -30,7 +31,6 @@
     </nav>
 </header>
 
-
 <main>
     <!-- THREE COLUMN LAYOUT -->
     <div class="three-column-container">
@@ -44,25 +44,66 @@
             </div>
 
             <h2>Explore your data</h2>
-            <div class="subtitle">Select a country and indicators</div>
+            <div class="subtitle">Choose an indicator first, then select a year and countries to compare. May take a moment to load.</div>
 
             <div class="search-filter-container">
-                <label>Search / Filter Indicators</label>
-                <input type="text" placeholder="Search Box">
+                <label for="indicatorSearch">Search / Filter Indicators</label>
+                <!-- Edited By Amir -->
+                <input type="text" id="indicatorSearch" placeholder="Type to filter indicators">
 
                 <div class="form-group">
-                    <select><option>Select 1 Year</option></select>
-                    <select><option>Select 1 Indicator</option></select>
-                    <select><option>Select up to 10 Countries</option></select>
+                    <!-- Edited By Amir -->
+                    <select id="yearSelect">
+                        <option value="">Select 1 Year</option>
+                    </select>
+
+                    <!-- Edited By Amir -->
+                    <select id="indicatorSelect">
+                        <option value="">Select 1 Indicator</option>
+                    </select>
+
+                    <!-- Edited By Amir -->
+                    <select id="countrySelect">
+                        <option value="">Select 1 Country</option>
+                    </select>
                 </div>
+
+                <!-- Edited By Amir -->
+                <div class="form-group">
+                    <button type="button" id="addCountryBtn">Add Selected Country</button>
+                    <button type="button" id="clearCountriesBtn">Clear Countries</button>
+                </div>
+
+                <!-- Edited By Amir -->
+                <div class="table-container">
+                    <h3>Selected Countries (max 10)</h3>
+                    <table id="selectedCountriesTable">
+                        <thead>
+                            <tr>
+                                <th>Country</th>
+                                <th>Remove</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="2">No countries selected yet</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Edited By Amir -->
+                <p id="statusMessage" class="subtitle">Choose an indicator to begin.</p>
             </div>
 
             <button class="export-btn">Export Data into Sheets</button>
         </div>
 
-        <!-- MIDDLE: 1x10 TABLE -->
+        <!-- MIDDLE: TABLE -->
         <div class="middle-column">
             <h2>Country Values</h2>
+            <div class="subtitle">Selected countries for the selected year</div>
+
             <table id="dataTable">
                 <thead>
                     <tr>
@@ -71,7 +112,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- 10 editable rows -->
                     <tr><td contenteditable>Country 1</td><td contenteditable>10</td></tr>
                     <tr><td contenteditable>Country 2</td><td contenteditable>20</td></tr>
                     <tr><td contenteditable>Country 3</td><td contenteditable>30</td></tr>
@@ -96,6 +136,7 @@
 </main>
 
 <!-- JS -->
-<script src="JS/ExploreData3.js"></script>
+<!-- Edited By Amir: corrected directory path -->
+<script src="../JS/ExploreData3.js"></script>
 </body>
 </html>

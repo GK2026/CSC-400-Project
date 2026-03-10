@@ -6,7 +6,8 @@
     <title>Explore Your Data - GapMinders Project</title>
     
     <!-- CSS -->
-    <link rel="stylesheet" href="./CSS/ExploreData2.css" />
+    <!-- Added Correct Directory Path via two dots -Amir-->
+    <link rel="stylesheet" href="../CSS/ExploreData2.css" />
 
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -43,20 +44,42 @@
             </div>
 
             <h2>Explore Your Data</h2>
-            <div class="subtitle">Select a country and indicators</div>
+            <div class="subtitle">Choose indicators first, then select a start/end year and countries to compare. May take a moment to load.</div>
 
             <div class="search-filter-container">
                 <label for="indicator-search">Search / Filter Indicators</label>
                 <input type="text" id="indicator-search" placeholder="Search Box">
 
                 <div class="form-group">
-                    <select><option>Country Name</option></select>
-                    <select><option>Indicator</option></select>
-                    <select><option>Indicator</option></select>
-                    <select><option>Start Year</option></select>
-                    <select><option>End Year</option></select>
+                    <!-- Edited By Amir -->
+                    <select id="countrySelect">
+                        <option value="">Country Name</option>
+                    </select>
+
+                    <!-- Edited By Amir -->
+                    <select id="indicator1Select">
+                        <option value="">Indicator</option>
+                    </select>
+
+                    <!-- Edited By Amir -->
+                    <select id="indicator2Select">
+                        <option value="">Indicator</option>
+                    </select>
+
+                    <!-- Edited By Amir -->
+                    <select id="startYearSelect">
+                        <option value="">Start Year</option>
+                    </select>
+
+                    <!-- Edited By Amir -->
+                    <select id="endYearSelect">
+                        <option value="">End Year</option>
+                    </select>
                 </div>
             </div>
+
+            <!-- Edited By Amir -->
+            <div class="subtitle" id="statusMessage">Choose an indicator to begin.</div>
 
             <button class="export-btn">Export Data into Sheets</button>
         </div>
@@ -106,6 +129,7 @@
     </div>
 </main>
 
-<script src="JS/ExploreData2.js"></script>
+<!--Edited By Amir -->
+<script src="../JS/ExploreData2.js"></script>
 </body>
 </html>
