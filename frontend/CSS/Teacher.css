@@ -74,11 +74,10 @@ nav a:hover {
 }
 
 .search-filter-container input {
-    width: 260;
+    width: 260px;
     padding: 8px 12px;
     border-radius: 6px;
     border: 1px solid #d1d5db;
-}
 }
 
 /* Table Styling */
