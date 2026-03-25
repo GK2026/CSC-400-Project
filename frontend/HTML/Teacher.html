@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GapMinder Project Dashboard</title>
-    <link rel="stylesheet" href="CSS/Teacher.css">
+    <link rel="stylesheet" href="../CSS/Teacher.css">
 </head>
 <body>
 
@@ -12,7 +12,6 @@
     <h1><span>GM</span>GapMinder Project</h1>
 
     <nav>
-        
         <div class="form-group">
             <select id="student-select">
                 <option>Teacher Name</option>
@@ -22,39 +21,38 @@
     </nav>
 </header>
 
-<main>
+<main class="dashboard-container">
+    <h2 class="dashboard-title">Teacher Dashboard</h2>
 
-    <main class="dashboard-container">
-        <h2 class="dashboard-title">Teacher Dashboard</h2>
+    <div class="search-section">
+        <label for="student-search">Search for student</label>
+        <input type="text" id="student-search" placeholder="Search Box" class="search-input">
+    </div>
 
-        <div class="search-section">
-            <label for="student-search">Search for student</label>
-            <input type="text" id="student-search" placeholder="Search Box" class="search-input">
-        </div>
+    <div class="table-wrapper">
+        <table class="dashboard-table">
+            <thead>
+                <tr>
+                    <th>Students Name</th>
+                    <th>Submission Date</th>
+                    <th>Correlation (Verbal and Numerical)</th>
+                    <th>Delete</th>
+                    <th class="scroll-filler"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
 
-        <div class="table-wrapper">
-            <table class="dashboard-table">
-                <thead>
-                    <tr>
-                        <th>Students Name</th>
-                        <th>Submission Date</th>
-                        <th>Correlation (Verbal and Numerical)</th>
-                        <th>Delete</th>
-                        <th class="scroll-filler"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </main>
-
+<script src="../JS/Teacher.js"></script>
 </body>
 </html>

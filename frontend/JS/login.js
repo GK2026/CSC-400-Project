@@ -1,4 +1,8 @@
-// Edited By Amir
+// Edited By Amir & Oleksandr
+
+function parseJWT(token) {
+    return JSON.parse(atob(token.split('.')[1]));
+}
 
 document.getElementById("signUp")?.addEventListener("click", function () {
     window.location.href = "signup.html";
@@ -20,12 +24,18 @@ document.getElementById("questDirect")?.addEventListener("click", async () => {
         const result = await res.json();
 
         if (res.ok) {
-            alert("Login successful!");
+            const decoded = parseJWT(result.access_token);
 
             sessionStorage.setItem("access_token", result.access_token);
             sessionStorage.setItem("token_type", result.token_type);
+            sessionStorage.setItem("role", decoded.role);
+            sessionStorage.setItem("name", decoded.email);
 
-            window.location.href = "ExploreData1.html";
+            if (decoded.role === "instructor") {
+                window.location.href = "Teacher.html";
+            } else {
+                window.location.href = "Home.html";
+            }
         } else {
             alert(result.detail || "Invalid login credentials.");
         }
