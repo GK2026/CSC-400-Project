@@ -3,19 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Explore Your Data - GapMinders Project</title>
+    <title>Explore Your Data - GapMinder Project</title>
     
     <!-- CSS -->
     <!-- Added Correct Directory Path via two dots -Amir-->
     <link rel="stylesheet" href="../CSS/ExploreData2.css" />
-
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <meta charset="UTF-8">
 <title>Explore Your Data - GapMinders Project</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet" href="./CSS/ExploreData2.css"/>
+<link rel="stylesheet" href="ExploreData2.css"/>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
@@ -58,265 +57,70 @@
                 <label for="indicator-search">Search / Filter Indicators</label>
                 <input type="text" id="indicator-search" placeholder="Search Box">
 
-                <div class="form-group">
-                    <!-- Edited By Amir -->
-                    <select id="countrySelect">
-                        <option value="">Country Name</option>
-                    </select>
-
-                    <!-- Edited By Amir -->
+                <!-- ROW 1: Indicators -->
+                <div class="form-row">
                     <select id="indicator1Select">
-                        <option value="">Indicator</option>
+                        <option value="">Indicator 1</option>
                     </select>
 
-                    <!-- Edited By Amir -->
                     <select id="indicator2Select">
-                        <option value="">Indicator</option>
+                        <option value="">Indicator 2</option>
                     </select>
+                </div>
 
-                    <!-- Edited By Amir -->
+                <!-- ROW 2: Years -->
+                <div class="form-row">
                     <select id="startYearSelect">
                         <option value="">Start Year</option>
                     </select>
 
-                    <!-- Edited By Amir -->
                     <select id="endYearSelect">
                         <option value="">End Year</option>
                     </select>
                 </div>
+
+                <!-- ROW 3: Country -->
+                <div class="form-row">
+                    <select id="countrySelect">
+                        <option value="">Country Name</option>
+                    </select>
+                </div>
+
             </div>
 
             <!-- Edited By Amir -->
             <div class="subtitle" id="statusMessage">Choose an indicator to begin.</div>
-
+            <button class="Save-btn">Save Selections</button>
             <button class="export-btn">Export Data into Sheets</button>
         </div>
 
-        <!-- MIDDLE: Tables -->
-        <div class="middle-column">
-            <h2>Compare Two Tables</h2>
-            <div class="subtitle">Edit values in both tables</div>
-
-            <div class="tables-wrapper">
-                <div class="table-container">
-                    <h3>Table 1</h3>
-                    <table id="table1">
-                        <thead><tr><th>X</th><th>Y</th></tr></thead>
-                        <tbody>
-                            <tr><td contenteditable>1</td><td contenteditable>2</td></tr>
-                            <tr><td contenteditable>2</td><td contenteditable>4</td></tr>
-                            <tr><td contenteditable>3</td><td contenteditable>6</td></tr>
-                            <tr><td contenteditable>4</td><td contenteditable>8</td></tr>
-                            <tr><td contenteditable>5</td><td contenteditable>10</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="table-container">
-                    <h3>Table 2</h3>
-                    <table id="table2">
-                        <thead><tr><th>X</th><th>Y</th></tr></thead>
-                        <tbody>
-                            <tr><td contenteditable>1</td><td contenteditable>1</td></tr>
-                            <tr><td contenteditable>2</td><td contenteditable>3</td></tr>
-                            <tr><td contenteditable>3</td><td contenteditable>5</td></tr>
-                            <tr><td contenteditable>4</td><td contenteditable>7</td></tr>
-                            <tr><td contenteditable>5</td><td contenteditable>9</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
         <!-- RIGHT: Chart -->
+
         <div class="right-column">
             <h2>Visualization</h2>
             <canvas id="diffChart"></canvas>
         </div>
 
-    </div>
-</main>
+        <!-- MIDDLE: Tables -->
+        <div class="middle-column">
+            <h2>Compare the values for the indicators</h2>
+            <div class="subtitle">Edit values in the table</div>
 
-<!--Edited By Amir -->
-<script src="../JS/ExploreData2.js"></script>
-
-<div class="three-column-container">
-
-<!-- LEFT COLUMN -->
-<div class="left-column">
-
-<div class="breadcrumb">
-<a href="#" id="Return">Home</a> ➔
-<a href="#" id="Back">Explore Data Choices</a> ➔
-<a href="#" id="Current">Explore Data Choices: Over Year</a>
-</div>
-
-<h2>Explore Your Data</h2>
-<div class="subtitle">Select a country and indicators</div>
-
-
-<div class="search-filter-container">
-
-<label>Search / Filter Indicators</label>
-<input type="text" placeholder="Search Box">
-
-
-<!-- Country -->
-<div class="form-row country-row">
-<select id="country-select">
-<option>Country Name</option>
-</select>
-</div>
-
-
-<!-- Indicators -->
-<div class="form-row indicator-row">
-
-<select id="indicator1">
-<option>Indicator</option>
-</select>
-
-<select id="indicator2">
-<option>Indicator</option>
-</select>
-
-</div>
-
-
-<!-- Years -->
-<div class="form-row year-row">
-
-<select id="start-year">
-<option>Start Year</option>
-</select>
-
-<select id="end-year">
-<option>End Year</option>
-</select>
-
-</div>
-
-</div>
-
-
-<button class="export-btn" id="export-data">Export Data into Sheets</button>
-
-</div>
-
-
-<!-- MIDDLE COLUMN -->
-<div class="middle-column">
-
-<h2>Compare Two Tables</h2>
-<div class="subtitle">Edit values in both tables</div>
-
-<div class="tables-wrapper">
-
-<div class="table-container">
-<h3>Table 1</h3>
-
-<table id="table1">
-<thead>
-<tr>
-<th>X</th>
-<th>Y</th>
-</tr>
-</thead>
-
-<tbody>
-
-<tr>
-<td contenteditable>1</td>
-<td contenteditable>2</td>
-</tr>
-
-<tr>
-<td contenteditable>2</td>
-<td contenteditable>4</td>
-</tr>
-
-<tr>
-<td contenteditable>3</td>
-<td contenteditable>6</td>
-</tr>
-
-<tr>
-<td contenteditable>4</td>
-<td contenteditable>8</td>
-</tr>
-
-<tr>
-<td contenteditable>5</td>
-<td contenteditable>10</td>
-</tr>
-
-</tbody>
-</table>
-
-</div>
-
-
-<div class="table-container">
-<h3>Table 2</h3>
-
-<table id="table2">
-<thead>
-<tr>
-<th>X</th>
-<th>Y</th>
-</tr>
-</thead>
-
-<tbody>
-
-<tr>
-<td contenteditable>1</td>
-<td contenteditable>1</td>
-</tr>
-
-<tr>
-<td contenteditable>2</td>
-<td contenteditable>3</td>
-</tr>
-
-<tr>
-<td contenteditable>3</td>
-<td contenteditable>5</td>
-</tr>
-
-<tr>
-<td contenteditable>4</td>
-<td contenteditable>7</td>
-</tr>
-
-<tr>
-<td contenteditable>5</td>
-<td contenteditable>9</td>
-</tr>
-
-</tbody>
-</table>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- RIGHT COLUMN -->
-<div class="right-column">
-
-<h2>Visualization</h2>
-
-<canvas id="DiffChart"></canvas>
-
-</div>
-
-</div>
-
+            <div class="tables-wrapper">
+                <div class="table-container">
+                    <h3>Table 1</h3>
+                    <table id="table1">
+                        <thead><tr><th>Year</th><th>Indicator 1</th><th>Indicator 2</th></tr></thead>
+                        <tbody>
+                            <tr><td contenteditable>1</td><td contenteditable>2</td><td contenteditable>1</td></tr>
+                            <tr><td contenteditable>2</td><td contenteditable>4</td><td contenteditable>1</td></tr>
+                            <tr><td contenteditable>3</td><td contenteditable>6</td><td contenteditable>1</td></tr>
+                            <tr><td contenteditable>4</td><td contenteditable>8</td><td contenteditable>1</td></tr>
+                            <tr><td contenteditable>5</td><td contenteditable>10</td><td contenteditable>1</td></tr>
+                        </tbody>
+                    </table>
+                </div>
 </main>
 <script src="../JS/ExploreData2.js"></script>
-
 </body>
 </html>
