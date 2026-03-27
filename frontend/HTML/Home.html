@@ -3,31 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GapMinders Project</title>
-    <link rel="stylesheet" href="../CSS/Home.css" />
+    <title>GapMinder Project</title>
+    <link rel="stylesheet" href="../CSS/Home.css" /> 
 </head>
 <body>
+    <!-- ================= HEADER ================= -->
     <header>
-    <div class="logo">
-        <span class="logo-icon">GM</span>
-        <span class="logo-text">GapMinder Project</span>
-    </div>
+        <div class="logo">
+            <span class="logo-icon">GM</span>
+            <span class="logo-text">GapMinder Project</span>
+        </div>
 
-    <nav>
-        <a href="#" id="link-explore">Explore Data</a>
-        <a href="#" id="link-correlation">Correlation Check</a>
-        <div id="nav-auth"></div>
-    </nav>
-</header>
+        <nav>
+            <a href="#" id="link-home">Home</a>
+            <a href="#" id="link-correlation">Correlation Check</a>
+            <a href="#" id="link-explore">Explore Data</a>
+        </nav>
 
+        <div id="nav-auth" class="nav-auth">
+            <button id="nav-signin-btn" class="btn-outline">Sign In</button>
+            <button id="nav-register-btn" class="btn-solid">Register</button>
+        </div>
+    </header>
+
+    <!-- ================= HERO ================= -->
     <main class="hero-section">
         <div class="hero-content">
             <h1>Welcome to The GapMinder Project</h1>
-            <p>An educational web app that helps students<br> 
+            <p>An educational web app that helps students<br>
                explore real-world data and understand correlations</p>
-               <div id="welcomeMessage"></div>
+            <div id="welcomeMessage"></div>
         </div>
 
+        <!-- ================= CARDS ================= -->
         <section class="card-container">
             <div class="card">
                 <div class="card-header">
@@ -57,6 +65,13 @@
             </div>
         </section>
     </main>
+
+    <!-- ================= FOOTER ================= -->
+    <footer>
+        <div class="footer">
+            <p>GapMinder Project - SCSU CSC400 Capstone</p>
+        </div>
+    </footer>
     <script src="../JS/Home.js"></script>
 </body>
 </html>

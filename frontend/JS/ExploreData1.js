@@ -1,47 +1,61 @@
-// --- Navbar & Navigation Elements ---
-const exploreDataBtn = document.getElementById('exploreDataBtn');
-const homeBtn = document.getElementById('homeBtn');
+// ================= NAVBAR ELEMENTS =================
+const linkhome = document.getElementById('Return'); // breadcrumb Home
 const linkexplore = document.getElementById('link-explore');
-const linkAssignments= document.getElementById('link-correlation');
+const linkAssignments = document.getElementById('link-correlation');
+const Current = document.getElementById('Current');
+const Home = document.getElementById('Back');
 
-// --- Main Action Buttons ---
+
+// ================= CARD BUTTONS =================
+// (Make sure these IDs exist in your HTML)
 const overTimeBtn = document.getElementById('overTimeBtn');
 const acrossCountriesBtn = document.getElementById('acrossCountriesBtn');
 
-// --- Event Listeners ---
+// ================= EVENT LISTENERS =================
 
-// Navigation
-if (exploreDataBtn) {
-    exploreDataBtn.addEventListener('click', () => {
-        window.location.href = 'ExploreData1.html';
+
+if (Home) {
+    Home.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.href = 'Home.html';
     });
 }
 
 if (linkAssignments) {
-    linkAssignments.addEventListener('click', () => {
+    linkAssignments.addEventListener('click', (e) => {
+        e.preventDefault();
         window.location.href = 'Assignments.html';
     });
 }
 
-if (homeBtn) {
-    homeBtn.addEventListener('click', () => {
-        window.location.href = 'Home.html'; 
-    });
-}
-
 if (linkexplore) {
-    linkexplore.addEventListener('click', () => {
-        window.location.href = 'ExploreData1.html'; 
+    linkexplore.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.href = 'ExploreData1.html';
     });
 }
 
-// Cards
+// Breadcrumbs
+if (Current) {
+    Current.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.href = 'ExploreData1.html';
+    });
+}
+
+// Card buttons
 if (overTimeBtn) {
     overTimeBtn.addEventListener('click', () => {
         window.location.href = 'ExploreData2.html';
     });
 }
 
+if (Return) {
+    Return.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.href = 'Home.html';
+    });
+}
 if (acrossCountriesBtn) {
     acrossCountriesBtn.addEventListener('click', () => {
         window.location.href = 'ExploreData3.html';

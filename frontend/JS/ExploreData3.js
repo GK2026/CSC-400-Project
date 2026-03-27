@@ -1,4 +1,4 @@
-k/*******************************
+/*******************************
  * ORIGINAL NAVIGATION LOGIC
  *******************************/
 
@@ -22,6 +22,10 @@ document.getElementById('link-explore')?.addEventListener('click', () => {
 
 document.getElementById('link-correlation')?.addEventListener('click', () => {
     window.location.href = 'Assignments.html';
+});
+
+document.getElementById('link-home')?.addEventListener('click', () => {
+    window.location.href = 'Home.html';
 });
 
 // Student Button (example)

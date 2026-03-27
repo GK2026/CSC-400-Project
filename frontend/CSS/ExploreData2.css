@@ -1,88 +1,159 @@
-k*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-body{
-background-color:#f0ebff;
-min-height:100vh;
+body {
+    font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    background: var(--color-background);
+    color: var(--color-text);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #f0ebff;
+    min-height: 100vh;
+
+}
+/* Header layout */
+header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    padding: 0.75rem;
+    height: 60px;
+    background-color: #7c3aed;
 }
 
-/* HEADER */
-
-header{
-background-color:#ffffff;
-padding:15px 40px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-border-bottom:1px solid #e2e8f0;
-position: sticky;
-top: 0;
-z-index: 1000;
+/* Logo */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.25rem;
+    font-weight: 700;
 }
 
-header h1{
-font-size:1.5rem;
-color:#1e293b;
+.logo-icon {
+    background-color: #ffffff;
+    color: #000000;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.9rem;
 }
 
-header h1 span{
-background-color:#7c3aed;
-color:white;
-padding:6px 10px;
-border-radius:6px;
-font-size:0.9rem;
-margin-right:6px;
+.logo-text {
+    color: #ffffff !important; /* force it to apply */
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+/* Nav center */
+header nav {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
 }
 
-nav{
-display:flex;
-align-items:center;
-gap:24px;
+header nav a {
+    text-decoration: none;
+    color: white;
+    background-color: #7c3aed;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: 1px solid #7c3aed;
+    font-weight: 500;
+    transition: all 0.2s;
+    text-align: center;
 }
 
-nav a{
-text-decoration:none;
-color:#111827;
-font-weight:500;
+header nav a:hover {
+    background-color: #6d28d9;
+    border-color: #6d28d9;
 }
 
-nav a:hover{
-color:#7c3aed;
+/* Right side dropdown */
+.nav-auth {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
 }
 
-nav select{
-padding:6px 12px;
-border-radius:6px;
-border:none;
-font-size:0.9rem;
-cursor:pointer;
-background-color:#7c3aed;
-color:white;
+/* Wrapper for custom arrow */
+.nav-auth .select-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+/* Style select like button */
+#student-select {
+    padding: 8px 16px;
+    height: 36px;               /* same height as nav buttons */
+    border-radius: 6px;
+    border: none;
+    background-color: #925dec;
+    color: white;
+    font-weight: 500;
+    font-size: 0.9rem;
+    cursor: pointer;
+
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+/* Add custom arrow using wrapper */
+.nav-auth .select-wrapper::after {
+    content: '▼';
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: white;
+    font-size: 0.7rem;
+}
+
+/* Dropdown options */
+#student-select option {
+    color: black;
 }
 
 
-/* MAIN */
-
-main{
-margin:40px 60px;
-}
 
 
 /* BREADCRUMB */
 
-.breadcrumb{
-font-size:0.9rem;
-margin-bottom:20px;
-color:#6b7280;
+.breadcrumbs {
+    position: sticky;
+    top: 60px; /* below header */
+    z-index: 999;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0.75rem 2rem;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+
+    font-size: 0.875rem;
 }
 
-.breadcrumb a{
-text-decoration:none;
-color:#6b7280;
+.breadcrumbs a {
+    color: #7c3aed;
+    text-decoration: none;
+}
+
+.breadcrumbs a:hover {
+    text-decoration: underline;
+}
+
+.breadcrumbs span {
+    margin: 0 0.5rem;
+    color: #6b7280;
 }
 
 
@@ -151,7 +222,7 @@ cursor:pointer;
 .export-btn{
 margin-top:20px;
 padding:10px 20px;
-background-color:#7c3aed;
+background-color:#FFA500;
 color:white;
 border:none;
 border-radius:6px;
@@ -160,44 +231,69 @@ font-weight:500;
 }
 
 .export-btn:hover{
-background-color:#6d28d9;
-}
-
-/* Save BUTTON */
-.Save-btn{
-margin-top:20px;
-padding:10px 20px;
-background-color:#7c3aed;
-color:white;
-border:none;
-border-radius:6px;
-cursor:pointer;
-font-weight:500;
-}
-
-.Save-btn:hover{
-background-color:#6d28d9;
+background-color:#ea580c;
 }
 
 /* THREE COLUMN LAYOUT */
 
-.three-column-container{
-display:flex;
-gap:40px;
-align-items:flex-start;
+
+
+.explore-container {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    min-height: calc(100vh - 52px - 45px);
 }
 
-.left-column{
-flex:1;
+/* --- Input Panel (Left Side) --- */
+.input-panel {
+    background: #faf5ff;  
+    padding: 1.5rem;
+    border-right: 1px solid #e5e7eb;  
+    overflow-y: auto;
 }
 
-.middle-column{
-width:300px;
+.input-panel h2 {
+    font-size: 1.25rem; 
+    margin-bottom:  0.25rem
 }
 
-.right-column{
-width:400px;
-height: 400px;
+.input-panel .description {
+    font-size: 0.875rem; 
+    color: #6b7280; 
+    margin-bottom: 1.5rem; 
+}
+
+/* Input section with header */
+.input-section {
+    margin-bottom: 1.5rem; 
+}
+
+.input-section h3 {
+    font-size: 0.875rem; 
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: #6b7280; 
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* --- Output Panel (Right Side) --- */
+.output-panel {
+    background: #ffffff;
+    padding: 1.5rem;
+    overflow-y: auto;
+
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.output-header {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    margin-bottom: 0; /* remove spacing conflict */
 }
 
 
@@ -232,11 +328,26 @@ outline:2px solid #7c3aed;
 
 /* CHART */
 
-canvas{
-width:100%;
-height:30px;
-background:white;
-border:1px solid #d1d5db;
-border-radius:6px;
-padding:10px;
+.chart-container {
+    width: 100%;
+    height: 400px;  
+    background: white;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    padding: 10px;
+}
+
+.chart-container canvas {
+    width: 100%;
+    height: 100%;
+}
+
+.footer {
+    margin-top: auto;
+    background:#ffffff;
+    padding: 24px 32px;
+    text-align: center;
+    color: #6b7280;
+    font-size: 14px;
+    border-top: 1px solid #e5e7eb;
 }

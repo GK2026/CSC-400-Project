@@ -23,6 +23,7 @@ function attachBreadcrumbListeners() {
     goTo("Current", "ExploreData2.html");
     goTo("link-explore", "ExploreData1.html");
     goTo("link-correlation", "Assignments.html");
+    goTo("link-home", "Home.html")
 }
 
 // ---------------- Table Data ----------------
@@ -58,8 +59,8 @@ function getAllTableData() {
         {
             label: "Indicator 2",
             data: dataset2,
-            backgroundColor: "#10b981", // green
-            borderColor: "#10b981",
+            backgroundColor: "#FFA500", // green
+            borderColor: "#FFA500",
             pointRadius: 6,
             showLine: false  
         }

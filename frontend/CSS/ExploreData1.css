@@ -1,4 +1,17 @@
 /* ================= CORE RESET ================= */
+
+html, body {
+    height: 100%;       /* ensures body fills viewport */
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;           /* use flex layout */
+    flex-direction: column;  /* stack header, main, footer vertically */
+    min-height: 100vh;       /* full viewport height */
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -11,51 +24,120 @@ body {
     min-height: 100vh;
 }
 
-/* ================= HEADER ================= */
+/* Header layout */
 header {
-    background-color: #ffffff;
-    padding: 15px 40px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #e2e8f0;
+    padding: 15px 40px;
+    background-color: #7c3aed;
     position: sticky;
     top: 0;
     z-index: 1000;
-
 }
 
-header h1 {
-    font-size: 1.5rem;
-    color: #1e293b;
-}
-
-header h1 span {
-    background-color: #7c3aed;
-    color: white;
-    padding: 6px 10px;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    margin-right: 6px;
-}
-
-nav {
+/* Logo left */
+header .logo {
+    flex: 1;
     display: flex;
     align-items: center;
-    gap: 24px;
+    gap: 10px;
 }
 
-nav a {
+/* Logo */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.logo-icon {
+    background-color: #ffffff;
+    color: #000000;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+
+.logo-text {
+    color: #ffffff !important; /* force it to apply */
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+/* Nav center */
+header nav {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+header nav a {
     text-decoration: none;
-    color: #111827;
+    color: white;
+    background-color: #7c3aed;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: 1px solid #7c3aed;
     font-weight: 500;
+    transition: all 0.2s;
+    text-align: center;
 }
 
-nav a:hover {
-    color: #7c3aed;
+header nav a:hover {
+    background-color: #6d28d9;
+    border-color: #6d28d9;
 }
 
-/* ================= STUDENT DROPDOWN ================= */
+/* Right side dropdown */
+.nav-auth {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Wrapper for custom arrow */
+.nav-auth .select-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+/* Style select like button */
+#student-select {
+    padding: 8px 16px;
+    height: 36px;               /* same height as nav buttons */
+    border-radius: 6px;
+    border: none;
+    background-color: #925dec;
+    color: white;
+    font-weight: 500;
+    font-size: 0.9rem;
+    cursor: pointer;
+
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+/* Add custom arrow using wrapper */
+.nav-auth .select-wrapper::after {
+    content: '▼';
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: white;
+    font-size: 0.7rem;
+}
+
+/* Dropdown options */
+#student-select option {
+    color: black;
+}
+/* ================= Drop Down ================= */
 .form-group select {
     padding: 6px 12px;
     border-radius: 6px;
@@ -65,22 +147,33 @@ nav a:hover {
 }
 
 /* ================= BREADCRUMB ================= */
-.breadcrumb-section {
-    padding: 15px 40px;
+.breadcrumbs {
+    position: sticky;
+    top: 60px; /* below header */
+    z-index: 999;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0.75rem 2rem;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+
+    font-size: 0.875rem;
 }
 
-.breadcrumb {
-    font-size: 0.9rem;
-    color: #6b7280;
-}
-
-.breadcrumb a {
+.breadcrumbs a {
+    color: #7c3aed;
     text-decoration: none;
-    color: #6b7280;
 }
 
-.breadcrumb a:hover {
+.breadcrumbs a:hover {
     text-decoration: underline;
+}
+
+.breadcrumbs span {
+    margin: 0 0.5rem;
+    color: #6b7280;
 }
 
 /* ================= MAIN ================= */
@@ -108,12 +201,13 @@ main h1 {
     padding: 20px;
     text-align: center;
     width: 250px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
     transition: transform 0.2s ease;
 }
 
 .option-card:hover {
-    transform: translateY(-5px);
+    transform: 4px;
+    box-shadow: 0 5px 7.5px -1.5px #3B0764;
 }
 
 .option-card img {
@@ -155,4 +249,21 @@ nav .form-group select {
 
 nav .form-group select option {
     color: black; /* dropdown list text */
+}
+
+/* Make main content fill available space (pushes footer to bottom) */
+main,
+.hero,
+.choice-container {
+    flex: 1;
+}
+
+.footer {
+    margin-top: auto;
+    background:#ffffff;
+    padding: 24px 32px;
+    text-align: center;
+    color: #6b7280;
+    font-size: 14px;
+    border-top: 1px solid #e5e7eb;
 }

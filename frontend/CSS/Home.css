@@ -18,12 +18,52 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 15px 40px;
-    background-color: #ffffff;
+    background-color: #7c3aed;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     position: sticky;
     top: 0;
     z-index: 1000;
+}
 
+/* Center the nav links without moving auth buttons */
+nav {
+    position: absolute;  /* take nav out of normal flow */
+    left: 50%;           /* start from center */
+    transform: translateX(-50%); /* perfectly center horizontally */
+    display: flex;
+    gap: 20px;           /* spacing between links */
+}
+
+/* Keep auth buttons on the right */
+#nav-auth {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Make nav links look like buttons */
+nav a {
+    text-decoration: none;
+    color: white;             /* white text */
+    background-color: #7c3aed; /* same purple as header */
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+/* Hover effect like register button */
+nav a:hover {
+    background-color: #6d28d9; /* darker purple on hover */
+    color: white;
+}
+
+/* Auth buttons container */
+#nav-auth {
+    margin-left: auto; /* pushes auth buttons to the right */
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 /* Logo */
@@ -36,28 +76,27 @@ header {
 }
 
 .logo-icon {
-    background-color: #7C3AED;
-    color: #ffffff;
+    background-color: #ffffff;
+    color: #000000;
     padding: 6px 12px;
     border-radius: 8px;
     font-size: 0.9rem;
 }
 
+.logo-text {
+    color: #ffffff !important; /* force it to apply */
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
 /* Nav */
 nav {
     display: flex;
+    justify-content: center; /* centers the links horizontally */
     align-items: center;
-    gap: 20px; /* spacing between Explore, Correlation, Sign In */
+    gap: 20px; /* spacing between links */
 }
 
-nav a {
-    text-decoration: none;
-    color: #111827;
-    font-weight: 500;
-}
-
-nav a:hover {
-    color: #7C3AED;
 }
 
 /* Auth container */
@@ -67,7 +106,21 @@ nav a:hover {
     gap: 10px; 
 
 }
+#nav-signin-btn {
+    background-color: #7c3aed; /* same as header */
+    color: #ffffff;            /* white text */
+    border: 1px solid #ffffff; /* white border */
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
 
+#nav-signin-btn:hover {
+    background-color: #6d28d9; /* slightly darker purple on hover */
+    color: #ffffff;
+}
 /* --- Buttons --- */
 button {
     cursor: pointer;
@@ -166,4 +219,19 @@ button {
     width: 100%;
     padding: 12px;
     font-size: 0.95rem;
+}
+
+.card:hover {
+    transform: 4px;
+    box-shadow: 0 5px 7.5px -1.5px #3B0764;
+}
+
+.footer {
+    margin-top: auto;
+    background:#ffffff;
+    padding: 24px 32px;
+    text-align: center;
+    color: #6b7280;
+    font-size: 14px;
+    border-top: 1px solid #e5e7eb;
 }
