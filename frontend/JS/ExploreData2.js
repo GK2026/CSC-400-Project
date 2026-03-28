@@ -5,6 +5,31 @@ document.addEventListener("DOMContentLoaded", () => {
     attachTableListeners();
     updateDiffChart(); // Call the fixed function name
 });
+    const studentSelect = document.getElementById("student-select");
+    const firstName = sessionStorage.getItem("first_name");
+
+    /*******************************
+     * STUDENT NAME + LOGOUT
+     *******************************/
+    if (studentSelect) {
+        if (firstName) {
+            studentSelect.innerHTML = `
+                <option>${firstName}</option>
+                <option value="logout">Logout</option>
+            `;
+        } else {
+            studentSelect.innerHTML = `
+                <option>Student Name</option>
+            `;
+        }
+
+        studentSelect.addEventListener("change", (e) => {
+            if (e.target.value === "logout") {
+                sessionStorage.clear();
+                window.location.href = "Home.html";
+            }
+        });
+    }
 
 // ---------------- Breadcrumb Navigation ----------------
 function attachBreadcrumbListeners() {

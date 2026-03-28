@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const exploreDataBtn = document.getElementById("link-explore");
     const linkCorrelation = document.getElementById("link-correlation");
 
-    // ---------------- Navigation Event Listeners ----------------
+    // ---------------- Navigation Event Listeners ---------------- /***
 
     if (backHeader) {
         backHeader.addEventListener("click", (e) => {
@@ -167,3 +167,30 @@ function attachTableListeners() {
     });
 
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const studentSelect = document.getElementById("student-select");
+    const firstName = sessionStorage.getItem("first_name");
+
+    if (studentSelect) {
+        if (firstName) {
+            studentSelect.innerHTML = `
+                <option>${firstName}</option>
+                <option value="logout">Logout</option>
+            `;
+        } else {
+            studentSelect.innerHTML = `
+                <option>Student Name</option>
+            `;
+        }
+
+        studentSelect.addEventListener("change", (e) => {
+            if (e.target.value === "logout") {
+                sessionStorage.clear();
+                window.location.href = "Home.html";
+            }
+        });
+    }
+
+});

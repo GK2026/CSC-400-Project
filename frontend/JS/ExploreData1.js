@@ -1,63 +1,76 @@
-// ================= NAVBAR ELEMENTS =================
-const linkhome = document.getElementById('Return'); // breadcrumb Home
-const linkexplore = document.getElementById('link-explore');
-const linkAssignments = document.getElementById('link-correlation');
-const Current = document.getElementById('Current');
-const Home = document.getElementById('Back');
+document.addEventListener("DOMContentLoaded", () => {
 
+    /*******************************
+     * NAVBAR ELEMENTS
+     *******************************/
+    const linkhome = document.getElementById('Return'); 
+    const linkexplore = document.getElementById('link-explore');
+    const linkAssignments = document.getElementById('link-correlation');
+    const Current = document.getElementById('Current');
+    const Home = document.getElementById('Back');
 
-// ================= CARD BUTTONS =================
-// (Make sure these IDs exist in your HTML)
-const overTimeBtn = document.getElementById('overTimeBtn');
-const acrossCountriesBtn = document.getElementById('acrossCountriesBtn');
+    const studentSelect = document.getElementById("student-select");
+    const firstName = sessionStorage.getItem("first_name");
 
-// ================= EVENT LISTENERS =================
+    /*******************************
+     * STUDENT NAME + LOGOUT
+     *******************************/
+    if (studentSelect) {
+        if (firstName) {
+            studentSelect.innerHTML = `
+                <option>${firstName}</option>
+                <option value="logout">Logout</option>
+            `;
+        } else {
+            studentSelect.innerHTML = `
+                <option>Student Name</option>
+            `;
+        }
 
+        studentSelect.addEventListener("change", (e) => {
+            if (e.target.value === "logout") {
+                sessionStorage.clear();
+                window.location.href = "Home.html";
+            }
+        });
+    }
 
-if (Home) {
-    Home.addEventListener('click', (e) => {
-        e.preventDefault();
-        window.location.href = 'Home.html';
-    });
-}
+    /*******************************
+     * NAVIGATION
+     *******************************/
+    if (Home) {
+        Home.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = 'Home.html';
+        });
+    }
 
-if (linkAssignments) {
-    linkAssignments.addEventListener('click', (e) => {
-        e.preventDefault();
-        window.location.href = 'Assignments.html';
-    });
-}
+    if (linkAssignments) {
+        linkAssignments.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = 'Assignments.html';
+        });
+    }
 
-if (linkexplore) {
-    linkexplore.addEventListener('click', (e) => {
-        e.preventDefault();
-        window.location.href = 'ExploreData1.html';
-    });
-}
+    if (linkexplore) {
+        linkexplore.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = 'ExploreData1.html';
+        });
+    }
 
-// Breadcrumbs
-if (Current) {
-    Current.addEventListener('click', (e) => {
-        e.preventDefault();
-        window.location.href = 'ExploreData1.html';
-    });
-}
+    if (Current) {
+        Current.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = 'ExploreData1.html';
+        });
+    }
 
-// Card buttons
-if (overTimeBtn) {
-    overTimeBtn.addEventListener('click', () => {
-        window.location.href = 'ExploreData2.html';
-    });
-}
+    if (linkhome) {
+        linkhome.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = 'Home.html';
+        });
+    }
 
-if (Return) {
-    Return.addEventListener('click', (e) => {
-        e.preventDefault();
-        window.location.href = 'Home.html';
-    });
-}
-if (acrossCountriesBtn) {
-    acrossCountriesBtn.addEventListener('click', () => {
-        window.location.href = 'ExploreData3.html';
-    });
-}
+});
