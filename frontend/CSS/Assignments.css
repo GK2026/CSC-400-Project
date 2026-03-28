@@ -1,155 +1,328 @@
-/* Reset and fonts */
-* {
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+/* ================= CORE RESET ================= */
+
+html, body {
+    height: 100%;       /* ensures body fills viewport */
+    margin: 0;
+    padding: 0;
 }
 
 body {
-    background-color:#f0ebff;
-    min-height:100vh;
+    display: flex;           /* use flex layout */
+    flex-direction: column;  /* stack header, main, footer vertically */
+    min-height: 100vh;       /* full viewport height */
 }
 
-/* HEADER */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+body {
+    background-color: #f0ebff;
+    min-height: 100vh;
+}
+
+/* Header layout */
 header {
-    background-color:#ffffff;
-    padding:15px 40px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    border-bottom:1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    padding: 15px 40px;
+    background-color: #7c3aed;
     position: sticky;
     top: 0;
     z-index: 1000;
 }
 
-header h1 {
-    font-size:1.5rem;
-    color:#1e293b;
+/* Logo left */
+header .logo {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-header h1 span {
-    background-color:#7c3aed;
-    color:white;
-    padding:6px 10px;
-    border-radius:6px;
-    font-size:0.9rem;
-    margin-right:6px;
+/* Logo */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.25rem;
+    font-weight: 700;
 }
 
-nav {
-    display:flex;
-    align-items:center;
-    gap:24px;
+.logo-icon {
+    background-color: #ffffff;
+    color: #000000;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.9rem;
 }
 
-nav a {
-    text-decoration:none;
-    color:#111827;
-    font-weight:500;
+.logo-text {
+    color: #ffffff !important; /* force it to apply */
+    font-weight: 700;
+    font-size: 1.25rem;
 }
 
-nav a:hover {
-    color:#7c3aed;
+/* Nav center */
+header nav {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
 }
 
-nav select {
-    padding:6px 12px;
-    border-radius:6px;
-    border:none;
-    font-size:0.9rem;
-    cursor:pointer;
-    background-color:#7c3aed;
-    color:white;
+header nav a {
+    text-decoration: none;
+    color: white;
+    background-color: #7c3aed;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: 1px solid #7c3aed;
+    font-weight: 500;
+    transition: all 0.2s;
+    text-align: center;
 }
 
-/* MAIN CONTENT */
-main {
-    margin:40px auto;
-    max-width:800px; /* center content */
+header nav a:hover {
+    background-color: #6d28d9;
+    border-color: #6d28d9;
 }
 
-/* BREADCRUMB */
-.breadcrumb {
-    font-size:0.9rem;
-    margin-bottom:15px;
-    color:#6b7280;
+/* Right side dropdown */
+.nav-auth {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
 }
 
-.breadcrumb a {
-    text-decoration:none;
-    color:#6b7280;
+/* Wrapper for custom arrow */
+.nav-auth .select-wrapper {
+    position: relative;
+    display: inline-block;
 }
 
-/* TITLES AND SUBTITLE */
-h2 {
-    margin-bottom:4px; /* small space below heading */
+/* Style select like button */
+#student-select {
+    padding: 8px 16px;
+    height: 36px;               /* same height as nav buttons */
+    border-radius: 6px;
+    border: none;
+    background-color: #925dec;
+    color: white;
+    font-weight: 500;
+    font-size: 0.9rem;
+    cursor: pointer;
+
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
 }
 
-.subtitle {
-    margin-bottom:6px; /* space between subtitle and dropdown */
-    color:#6b7280;
-    font-weight:500;
+/* Add custom arrow using wrapper */
+.nav-auth .select-wrapper::after {
+    content: '▼';
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: white;
+    font-size: 0.7rem;
 }
 
-/* FORM ROWS */
+/* Dropdown options */
+#student-select option {
+    color: black;
+}
+/* ================= Drop Down ================= */
+.form-group select {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+/* ================= BREADCRUMB ================= */
+.breadcrumbs {
+    position: sticky;
+    top: 60px; /* below header */
+    z-index: 999;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0.75rem 2rem;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+
+    font-size: 0.875rem;
+}
+
+.breadcrumbs a {
+    color: #7c3aed;
+    text-decoration: none;
+}
+
+.breadcrumbs a:hover {
+    text-decoration: underline;
+}
+
+.breadcrumbs span {
+    margin: 0 0.5rem;
+    color: #6b7280;
+}
+
+
+.explore-container {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    min-height: calc(100vh - 120px); /* adjust for header + breadcrumbs */
+}
+/* --- Input Panel (Left Side) --- */
+.input-panel {
+    background: #faf5ff;
+    padding: 1.5rem;
+    border-right: 1px solid #e5e7eb;  
+    overflow-y: auto;
+}
+
+.input-panel h2 {
+    font-size: 1.25rem; 
+    margin-bottom:  0.25rem
+}
+
+.input-panel .description {
+    font-size: 0.875rem; 
+    color: #6b7280; 
+    margin-bottom: 1.5rem; 
+}
+
+/* Input section with header */
+.input-section {
+    margin-bottom: 1.5rem; 
+}
+
+.input-section h3 {
+    font-size: 0.875rem; 
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: #6b7280; 
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* --- Output Panel (Right Side) --- */
+.output-panel {
+    background: #ffffff;
+    padding: 1.5rem;
+    overflow-y: auto;
+    align-items: center; 
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.output-header {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    margin-bottom: 0; 
+}
+
+/* ================= FORM ================= */
 .form-row {
-    display:flex;
-    gap:12px;
-    margin-bottom:20px; /* space below row */
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
 }
 
-.country-row select {
-    width:260px;
-    padding:8px 10px;
-    border-radius:6px;
-    border:1px solid #d1d5db;
-    background-color:white;
-    cursor:pointer;
-    font-size:0.95rem;
+.form-row select {
+    width: 260px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    background-color: white;
+    cursor: pointer;
 }
 
-/* SEARCH FILTER AREA */
 .search-filter-container {
-    display:flex;
-    flex-direction:column;
-    gap:10px; /* small space between label and input */
-    margin-bottom:20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
 }
 
 .search-filter-container input {
-    width:260px;
-    padding:8px 12px;
-    border-radius:6px;
-    border:1px solid #d1d5db;
+    width: 260px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
 }
 
-/* TABLES */
+/* ================= TABLE ================= */
+
 .tables-wrapper {
-    display:flex;
-    flex-direction:column;
-    gap:20px; /* vertical spacing between tables */
-    max-height:400px; /* scroll if table grows */
-    overflow-y:auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    width: 100%;
 }
 
 table {
-    border-collapse:collapse;
-    width:100%;
+    width: 75%;          
+    margin: 0 auto;       
 }
 
-th, td {
-    border:1px solid #374151;
-    padding:8px; /* more breathing room in cells */
-    text-align:center;
+th,td{
+border:1px solid #374151;
+padding:6px;
+text-align:center;
 }
 
-td {
-    background-color:#f9f9f9;
-    cursor:text;
+td{
+background-color:#f9f9f9;
+cursor:text;
 }
 
-td:focus {
-    outline:2px solid #7c3aed;
+td:focus{
+outline:2px solid #7c3aed;
 }
+
+th {
+    background-color: #7c3aed;
+    color: white;
+    padding: 10px;
+}
+/* ================= BUTTONS ================= */
+#submit-btn{
+margin-top:20px;
+padding:10px 20px;
+background-color:#FFA500;
+color:white;
+border:none;
+border-radius:6px;
+cursor: pointer;
+font-weight:500;
+}
+
+#submit-btn:hover{
+background-color:#ea580c;
+}
+
+/* ================= FOOTER ================= */
+.footer {
+    margin-top: auto;
+    background: #ffffff;
+    padding: 24px 32px;
+    text-align: center;
+    color: #6b7280;
+    font-size: 14px;
+    border-top: 1px solid #e5e7eb;
+}
+

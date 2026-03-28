@@ -1,161 +1,125 @@
-document.addEventListener("DOMContentLoaded", () => {
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Explore Your Data - GapMinders Project</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    // ---------------- Select Buttons / Links ----------------
-    const exploreDataBtn = document.getElementById("link-explore");
-    const linkAssignments = document.getElementById("link-correlation");
-    const homeBtn = document.getElementById("Return");
-    const Current = document.getElementById("Current");
+<link rel="stylesheet" href="Assignments.css">
+</head>
 
-    // ---------------- Navigation Event Listeners ----------------
-    if (exploreDataBtn) {
-        exploreDataBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.location.href = 'ExploreData1.html';
-        });
-    }
+<body>
 
-    if (linkAssignments) {
-        linkAssignments.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.location.href = 'Assignments.html';
-        });
-    }
+<!-- ================= HEADER ================= -->
+<header>
+    <div class="logo">
+        <span class="logo-icon">GM</span>
+        <span class="logo-text">GapMinder Project</span>
+    </div>
 
-    if (homeBtn) {
-        homeBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.location.href = 'Home.html'; 
-        });
-    }
+    <nav>
+        <a href="#" id="Back">Home</a>
+        <a href="#" id="link-correlation">Correlation Check</a>
+        <a href="#" id="link-explore">Explore Data</a>
+    </nav>
 
-    if (Current) {
-        Current.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.location.href = 'Assignments.html'; 
-        });
-    }
+    <div class="nav-auth">
+        <select id="student-select">
+            <option>Student Name</option>
+            <option>Logout</option>
+        </select>
+    </div>
+</header>
 
-});
+<!-- ================= BREADCRUMBS ================= -->
+<div class="breadcrumbs">
+    <a href="#" id="Return">Home</a> ➔
+    <a href="#" id="Current">Assignments</a>
+</div>
 
+<!-- ================= MAIN LAYOUT ================= -->
+<div class="explore-container">
 
-// ---------------- Table Data ----------------
-function getAllTableData() {
+    <!-- LEFT SECTION (INPUTS) -->
+    <div class="input-panel">
+        <h2>Check Your Correlation</h2>
 
-    const tableIds = ["table1", "table2"];
-    const colors = ["#7c3aed", "#f97316"];
+        <h3>Correlation</h3>
 
-    const datasets = [];
+        <div class="form-row">
+            <select id="country-select">
+                <option>Select the type of correlation</option>
+                <option>Positive</option>
+                <option>None</option>
+                <option>Negative</option>
+            </select>
+        </div>
 
-    tableIds.forEach((id, index) => {
+        <div class="search-filter-container">
+            <label for="verbal-input">Verbal Correlation</label>
+            <input id="verbal-input" type="text" placeholder="Text Box">
+            <button id="submit-btn">Submit</button>
+        </div>
+    </div>
 
-        const rows = document.querySelectorAll(`#${id} tbody tr`);
-        const points = [];
+    <!-- RIGHT SECTION (TABLE) -->
+    <div class="output-pane">
+        <h2>Past Correlations</h2>
 
-        rows.forEach(row => {
+        <div class="table-container">
+            <table id="table1">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Indicators</th>
+                        <th>Coefficient</th>
+                        <th>Feedback</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td contenteditable>1</td>
+                        <td contenteditable>2</td>
+                        <td contenteditable>1</td>
+                        <td contenteditable>2</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable>2</td>
+                        <td contenteditable>4</td>
+                        <td contenteditable>1</td>
+                        <td contenteditable>2</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable>3</td>
+                        <td contenteditable>6</td>
+                        <td contenteditable>1</td>
+                        <td contenteditable>2</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable>4</td>
+                        <td contenteditable>8</td>
+                        <td contenteditable>1</td>
+                        <td contenteditable>2</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable>5</td>
+                        <td contenteditable>10</td>
+                        <td contenteditable>1</td>
+                        <td contenteditable>2</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-            const x = parseFloat(row.cells[0].textContent);
-            const y = parseFloat(row.cells[1].textContent);
+</div>
+    <!-- ================= FOOTER ================= -->
+    <footer>
+        <div class="footer">
+            <p>GapMinder Project - SCSU CSC400 Capstone</p>
+        </div>
+    </footer>
+<script src="Assignments.js"></script>
 
-            if (!isNaN(x) && !isNaN(y)) {
-                points.push({x:x,y:y});
-            }
-
-        });
-
-        datasets.push({
-            label: `Table ${index + 1}`,
-            data: points,
-            backgroundColor: colors[index],
-            borderColor: colors[index],
-            pointRadius: 7,
-            showLine: false
-        });
-
-    });
-
-    return datasets;
-}
-
-
-// ---------------- Create / Update Chart ----------------
-function updateDiffChart() {
-
-    const canvas = document.getElementById("DiffChart");
-    if (!canvas) return;
-
-    const ctx = canvas.getContext("2d");
-    const datasets = getAllTableData();
-
-    if (diffChart) {
-        diffChart.destroy();
-    }
-
-    diffChart = new Chart(ctx, {
-
-        type: "scatter",
-
-        data: {
-            datasets: datasets
-        },
-
-        options: {
-
-            responsive: true,
-
-            scales: {
-
-                x: {
-                    type: "linear",
-                    position: "bottom",
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: "X"
-                    }
-                },
-
-                y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: "Y"
-                    }
-                }
-
-            },
-
-            plugins: {
-
-                legend: {
-                    position: "top"
-                },
-
-                tooltip: {
-                    callbacks: {
-                        label: function(context){
-                            return `(${context.raw.x}, ${context.raw.y})`;
-                        }
-                    }
-                }
-
-            }
-
-        }
-
-    });
-
-}
-
-
-// ---------------- Update Chart on Edit ----------------
-function attachTableListeners() {
-
-    document.querySelectorAll("#table1 td, #table2 td").forEach(cell => {
-
-        cell.addEventListener("input", function(){
-            updateDiffChart();
-        });
-
-    });
-
-}
+</body>
+</html>
