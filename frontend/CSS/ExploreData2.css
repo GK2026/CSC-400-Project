@@ -211,7 +211,7 @@ border:1px solid #d1d5db;
 select{
 padding:10px;
 border-radius:6px;
-border:1px solid black;
+border:1px #d1d5db;
 background-color:white;
 cursor:pointer;
 }
@@ -219,7 +219,7 @@ cursor:pointer;
 
 /* EXPORT BUTTON */
 
-.export-btn{
+#export-btn{
 margin-top:20px;
 padding:10px 20px;
 background-color:#FFA500;
@@ -230,7 +230,7 @@ cursor:pointer;
 font-weight:500;
 }
 
-.export-btn:hover{
+#export-btn:hover{
 background-color:#ea580c;
 }
 
@@ -311,7 +311,7 @@ width:100%;
 }
 
 th,td{
-border:1px solid #374151;
+border:1px solid #d1d5db;
 padding:6px;
 text-align:center;
 }
@@ -323,6 +323,12 @@ cursor:text;
 
 td:focus{
 outline:2px solid #7c3aed;
+}
+
+th {
+    background-color: #7c3aed;
+    color: white;
+    padding: 10px;
 }
 
 
