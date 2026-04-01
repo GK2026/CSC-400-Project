@@ -1,184 +1,88 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener('DOMContentLoaded', () => {
 
-    // ---------------- Select Elements ----------------
-    const backHeader = document.getElementById("Back");
-    const returnBreadcrumb = document.getElementById("Return");
-    const currentBreadcrumb = document.getElementById("Current");
-    const exploreDataBtn = document.getElementById("link-explore");
-    const linkCorrelation = document.getElementById("link-correlation");
+    const navAuth = document.getElementById('nav-auth');
+    const username = sessionStorage.getItem("name");
+    const welcomeDiv = document.getElementById("welcomeMessage");
 
-    /*******************************
-     * STUDENT NAME + LOGOUT
-     *******************************/
-    const studentSelect = document.getElementById("student-select");
-    const firstName = localStorage.getItem("firstName");
+    // ====== Navbar Authentication Section ======
+    if (username) {
 
-    if (studentSelect) {
-        if (firstName) {
-            studentSelect.innerHTML = `
-                <option>${firstName}</option>
-                <option value="logout">Logout</option>
-            `;
-        } else {
-            studentSelect.innerHTML = `
-                <option>Student Name</option>
+        navAuth.innerHTML = `
+            <div class="dropdown">
+                <button class="btn-solid dropdown-btn">${username}</button>
+                <div class="dropdown-content">
+                    <a href="#" id="logout-btn">Logout</a>
+                </div>
+            </div>
+        `;
+
+        if (welcomeDiv) {
+            welcomeDiv.innerHTML = `
+                <h2>Welcome back to GapMinder Project, ${username}!</h2>
             `;
         }
 
-        studentSelect.addEventListener("change", (e) => {
-            if (e.target.value === "logout") {
-                localStorage.removeItem("firstName");
-                localStorage.removeItem("username");
-                window.location.href = "Home.html";
-            }
-        });
-    }
-
-    // ---------------- Navigation Event Listeners ----------------
-
-    if (backHeader) {
-        backHeader.addEventListener("click", (e) => {
+        document.getElementById('logout-btn').addEventListener('click', (e) => {
             e.preventDefault();
+            sessionStorage.clear();
             window.location.href = "Home.html";
         });
-    }
 
-    if (returnBreadcrumb) {
-        returnBreadcrumb.addEventListener("click", (e) => {
-            e.preventDefault();
-            window.location.href = "Home.html";
+    } else {
+
+        navAuth.innerHTML = `
+            <button id="nav-signin-btn" class="btn-outline">Sign In</button>
+            <button id="nav-register-btn" class="btn-solid">Register</button>
+        `;
+
+        document.getElementById('nav-signin-btn').addEventListener('click', () => {
+            window.location.href = 'login.html';
+        });
+
+        document.getElementById('nav-register-btn').addEventListener('click', () => {
+            window.location.href = 'signup.html';
         });
     }
 
-    if (currentBreadcrumb) {
-        currentBreadcrumb.addEventListener("click", (e) => {
-            e.preventDefault();
-            window.location.href = "Assignments.html";
+    // ====== Hero Section Cards ======
+    const cardExploreBtn = document.getElementById('card-explore-btn');
+    const cardSubmitBtn = document.getElementById('card-submit-btn');
+    const cardViewBtn = document.getElementById('card-view-btn');
+
+    if (cardExploreBtn) {
+        cardExploreBtn.addEventListener('click', () => {
+            window.location.href = 'ExploreData1.html';
         });
     }
 
-    if (exploreDataBtn) {
-        exploreDataBtn.addEventListener("click", (e) => {
+    if (cardSubmitBtn) {
+        cardSubmitBtn.addEventListener('click', () => {
+            window.location.href = 'Assignments.html';
+        });
+    }
+
+    if (cardViewBtn) {
+        cardViewBtn.addEventListener('click', () => {
+            window.location.href = 'Assignments.html';
+        });
+    }
+
+    // ====== Navbar Links ======
+    const linkExplore = document.getElementById('link-explore');
+    const linkCorrelation = document.getElementById('link-correlation');
+
+    if (linkExplore) {
+        linkExplore.addEventListener('click', (e) => {
             e.preventDefault();
-            window.location.href = "ExploreData1.html";
+            window.location.href = 'ExploreData1.html';
         });
     }
 
     if (linkCorrelation) {
-        linkCorrelation.addEventListener("click", (e) => {
+        linkCorrelation.addEventListener('click', (e) => {
             e.preventDefault();
-            window.location.href = "Assignments.html";
+            window.location.href = 'Assignments.html';
         });
     }
 
 });
-
-
-// ---------------- Table Data ----------------
-function getAllTableData() {
-
-    const tableIds = ["table1", "table2"];
-    const colors = ["#7c3aed", "#f97316"];
-
-    const datasets = [];
-
-    tableIds.forEach((id, index) => {
-
-        const rows = document.querySelectorAll(`#${id} tbody tr`);
-        const points = [];
-
-        rows.forEach(row => {
-
-            const x = parseFloat(row.cells[0].textContent);
-            const y = parseFloat(row.cells[1].textContent);
-
-            if (!isNaN(x) && !isNaN(y)) {
-                points.push({ x: x, y: y });
-            }
-
-        });
-
-        datasets.push({
-            label: `Table ${index + 1}`,
-            data: points,
-            backgroundColor: colors[index],
-            borderColor: colors[index],
-            pointRadius: 7,
-            showLine: false
-        });
-
-    });
-
-    return datasets;
-}
-
-
-// ---------------- Create / Update Chart ----------------
-let diffChart;
-
-function updateDiffChart() {
-
-    const canvas = document.getElementById("DiffChart");
-    if (!canvas) return;
-
-    const ctx = canvas.getContext("2d");
-    const datasets = getAllTableData();
-
-    if (diffChart) {
-        diffChart.destroy();
-    }
-
-    diffChart = new Chart(ctx, {
-        type: "scatter",
-        data: {
-            datasets: datasets
-        },
-        options: {
-            responsive: true,
-            scales: {
-                x: {
-                    type: "linear",
-                    position: "bottom",
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: "X"
-                    }
-                },
-                y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: "Y"
-                    }
-                }
-            },
-            plugins: {
-                legend: {
-                    position: "top"
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function (context) {
-                            return `(${context.raw.x}, ${context.raw.y})`;
-                        }
-                    }
-                }
-            }
-        }
-    });
-}
-
-
-// ---------------- Update Chart on Edit ----------------
-function attachTableListeners() {
-
-    document.querySelectorAll("#table1 td, #table2 td").forEach(cell => {
-
-        cell.addEventListener("input", function () {
-            updateDiffChart();
-        });
-
-    });
-
-}
