@@ -1,4 +1,3 @@
-// init
 document.addEventListener("DOMContentLoaded", () => {
     const navAuth = document.getElementById("nav-auth");
     const firstName = sessionStorage.getItem("first_name") || localStorage.getItem("first_name");

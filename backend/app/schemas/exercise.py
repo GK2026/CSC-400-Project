@@ -11,7 +11,6 @@ class ExerciseRow(BaseModel):
 
 
 class SaveExerciseRequest(BaseModel):
-    # 🔥 NEW (for naming)
     name: str | None = None
 
     indicator_1_code: str = Field(..., min_length=1)
@@ -34,7 +33,6 @@ class SaveExerciseRequest(BaseModel):
 class ExerciseSummary(BaseModel):
     id: int
 
-    # 🔥 NEW (this is what frontend will display)
     name: str
 
     indicator_1_code: str
