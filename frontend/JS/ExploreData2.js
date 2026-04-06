@@ -1,4 +1,3 @@
-// state
 let diffChart = null;
 let latestGenerated = null;
 let latestSavedExerciseId = null;
@@ -172,7 +171,7 @@ function onWhatIfInput(e) {
     const r = pearsonR(whatIfRows);
     const display = document.getElementById("whatIfR");
     if (display) {
-        display.textContent = r !== null ? `r = ${r.toFixed(4)}` : "r = —";
+        display.textContent = "";
         display.className = "whatif-r-display" + (r !== null && Math.abs(r - hiddenCorrelationAnswer) > 0.05 ? " whatif-r-changed" : "");
     }
 

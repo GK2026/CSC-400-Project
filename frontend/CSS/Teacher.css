@@ -6,6 +6,8 @@
 }
 
 body {
+    display: flex;
+    flex-direction: column;
     background-color: #f3f1ff;
     min-height: 100vh;
 }
@@ -427,8 +429,6 @@ header {
     background: #fef2f2;
 }
 
-/* === SHARED NAV + USER-MENU (canonical) === */
-
 
 header 
 
@@ -496,7 +496,7 @@ header
     background: #fef2f2;
 }
 
-/* === NAV LINKS === */
+
 header nav {
     flex: 2;
     display: flex;

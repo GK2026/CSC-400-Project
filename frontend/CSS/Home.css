@@ -6,9 +6,11 @@
 }
 
 body {
-    background-color: #f5f3ff; 
+    background-color: #f5f3ff;
     color: #1f2937;
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 
@@ -137,6 +139,7 @@ button {
 .hero-section {
     text-align: center;
     padding: 80px 20px;
+    flex: 1;
 }
 
 .hero-content h1 {

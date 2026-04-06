@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             tr.innerHTML =
                 "<td>" + new Date(item.submitted_at).toLocaleString() + "</td>" +
                 "<td>" + item.indicator_1_name + " vs " + item.indicator_2_name + "</td>" +
-                "<td>" + Number(item.computed_pearson_r).toFixed(4) + "</td>" +
+                "<td>" + (item.student_pearson_r !== null && item.student_pearson_r !== undefined ? Number(item.student_pearson_r).toFixed(3) : "—") + "</td>" +
                 "<td>" + (item.student_selected_label || "—") + "</td>" +
                 "<td style='max-width:200px; font-size:0.85rem;'>" + explanation + "</td>" +
                 "<td>" + feedback + "</td>";
