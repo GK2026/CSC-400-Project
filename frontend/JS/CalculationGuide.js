@@ -1,8 +1,6 @@
-// state
 let currentExercise = null;
 let hiddenCorrelationAnswer = null;
 let currentStep = 1;
-
 let correctMeanX = null;
 let correctMeanY = null;
 let correctDeviations = [];
@@ -92,7 +90,13 @@ function renderStep1(exercise) {
     const tbody = document.getElementById("step1Body");
     tbody.innerHTML = "";
     rows.forEach(row => {
-        const label = hasCountry ? (row.country || row.country_name || row.country_code) : row.year;
+        const rawLabel = row.country || row.country_name || row.country_code || "";
+        const code = row.country_code || "";
+        const label = hasCountry
+            ? (rawLabel && rawLabel.toLowerCase() !== code.toLowerCase()
+                ? rawLabel
+                : code.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase()))
+            : row.year;
         const tr = document.createElement("tr");
         tr.innerHTML = `<td>${label}</td><td>${row.indicator_1_value}</td><td>${row.indicator_2_value}</td>`;
         tbody.appendChild(tr);
@@ -116,7 +120,14 @@ function prepareCalculations(exercise) {
         `ΣX = <span>${round3(sumX)}</span> &nbsp;&nbsp; ΣY = <span>${round3(sumY)}</span> &nbsp;&nbsp; n = <span>${n}</span>`;
 
     correctDeviations = rows.map((row, i) => ({
-        label: row.country || row.country_name || row.country_code || row.year,
+        label: (() => {
+            const raw = row.country || row.country_name || row.country_code || "";
+            const code = row.country_code || "";
+            if (!raw) return row.year;
+            return (raw && raw.toLowerCase() !== code.toLowerCase())
+                ? raw
+                : code.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+        })(),
         x: row.indicator_1_value,
         y: row.indicator_2_value,
         dx: round3(row.indicator_1_value - correctMeanX),
@@ -492,7 +503,7 @@ async function saveAndSubmit() {
         const subRes = await fetch(`${API_BASE}/gapminder/submit-exercise`, {
             method: "POST",
             headers: authHeaders({ "Content-Type": "application/json" }),
-            body: JSON.stringify({ exercise_id: exerciseId, student_selected_label: selectedLabel, student_explanation: explanation })
+            body: JSON.stringify({ exercise_id: exerciseId, student_selected_label: selectedLabel, student_explanation: explanation, student_pearson_r: parseFloat(document.getElementById("userCorrelationInput")?.value) || null })
         });
         const subResult = await subRes.json();
         if (!subRes.ok) { alert(subResult.detail || "Could not submit exercise."); return; }

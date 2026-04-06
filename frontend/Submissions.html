@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Saved Exercises - Correlation Assistant</title>
+<title>My Submissions - Correlation Assistant</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../CSS/SavedExercises.css">
+<link rel="stylesheet" href="CSS/Submissions.css">
 </head>
 <body>
 
@@ -16,8 +16,8 @@
     <nav>
         <a href="Home.html" id="link-home">Home</a>
         <a href="ExploreData1.html" id="link-explore">Explore Data</a>
-        <a href="SavedExercises.html" id="link-saved" class="active">Saved Exercises</a>
-        <a href="Submissions.html" id="link-correlation">My Submissions</a>
+        <a href="SavedExercises.html" id="link-saved">Saved Exercises</a>
+        <a href="Submissions.html" id="link-correlation" class="active">My Submissions</a>
     </nav>
     <div class="nav-auth">
         <div class="user-menu" id="user-menu">
@@ -33,35 +33,33 @@
 
 <div class="breadcrumbs">
     <a href="Home.html">Home</a> &#10145;
-    <span>Saved Exercises</span>
+    <span>My Submissions</span>
 </div>
 
-<div style="max-width:900px; margin:0 auto; padding:32px 24px;">
+<div class="page-layout">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
-        <h2 style="margin:0; color:#111827;">Saved Exercises</h2>
-        <div style="display:flex; gap:10px;">
-            <button id="new-exercise-btn" style="padding:10px 18px; background:#7c3aed; color:#fff; border:none; border-radius:8px; font-weight:600; cursor:pointer;">+ New Exercise</button>
-            <a href="Submissions.html" style="padding:10px 18px; background:#f3f4f6; color:#374151; border:none; border-radius:8px; font-weight:600; cursor:pointer; text-decoration:none; display:inline-flex; align-items:center;">View Submissions &#10145;</a>
-        </div>
+        <h2 style="margin:0; color:#111827;">My Submissions</h2>
+        <a href="SavedExercises.html" style="padding:10px 18px; background:#f3f4f6; color:#374151; border:none; border-radius:8px; font-weight:600; cursor:pointer; text-decoration:none; display:inline-flex; align-items:center;">&#8592; Saved Exercises</a>
     </div>
 
     <p style="font-size:0.875rem; color:#6b7280; margin-bottom:20px; background:#f9fafb; border-left:3px solid #7c3aed; padding:10px 14px; border-radius:0 6px 6px 0;">
-        Click <strong>Open</strong> on any exercise to continue working on it. You will be taken to the Explore Data page — from there click <strong>Continue to Correlation Guide</strong> to submit your work.
+        These are correlations you have submitted for grading. Your teacher will leave feedback in the <strong>Feedback</strong> column.
     </p>
 
     <div class="table-container">
-        <table id="savedExercisesTable">
+        <table id="submissionsTable">
             <thead>
                 <tr>
-                    <th>Name</th>
+                    <th>Date</th>
                     <th>Indicators</th>
+                    <th>Your r</th>
                     <th>Type</th>
-                    <th>Date Saved</th>
-                    <th>Open</th>
+                    <th>Your Explanation</th>
+                    <th>Feedback</th>
                 </tr>
             </thead>
             <tbody>
-                <tr><td colspan="4">Loading...</td></tr>
+                <tr><td colspan="5">Loading...</td></tr>
             </tbody>
         </table>
     </div>
@@ -69,7 +67,7 @@
 
 <footer><div class="footer"><p>Correlation Assistant - SCSU CSC400 Capstone</p></div></footer>
 
-<script src="../JS/utils.js"></script>
-<script src="../JS/SavedExercises.js"></script>
+<script src="JS/utils.js"></script>
+<script src="JS/Submissions.js"></script>
 </body>
 </html>

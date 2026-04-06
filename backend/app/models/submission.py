@@ -13,6 +13,7 @@ class Submission(Base):
     student_selected_label = Column(String(50), nullable=False)
     student_explanation = Column(Text, nullable=False)
 
+    student_pearson_r = Column(Float, nullable=True)
     computed_pearson_r = Column(Float, nullable=False)
     computed_relationship_label = Column(String(50), nullable=False)
 

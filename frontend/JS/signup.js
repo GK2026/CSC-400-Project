@@ -1,4 +1,3 @@
-// config
 const API_BASE = window.location.origin.includes("gapminder.scsu.southernct.edu")
     ? "/api"
     : "http://127.0.0.1:8000";

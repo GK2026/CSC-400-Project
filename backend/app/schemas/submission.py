@@ -6,6 +6,7 @@ class SubmitExerciseRequest(BaseModel):
     exercise_id: int
     student_selected_label: str = Field(..., min_length=1)
     student_explanation: str = Field(..., min_length=1)
+    student_pearson_r: float | None = None
 
 
 class SubmissionFeedbackRequest(BaseModel):

@@ -19,6 +19,7 @@ from app.schemas.submission import SubmitExerciseRequest, SubmissionFeedbackRequ
 from app.core.deps import get_current_user
 from app.models.user import User
 
+# router
 router = APIRouter()
 
 # github config
@@ -30,14 +31,15 @@ TARGET_DIR = "countries-etc-datapoints"
 
 # github helpers
 def github_get(url: str):
-    return requests.get(
-        url,
-        headers={
-            "Accept": "application/vnd.github+json",
-            "User-Agent": "GapMinders-App"
-        },
-        timeout=30
-    )
+    import os
+    token = os.getenv("GITHUB_TOKEN", "")
+    headers = {
+        "Accept": "application/vnd.github+json",
+        "User-Agent": "GapMinders-App"
+    }
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
+    return requests.get(url, headers=headers, timeout=30)
 
 
 # repo tree
@@ -515,6 +517,8 @@ def import_gapminder_data(
 # import all
 @router.post("/import-all")
 def import_all_gapminder_data(db: Session = Depends(get_db)):
+    from sqlalchemy import text
+
     tree_items, err = get_target_dir_tree()
     if err:
         return err
@@ -525,11 +529,24 @@ def import_all_gapminder_data(db: Session = Depends(get_db)):
         if item.get("type") == "blob" and item.get("path", "").endswith(".csv")
     ]
 
+    # get already-imported indicator codes so we can skip them entirely
+    existing_codes = {
+        row[0] for row in db.execute(
+            text("SELECT DISTINCT indicator_code FROM gapminder_data")
+        ).fetchall()
+    }
+
     results = []
     total_saved = 0
     total_skipped = 0
 
     for filename in files:
+        indicator_code = infer_indicator_code(filename)
+
+        if indicator_code in existing_codes:
+            results.append({"filename": filename, "rows_saved": 0, "rows_skipped": 0, "note": "already imported"})
+            continue
+
         full_path = build_full_path(filename, tree_items)
         if not full_path:
             results.append({"filename": filename, "error": "File not found in tree"})
@@ -547,9 +564,9 @@ def import_all_gapminder_data(db: Session = Depends(get_db)):
                 continue
 
             reader = csv.DictReader(StringIO(resp.text))
-            indicator_code = infer_indicator_code(filename)
             saved = 0
             skipped = 0
+            batch = []
 
             for row in reader:
                 country_code = row.get("geo")
@@ -567,32 +584,31 @@ def import_all_gapminder_data(db: Session = Depends(get_db)):
                     skipped += 1
                     continue
 
-                exists = db.query(GapminderData).filter(
-                    GapminderData.country_code == country_code,
-                    GapminderData.indicator_code == indicator_code,
-                    GapminderData.year == year
-                ).first()
-
-                if exists:
-                    skipped += 1
-                    continue
-
                 country_name = row.get("geo.name") or row.get("country_name") or country_code
+                indicator_name = " ".join(w.capitalize() if len(w) > 3 else w for w in indicator_code.replace("_", " ").split())
 
-                db.add(GapminderData(
-                    country=country_name,
-                    country_code=country_code,
-                    indicator=" ".join(w.capitalize() if len(w) > 3 else w for w in indicator_code.replace("_", " ").split()),
-                    indicator_code=indicator_code,
-                    year=year,
-                    value=value
-                ))
+                batch.append({
+                    "country": country_name,
+                    "country_code": country_code,
+                    "indicator": indicator_name,
+                    "indicator_code": indicator_code,
+                    "year": year,
+                    "value": value
+                })
                 saved += 1
 
-            db.commit()
+            if batch:
+                db.bulk_insert_mappings(GapminderData, batch)
+                db.commit()
+                existing_codes.add(indicator_code)
+
             total_saved += saved
             total_skipped += skipped
             results.append({"filename": filename, "rows_saved": saved, "rows_skipped": skipped})
+
+        except Exception as e:
+            db.rollback()
+            results.append({"filename": filename, "error": str(e)})
 
         except Exception as e:
             db.rollback()
@@ -620,33 +636,38 @@ def get_data_status(db: Session = Depends(get_db)):
 
 
 # indicators
+_indicators_cache: list | None = None
+
 @router.get("/indicators")
 def search_indicators(
     search: str = Query("", description="Search indicator codes or names"),
     limit: int = Query(200, ge=1, le=500),
     db: Session = Depends(get_db)
 ):
-    query = db.query(
-        GapminderData.indicator_code,
-        GapminderData.indicator
-    ).distinct()
+    global _indicators_cache
+
+    if _indicators_cache is None:
+        rows = (
+            db.query(GapminderData.indicator_code, GapminderData.indicator)
+            .distinct()
+            .order_by(GapminderData.indicator_code.asc())
+            .all()
+        )
+        _indicators_cache = [
+            {"indicator_code": r.indicator_code, "indicator_name": r.indicator}
+            for r in rows
+        ]
+
+    results = _indicators_cache
 
     if search.strip():
-        term = f"%{search.strip()}%"
-        query = query.filter(
-            (GapminderData.indicator_code.ilike(term)) |
-            (GapminderData.indicator.ilike(term))
-        )
+        term = search.strip().lower()
+        results = [
+            r for r in results
+            if term in r["indicator_code"].lower() or term in r["indicator_name"].lower()
+        ]
 
-    rows = query.order_by(GapminderData.indicator_code.asc()).limit(limit).all()
-
-    return [
-        {
-            "indicator_code": row.indicator_code,
-            "indicator_name": row.indicator
-        }
-        for row in rows
-    ]
+    return results[:limit]
 
 
 # generate dataset
@@ -1009,6 +1030,7 @@ def submit_exercise(
         user_id=current_user.id,
         student_selected_label=selected_label,
         student_explanation=payload.student_explanation.strip(),
+        student_pearson_r=payload.student_pearson_r,
         computed_pearson_r=exercise.pearson_r,
         computed_relationship_label=computed_label,
         is_correct_label=is_correct
@@ -1054,6 +1076,7 @@ def get_my_submissions(
             "indicator_2_name": exercise.indicator_2_name,
             "student_selected_label": submission.student_selected_label,
             "student_explanation": submission.student_explanation,
+            "student_pearson_r": submission.student_pearson_r,
             "computed_relationship_label": submission.computed_relationship_label,
             "computed_pearson_r": submission.computed_pearson_r,
             "is_correct_label": submission.is_correct_label,
@@ -1132,6 +1155,7 @@ def get_all_submissions_for_teacher(
             "indicator_2_name": exercise.indicator_2_name,
             "student_selected_label": submission.student_selected_label,
             "student_explanation": submission.student_explanation,
+            "student_pearson_r": submission.student_pearson_r,
             "computed_relationship_label": submission.computed_relationship_label,
             "computed_pearson_r": submission.computed_pearson_r,
             "is_correct_label": submission.is_correct_label,
