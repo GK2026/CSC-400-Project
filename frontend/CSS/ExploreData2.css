@@ -223,7 +223,7 @@ border:1px solid #d1d5db;
 select{
 padding:5px;
 border-radius:6px;
-border:1px solid black;
+border:1px #d1d5db;
 background-color:white;
 cursor:pointer;
 }
@@ -252,7 +252,7 @@ cursor: pointer;
 font-weight:500;
 }
 
-.export-btn:hover{
+#export-btn:hover{
 background-color:#ea580c;
 }
 
@@ -333,7 +333,7 @@ width:100%;
 }
 
 th,td{
-border:1px solid #374151;
+border:1px solid #d1d5db;
 padding:6px;
 text-align:center;
 }
