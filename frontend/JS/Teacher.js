@@ -1,4 +1,3 @@
-// state
 let allSubmissions = [];
 let activeFeedbackId = null;
 

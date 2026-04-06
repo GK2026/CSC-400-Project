@@ -8,7 +8,6 @@ let correctProducts = [];
 let correctSumXY = null;
 let correctSumX2 = null;
 let correctSumY2 = null;
-
 let meanXConfirmed = false;
 let meanYConfirmed = false;
 let deviationsConfirmed = false;
@@ -389,28 +388,22 @@ function checkFinalAnswer() {
     const diff = Math.abs(userVal - correct);
     const interpretation = interpretR(correct);
 
-    if (diff <= 0.01) {
-        fb.innerHTML = `✓ Exact. Your answer: <strong>${userVal}</strong>. Correct answer: <strong>${correct}</strong>.<br><br>${interpretation}`;
+    if (diff <= 0.05) {
+        fb.innerHTML = `✓ Correct! ${interpretation}`;
         fb.className = "feedback-correct";
         input.classList.add("correct");
         document.getElementById("submitSection").style.display = "flex";
         prefillRelationship();
-    } else if (diff <= 0.05) {
-        fb.innerHTML = `✓ Very close. Your answer: <strong>${userVal}</strong>. Correct: <strong>${correct}</strong> (off by ${diff.toFixed(3)}).<br><br>${interpretation}`;
-        fb.className = "feedback-close";
-        input.classList.add("correct");
-        document.getElementById("submitSection").style.display = "flex";
-        prefillRelationship();
     } else if (diff <= 0.15) {
-        fb.innerHTML = `△ Not quite. Your answer: <strong>${userVal}</strong>. Correct: <strong>${correct}</strong> (off by ${diff.toFixed(3)}). Double-check your sums from Step 4.`;
+        fb.innerHTML = `△ Not quite — double-check your sums from Step 4 and try again.`;
         fb.className = "feedback-close";
         input.classList.remove("correct");
         input.classList.add("incorrect");
     } else {
         const signHint = Math.sign(userVal) !== Math.sign(correct)
-            ? " Your sign is wrong too — check whether X and Y move in the same direction or opposite directions."
+            ? " Check whether X and Y move in the same or opposite directions — your sign may be wrong."
             : " Recheck your sums from Step 4 and the denominator calculation.";
-        fb.innerHTML = `✗ Incorrect. Your answer: <strong>${userVal}</strong>. Correct: <strong>${correct}</strong> (off by ${diff.toFixed(3)}).${signHint}`;
+        fb.innerHTML = `✗ Not correct.${signHint}`;
         fb.className = "feedback-incorrect";
         input.classList.add("incorrect");
         input.classList.remove("correct");

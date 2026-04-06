@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 "<td>" + item.indicator_1_name + " vs " + item.indicator_2_name + "</td>" +
                 "<td>" + (item.student_pearson_r !== null && item.student_pearson_r !== undefined ? Number(item.student_pearson_r).toFixed(3) : "—") + "</td>" +
                 "<td>" + (item.student_selected_label || "—") + "</td>" +
-                "<td style='max-width:200px; font-size:0.85rem;'>" + explanation + "</td>" +
+                "<td style='min-width:220px; font-size:0.875rem; line-height:1.5; white-space:normal;'>" + explanation + "</td>" +
                 "<td>" + feedback + "</td>";
             tbody.appendChild(tr);
         });

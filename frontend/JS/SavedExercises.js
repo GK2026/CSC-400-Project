@@ -1,4 +1,3 @@
-// init
 document.addEventListener("DOMContentLoaded", async () => {
     if (!requireLogin()) return;
     populateStudentDropdown();
