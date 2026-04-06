@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Teacher Registration - Correlation Assistant</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Segoe UI", Arial, sans-serif; }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #faf5ff, #ede9fe);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px 36px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 8px 32px rgba(76,29,149,0.15);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 4px;
+        }
+
+        .logo-icon {
+            background: #7c3aed;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .logo-text {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #4c1d95;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            color: #4c1d95;
+            text-align: center;
+        }
+
+        .subtitle {
+            font-size: 0.875rem;
+            color: #6b7280;
+            text-align: center;
+        }
+
+        .form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            color: #4c1d95;
+            font-size: 0.875rem;
+            margin-bottom: 4px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px 14px;
+            font-size: 0.95rem;
+            border-radius: 8px;
+            border: 1.5px solid #d1d5db;
+            transition: border-color 0.2s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #7c3aed;
+            box-shadow: 0 0 0 3px rgba(124,58,237,0.12);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 12px;
+            background: #7c3aed;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.15s;
+            margin-top: 4px;
+        }
+
+        .btn-primary:hover { background: #6d28d9; transform: translateY(-1px); }
+        .btn-primary:disabled { background: #a78bfa; cursor: not-allowed; transform: none; }
+
+        .btn-secondary {
+            background: none;
+            border: none;
+            color: #7c3aed;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: underline;
+            padding: 4px;
+        }
+
+        .btn-secondary:hover { color: #6d28d9; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="logo">
+            <span class="logo-icon">CA</span>
+            <span class="logo-text">Correlation Assistant</span>
+        </div>
+
+        <h1>Teacher Registration</h1>
+        <p class="subtitle">You need an invite code from your administrator to register as a teacher.</p>
+
+        <div class="form">
+            <div>
+                <label for="Name">First name</label>
+                <input type="text" id="Name" placeholder="First name" />
+            </div>
+            <div>
+                <label for="usernamesignup">School email</label>
+                <input type="email" id="usernamesignup" placeholder="you@southernct.edu" />
+            </div>
+            <div>
+                <label for="passwordEntry">Password</label>
+                <input type="password" id="passwordEntry" placeholder="Password" />
+            </div>
+            <div>
+                <label for="inviteCode">Invite code</label>
+                <input type="text" id="inviteCode" placeholder="Enter invite code" />
+            </div>
+
+            <button class="btn-primary" id="registerBtn" type="button">Register as Teacher</button>
+        </div>
+
+        <button class="btn-secondary" id="returnLogin" type="button">← Back to login</button>
+    </div>
+
+    <script>
+    const API_BASE = window.location.origin.includes("gapminder.scsu.southernct.edu")
+        ? "/api"
+        : "http://127.0.0.1:8000";
+
+    document.getElementById("returnLogin").onclick = () => { window.location.href = "login.html"; };
+
+    document.getElementById("registerBtn").onclick = async function () {
+        const btn = document.getElementById("registerBtn");
+        const firstName = document.getElementById("Name")?.value.trim();
+        const email = document.getElementById("usernamesignup")?.value.trim();
+        const password = document.getElementById("passwordEntry")?.value;
+        const inviteCode = document.getElementById("inviteCode")?.value.trim();
+
+        if (!firstName || !email || !password || !inviteCode) {
+            alert("Please fill in all fields including the invite code.");
+            return;
+        }
+
+        btn.disabled = true;
+        btn.textContent = "Registering...";
+
+        try {
+            const res = await fetch(`${API_BASE}/auth/register-teacher?invite_code=${encodeURIComponent(inviteCode)}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ first_name: firstName, email, password })
+            });
+
+            const result = await res.json();
+
+            if (!res.ok) {
+                alert(result.detail || "Registration failed.");
+                return;
+            }
+
+            alert("Teacher account created! Please log in.");
+            window.location.href = "login.html";
+        } catch (err) {
+            console.error("Fetch error:", err);
+            alert("Error: " + (err.message || "Could not connect to backend.") + "\n\nMake sure:\n1. Backend is running on port 8080\n2. You replaced main.py and restarted uvicorn");
+        } finally {
+            btn.disabled = false;
+            btn.textContent = "Register as Teacher";
+        }
+    };
+    </script>
+</body>
+</html>

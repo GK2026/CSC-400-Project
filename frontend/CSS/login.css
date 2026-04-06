@@ -89,9 +89,9 @@ button:hover {
   box-shadow: 0px 4px 8px rgba(76, 29, 149, 0.35);
 }
 
-/* Login / bottom button */
+
 #returnLogin {
-  background-color: #7c3aed;   /* solid purple */
+  background-color: #7c3aed;   
   color: white;
   border: none;
   border-radius: 8px;
@@ -100,8 +100,8 @@ button:hover {
   font-weight: 600;
   cursor: pointer;
 
-  margin-top: 12px;   /* small space below password box */
-  width: fit-content;  /* shrink to text */
+  margin-top: 12px;   
+  width: fit-content;  
   align-self: center;
   display: inline-flex;
 }
@@ -122,4 +122,3 @@ li {
   font-size: 16px;
   color: #4b5563;
 }
-

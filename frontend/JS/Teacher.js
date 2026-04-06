@@ -1,23 +1,203 @@
-// Created By Oleksandr
+// state
+let allSubmissions = [];
+let activeFeedbackId = null;
 
-document.addEventListener('DOMContentLoaded', () => {
-    const role = sessionStorage.getItem("role");
-    if (!role || role !== "instructor") {
+// session
+function setupTeacherSession() {
+    const role = sessionStorage.getItem("role") || localStorage.getItem("role");
+    const firstName = sessionStorage.getItem("first_name") || localStorage.getItem("first_name") || "Teacher";
+
+    if (!role || (role !== "teacher" && role !== "instructor")) {
         window.location.href = "login.html";
+        return false;
+    }
+
+    populateStudentDropdown("login.html");
+
+    return true;
+}
+
+// helpers
+function formatDate(dateStr) {
+    return new Date(dateStr).toLocaleString(undefined, {
+        month: "short", day: "numeric", year: "numeric",
+        hour: "numeric", minute: "2-digit"
+    });
+}
+
+function renderRows(rows) {
+    const tbody = document.getElementById("submissionsBody");
+    const count = document.getElementById("submissionCount");
+    if (!tbody) return;
+
+    if (count) count.textContent = `${rows.length} submission${rows.length !== 1 ? "s" : ""}`;
+
+    if (!rows.length) {
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:#6b7280;">No submissions found.</td></tr>`;
         return;
     }
 
-    const name = sessionStorage.getItem("name");
-    const select = document.getElementById("student-select");
+    tbody.innerHTML = "";
 
-    if (select && name) {
-        select.options[0].text = name;
+    rows.forEach((row) => {
+        const hasFeedback = row.teacher_feedback && row.teacher_feedback.trim();
+        const tr = document.createElement("tr");
+        tr.className = hasFeedback ? "row-reviewed" : "row-pending";
+
+        tr.innerHTML = `
+            <td>
+                <div class="student-name">${row.student_name || "Unknown"}</div>
+                <div class="student-email">${row.student_email || ""}</div>
+            </td>
+            <td class="date-cell">${formatDate(row.submitted_at)}</td>
+            <td class="indicators-cell">
+                <div>${row.indicator_1_name}</div>
+                <div class="vs-label">vs</div>
+                <div>${row.indicator_2_name}</div>
+            </td>
+            <td class="r-cell">
+                <span class="r-value">${Number(row.computed_pearson_r).toFixed(3)}</span>
+            </td>
+            <td>
+                <span class="type-badge type-${row.student_selected_label}">${row.student_selected_label || "—"}</span>
+            </td>
+            <td class="explanation-cell">
+                <div class="explanation-text">${row.student_explanation || "—"}</div>
+            </td>
+            <td class="feedback-cell">
+                ${hasFeedback
+                    ? `<div class="existing-feedback">${row.teacher_feedback}</div>
+                       <button class="edit-feedback-btn" onclick="openFeedbackModal(${row.id})">Edit</button>`
+                    : `<button class="give-feedback-btn" onclick="openFeedbackModal(${row.id})">Give Feedback</button>`
+                }
+            </td>
+        `;
+
+        tbody.appendChild(tr);
+    });
+}
+
+// filter
+function getFilteredRows() {
+    const term = document.getElementById("student-search")?.value.trim().toLowerCase() || "";
+    const status = document.getElementById("filterStatus")?.value || "";
+
+    return allSubmissions.filter((row) => {
+        const matchesSearch = !term ||
+            (row.student_name || "").toLowerCase().includes(term) ||
+            (row.student_email || "").toLowerCase().includes(term) ||
+            (row.indicator_1_name || "").toLowerCase().includes(term) ||
+            (row.indicator_2_name || "").toLowerCase().includes(term);
+
+        const hasFeedback = row.teacher_feedback && row.teacher_feedback.trim();
+        const matchesStatus = !status ||
+            (status === "pending" && !hasFeedback) ||
+            (status === "reviewed" && hasFeedback);
+
+        return matchesSearch && matchesStatus;
+    });
+}
+
+// feedback modal
+function openFeedbackModal(submissionId) {
+    const row = allSubmissions.find(r => r.id === submissionId);
+    if (!row) return;
+
+    activeFeedbackId = submissionId;
+
+    const info = document.getElementById("feedbackSubmissionInfo");
+    if (info) {
+        info.innerHTML = `
+            <strong>${row.student_name || "Student"}</strong> —
+            ${row.indicator_1_name} vs ${row.indicator_2_name}<br>
+            <span style="color:#6b7280; font-size:0.85rem;">
+                Pearson r: ${Number(row.computed_pearson_r).toFixed(3)} &nbsp;·&nbsp;
+                Type: ${row.student_selected_label}
+            </span><br>
+            <span style="color:#374151; font-size:0.85rem; margin-top:6px; display:block;">
+                "${row.student_explanation || "No explanation given."}"
+            </span>
+        `;
     }
 
-    select?.addEventListener("change", (e) => {
-        if (e.target.value === "Logout") {
-            sessionStorage.clear();
-            window.location.href = "login.html";
+    const textarea = document.getElementById("feedbackTextarea");
+    if (textarea) textarea.value = row.teacher_feedback || "";
+
+    document.getElementById("feedbackOverlay").classList.add("visible");
+    textarea?.focus();
+}
+
+function closeFeedbackModal() {
+    document.getElementById("feedbackOverlay").classList.remove("visible");
+    activeFeedbackId = null;
+}
+
+// save feedback
+async function saveFeedback() {
+    if (!activeFeedbackId) return;
+
+    const note = document.getElementById("feedbackTextarea")?.value.trim();
+    if (!note) {
+        alert("Write your feedback before saving.");
+        return;
+    }
+
+    const saveBtn = document.querySelector(".feedback-save-btn");
+    if (saveBtn) { saveBtn.disabled = true; saveBtn.textContent = "Saving..."; }
+
+    try {
+        const res = await fetch(`${API_BASE}/gapminder/submissions/${activeFeedbackId}/feedback`, {
+            method: "PATCH",
+            headers: authHeaders({ "Content-Type": "application/json" }),
+            body: JSON.stringify({ teacher_feedback: note })
+        });
+
+        const result = await res.json();
+
+        if (!res.ok) {
+            alert(result.detail || "Could not save feedback.");
+            return;
         }
+
+        const idx = allSubmissions.findIndex(r => r.id === activeFeedbackId);
+        if (idx !== -1) allSubmissions[idx].teacher_feedback = note;
+
+        closeFeedbackModal();
+        renderRows(getFilteredRows());
+    } catch (err) {
+        console.error(err);
+        alert("Could not save feedback.");
+    } finally {
+        if (saveBtn) { saveBtn.disabled = false; saveBtn.textContent = "Save Feedback"; }
+    }
+}
+
+async function loadTeacherSubmissions() {
+    const tbody = document.getElementById("submissionsBody");
+    if (tbody) tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;">Loading...</td></tr>`;
+
+    try {
+        const res = await fetch(`${API_BASE}/gapminder/submissions`, { headers: authHeaders() });
+        const data = await res.json();
+        if (!res.ok) { renderRows([]); return; }
+        allSubmissions = data;
+        renderRows(getFilteredRows());
+    } catch (err) {
+        console.error(err);
+        renderRows([]);
+    }
+}
+
+// init
+document.addEventListener("DOMContentLoaded", async () => {
+    if (!setupTeacherSession()) return;
+
+    document.getElementById("student-search")?.addEventListener("input", () => renderRows(getFilteredRows()));
+    document.getElementById("filterStatus")?.addEventListener("change", () => renderRows(getFilteredRows()));
+
+    document.getElementById("feedbackOverlay")?.addEventListener("click", (e) => {
+        if (e.target === document.getElementById("feedbackOverlay")) closeFeedbackModal();
     });
+
+    await loadTeacherSubmissions();
 });

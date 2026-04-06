@@ -5,5 +5,7 @@ pymysql
 python-dotenv
 requests
 python-jose
-passlib[bcrypt]
 email-validator
+openpyxl
+bcrypt
+passlib[pbkdf2]

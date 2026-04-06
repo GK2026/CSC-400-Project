@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard - Correlation Assistant</title>
+    <link rel="stylesheet" href="../CSS/Teacher.css">
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        <span class="logo-icon">CA</span>
+        <span class="logo-text">Correlation Assistant</span>
+    </div>
+    <nav>
+        <a href="Home.html" id="link-home">Home</a>
+    </nav>
+    <div class="nav-auth">
+        <div class="user-menu" id="user-menu">
+            <button class="user-menu-btn" id="user-menu-btn">
+                <span id="user-name-display">Teacher</span> &#9662;
+            </button>
+            <div class="user-menu-dropdown" id="user-menu-dropdown">
+                <button id="logout-btn">Logout</button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main class="dashboard-container">
+    <h2 class="dashboard-title">Teacher Dashboard</h2>
+
+    <div class="dashboard-controls">
+        <input type="text" id="student-search" placeholder="Search by student, indicator..." class="search-input">
+        <div class="filter-group">
+            <select id="filterStatus">
+                <option value="">All Submissions</option>
+                <option value="pending">Needs Feedback</option>
+                <option value="reviewed">Feedback Given</option>
+            </select>
+        </div>
+        <span class="submission-count" id="submissionCount"></span>
+    </div>
+
+    <div class="table-wrapper">
+        <table class="dashboard-table">
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Submitted</th>
+                    <th>Indicators</th>
+                    <th>Pearson r</th>
+                    <th>Type</th>
+                    <th>Explanation</th>
+                    <th>Feedback</th>
+                </tr>
+            </thead>
+            <tbody id="submissionsBody">
+                <tr><td colspan="7">Loading...</td></tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<div class="feedback-overlay" id="feedbackOverlay">
+    <div class="feedback-modal">
+        <div class="feedback-modal-header">
+            <h3>Leave Feedback</h3>
+            <button class="feedback-close-btn" onclick="closeFeedbackModal()">✕</button>
+        </div>
+        <div class="feedback-modal-body">
+            <div class="feedback-submission-info" id="feedbackSubmissionInfo"></div>
+            <label class="feedback-label">Your feedback to the student</label>
+            <textarea id="feedbackTextarea" placeholder="Write your feedback here..." rows="5"></textarea>
+            <div class="feedback-modal-actions">
+                <button class="feedback-cancel-btn" onclick="closeFeedbackModal()">Cancel</button>
+                <button class="feedback-save-btn" onclick="saveFeedback()">Save Feedback</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../JS/utils.js"></script>
+<script src="../JS/Teacher.js"></script>
+</body>
+</html>

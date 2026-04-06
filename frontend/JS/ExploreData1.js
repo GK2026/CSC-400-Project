@@ -1,76 +1,33 @@
 document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("overTimeBtn")?.addEventListener("click", () => {
+        sessionStorage.removeItem("loaded_saved_exercise");
+        window.location.href = "ExploreData2.html";
+    });
 
-    /*******************************
-     * NAVBAR ELEMENTS
-     *******************************/
-    const linkhome = document.getElementById('Return'); 
-    const linkexplore = document.getElementById('link-explore');
-    const linkAssignments = document.getElementById('link-correlation');
-    const Current = document.getElementById('Current');
-    const Home = document.getElementById('Back');
+    document.getElementById("acrossCountriesBtn")?.addEventListener("click", () => {
+        sessionStorage.removeItem("loaded_saved_exercise");
+        window.location.href = "ExploreData3.html";
+    });
 
-    const studentSelect = document.getElementById("student-select");
-    const firstName = sessionStorage.getItem("first_name");
+    document.getElementById("link-home")?.addEventListener("click", (e) => {
+        e.preventDefault();
+        window.location.href = "Home.html";
+    });
 
-    /*******************************
-     * STUDENT NAME + LOGOUT
-     *******************************/
-    if (studentSelect) {
-        if (firstName) {
-            studentSelect.innerHTML = `
-                <option>${firstName}</option>
-                <option value="logout">Logout</option>
-            `;
-        } else {
-            studentSelect.innerHTML = `
-                <option>Student Name</option>
-            `;
-        }
+    document.getElementById("Return")?.addEventListener("click", (e) => {
+        e.preventDefault();
+        window.location.href = "Home.html";
+    });
 
-        studentSelect.addEventListener("change", (e) => {
-            if (e.target.value === "logout") {
-                sessionStorage.clear();
-                window.location.href = "Home.html";
-            }
-        });
-    }
+    document.getElementById("link-explore")?.addEventListener("click", (e) => {
+        e.preventDefault();
+        window.location.href = "ExploreData1.html";
+    });
 
-    /*******************************
-     * NAVIGATION
-     *******************************/
-    if (Home) {
-        Home.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.location.href = 'Home.html';
-        });
-    }
+    document.getElementById("link-correlation")?.addEventListener("click", (e) => {
+        e.preventDefault();
+        window.location.href = "Submissions.html";
+    });
 
-    if (linkAssignments) {
-        linkAssignments.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.location.href = 'Assignments.html';
-        });
-    }
-
-    if (linkexplore) {
-        linkexplore.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.location.href = 'ExploreData1.html';
-        });
-    }
-
-    if (Current) {
-        Current.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.location.href = 'ExploreData1.html';
-        });
-    }
-
-    if (linkhome) {
-        linkhome.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.location.href = 'Home.html';
-        });
-    }
-
+    populateStudentDropdown();
 });

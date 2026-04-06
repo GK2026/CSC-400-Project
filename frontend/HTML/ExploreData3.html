@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GapMinder - Explore Data</title>
+    <link rel="stylesheet" href="../CSS/ExploreData3.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        <span class="logo-icon">CA</span>
+        <span class="logo-text">Correlation Assistant</span>
+    </div>
+    <nav>
+        <a href="#" id="link-home">Home</a>
+        <a href="#" id="link-explore">Explore Data</a>
+        <a href="SavedExercises.html" id="link-saved">Saved Exercises</a>
+        <a href="Submissions.html" id="link-correlation">My Submissions</a>
+    </nav>
+    <div class="nav-auth">
+        <div class="user-menu" id="user-menu">
+            <button class="user-menu-btn" id="user-menu-btn">
+                <span id="user-name-display">Student</span> &#9662;
+            </button>
+            <div class="user-menu-dropdown" id="user-menu-dropdown">
+                <button id="logout-btn">Logout</button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="breadcrumbs">
+    <a href="#" id="Return">Home</a> ➔
+    <a href="#" id="Back">Explore Data Choices</a> ➔
+    <a href="#" id="Current">Explore Data Choices: Across Countries</a>
+</div>
+
+<main>
+    <div class="explore-container">
+
+        <aside class="input-panel">
+            <h2>Explore your data</h2>
+            <button id="tutorialBtn" type="button" class="tutorial-top-btn">📖 How to Use This Page</button>
+
+            <div class="search-filter-container">
+                <!-- Indicator 1 -->
+                <label for="indicatorSearch">Search Indicator 1</label>
+                <input type="text" id="indicatorSearch" placeholder="Type to filter indicators">
+                <div id="indicator1Suggestions" class="suggestions-box"></div>
+                <select id="indicatorSelect"><option value="">Select Indicator 1</option></select>
+
+                <!-- Indicator 2 -->
+                <label for="indicatorSearch2">Search Indicator 2</label>
+                <input type="text" id="indicatorSearch2" placeholder="Type to filter indicators">
+                <div id="indicator2Suggestions" class="suggestions-box"></div>
+                <select id="indicatorSelect2"><option value="">Select Indicator 2</option></select>
+
+                <!-- Year -->
+                <label for="yearSelect">Year</label>
+                <select id="yearSelect"><option value="">Select 1 Year</option></select>
+
+                <!-- Country search + list -->
+                <label for="countrySearch">Add Countries (2-10)</label>
+                <input type="text" id="countrySearch" placeholder="Search country">
+                <div id="countrySuggestions" class="suggestions-box"></div>
+                <select id="countrySelect"><option value="">Select Country</option></select>
+
+                <div class="country-action-row">
+                    <button type="button" id="addCountryBtn">+ Add Country</button>
+                    <button type="button" id="clearCountriesBtn">Clear All</button>
+                </div>
+
+                <div class="table-container">
+                    <h3>Selected Countries <span id="countryCount">(0 / 10)</span></h3>
+                    <table id="selectedCountriesTable">
+                        <thead>
+                            <tr><th>Country</th><th>Remove</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="2">No countries selected yet</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p id="statusMessage" class="subtitle">Choose an indicator to begin.</p>
+            </div>
+
+            <button class="export-btn" id="generateDatasetBtn" type="button">Generate Dataset</button>
+
+            <div class="action-buttons">
+                <button id="goToGuideBtn" type="button">Continue to Correlation Guide</button>
+                <button id="saveExerciseBtn" type="button">Save Exercise</button>
+                <div id="saveExerciseInline" style="display:none;" class="inline-save-box">
+                    <input type="text" id="exerciseNameInput" placeholder="Enter exercise name" maxlength="80">
+                    <div class="inline-save-actions">
+                        <button id="confirmSaveBtn" type="button">Confirm Save</button>
+                        <button id="cancelSaveBtn" type="button">Cancel</button>
+                    </div>
+                </div>
+                <button id="exportCsvBtn" type="button">Export CSV</button>
+                <button id="newExerciseBtn" type="button">New Exercise</button>
+                <button id="whatIfBtn" class="whatif-btn" type="button">🔬 Explore What-If</button>
+            </div>
+        </aside>
+
+        <div class="output-panel">
+            <div id="whatIfBanner" class="whatif-banner">
+                <div class="whatif-banner-text">
+                    Exploration Mode — What-If
+                    <span>Changes here are not saved or submitted. The original dataset is preserved.</span>
+                </div>
+                <span id="whatIfR" class="whatif-r-display"></span>
+                <button id="whatIfResetBtn" class="whatif-reset-btn" type="button">Reset to Original</button>
+            </div>
+
+            <h2>Visualization</h2>
+            <canvas id="dataChart"></canvas>
+
+            <h2>Country Values</h2>
+            <div class="subtitle">Generate the dataset here, then use the Correlation Guide page to work through the math.</div>
+
+            <div class="tables-wrapper">
+                <div class="table-container">
+                    <h3>Generated Dataset</h3>
+                    <table id="dataTable">
+                        <thead>
+                            <tr>
+                                <th>Country</th>
+                                <th>Indicator 1</th>
+                                <th>Indicator 2</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="3">No dataset generated yet.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<footer>
+    <div class="footer">
+        <p>Correlation Assistant - SCSU CSC400 Capstone</p>
+    </div>
+</footer>
+
+<div class="tutorial-overlay" id="tutorialOverlay">
+    <div class="tutorial-modal">
+        <div class="tutorial-modal-header">
+            <h3>How to use Correlation Assistant</h3>
+            <button class="tutorial-close-btn" onclick="closeTutorial()">✕</button>
+        </div>
+        <div class="tutorial-steps-nav" id="tutorialTabs"></div>
+        <div class="tutorial-body" id="tutorialBody"></div>
+        <div class="tutorial-modal-footer">
+            <span class="tutorial-step-counter" id="tutorialCounter"></span>
+            <div class="tutorial-nav-btns">
+                <button class="tutorial-btn-back" id="tutorialBack" onclick="tutorialPrev()">← Back</button>
+                <button class="tutorial-btn-next" id="tutorialNext" onclick="tutorialNext()">Next →</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const TUTORIAL_STEPS = [
+    { icon: "🔍", title: "Search for Indicators", body: "Type in the search boxes to filter the indicator list. Click a suggestion to select it. You need two different indicators — one will be X, the other Y.", tip: "Try searching something like 'life expectancy' or 'fertility' to see what's available." },
+    { icon: "📅", title: "Choose a Year", body: "After selecting Indicator 1, the year dropdown fills in automatically. Pick a single year — this view compares multiple countries at one point in time.", tip: "Choose a year where you expect data to be available for most countries." },
+    { icon: "🌍", title: "Add Countries", body: "Search for a country, then click Add Selected Country. Repeat until you have between 5 and 10 countries.", tip: "Use Clear Countries to start over if you want to change your selection." },
+    { icon: "⚡", title: "Generate the Dataset", body: "Click the orange Generate Dataset button. A scatter plot and data table appear on the right. The scatter plot shows Indicator 1 on X and Indicator 2 on Y.", tip: "If a country is missing it means there is no data for that indicator in that year." },
+    { icon: "🔬", title: "Explore What-If", body: "Click 'Explore What-If' to edit values in the table and see the scatter plot and r value update live. Changes are never saved.", tip: "Try removing an extreme outlier and watch how much r changes. That's a great way to understand what outliers do." },
+    { icon: "🧮", title: "Calculate the Correlation", body: "Click Continue to Correlation Guide. The guide walks you through each step of Pearson's formula.", tip: "You must get each step right before moving to the next." },
+    { icon: "📬", title: "Save and Submit", body: "On the final step of the guide, save your exercise with a name, then submit it for grading.", tip: "You must save before you can submit." }
+];
+
+let tutorialCurrentStep = 0;
+
+function startTutorial() {
+    tutorialCurrentStep = 0;
+    renderTutorial();
+    document.getElementById("tutorialOverlay").classList.add("visible");
+}
+
+function closeTutorial() {
+    document.getElementById("tutorialOverlay").classList.remove("visible");
+}
+
+function renderTutorial() {
+    const tabs = document.getElementById("tutorialTabs");
+    const body = document.getElementById("tutorialBody");
+    const counter = document.getElementById("tutorialCounter");
+    const backBtn = document.getElementById("tutorialBack");
+    const nextBtn = document.getElementById("tutorialNext");
+
+    tabs.innerHTML = TUTORIAL_STEPS.map((s, i) => `
+        <button class="tutorial-step-tab ${i === tutorialCurrentStep ? "active" : ""}" onclick="tutorialGoTo(${i})">${i + 1}. ${s.title}</button>
+    `).join("");
+
+    const step = TUTORIAL_STEPS[tutorialCurrentStep];
+    body.innerHTML = `<div class="tutorial-step-content active"><div class="step-icon">${step.icon}</div><h4>${step.title}</h4><p>${step.body}</p><div class="tutorial-tip">💡 ${step.tip}</div></div>`;
+
+    counter.textContent = `${tutorialCurrentStep + 1} of ${TUTORIAL_STEPS.length}`;
+    backBtn.style.visibility = tutorialCurrentStep === 0 ? "hidden" : "visible";
+    nextBtn.textContent = tutorialCurrentStep === TUTORIAL_STEPS.length - 1 ? "Done" : "Next →";
+}
+
+function tutorialGoTo(n) { tutorialCurrentStep = n; renderTutorial(); }
+function tutorialNext() { if (tutorialCurrentStep === TUTORIAL_STEPS.length - 1) { closeTutorial(); return; } tutorialCurrentStep++; renderTutorial(); }
+function tutorialPrev() { if (tutorialCurrentStep === 0) return; tutorialCurrentStep--; renderTutorial(); }
+
+document.getElementById("tutorialOverlay").addEventListener("click", (e) => {
+    if (e.target === document.getElementById("tutorialOverlay")) closeTutorial();
+});
+</script>
+
+<script src="../JS/utils.js"></script>
+<script src="../JS/ExploreData3.js"></script>
+</body>
+</html>

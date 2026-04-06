@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="../CSS/Home.css" /> 
 </head>
 <body>
-    <!-- ================= HEADER ================= -->
     <header>
         <div class="logo">
             <span class="logo-icon">CA</span>
@@ -16,8 +15,9 @@
 
         <nav>
             <a href="#" id="link-home">Home</a>
-            <a href="#" id="link-correlation">Correlation Check</a>
             <a href="#" id="link-explore">Explore Data</a>
+            <a href="SavedExercises.html" id="link-saved">Saved Exercises</a>
+        <a href="Submissions.html" id="link-correlation">My Submissions</a>
         </nav>
 
         <div id="nav-auth" class="nav-auth">
@@ -26,7 +26,6 @@
         </div>
     </header>
 
-    <!-- ================= HERO ================= -->
     <main class="hero-section">
         <div class="hero-content">
             <h1 id="hero-title">Welcome to The Correlation Assistant</h1>           
@@ -35,7 +34,6 @@
             <div id="welcomeMessage"></div>
         </div>
 
-        <!-- ================= CARDS ================= -->
         <section class="card-container">
             <div class="card">
                 <div class="card-header">
@@ -48,25 +46,24 @@
 
             <div class="card">
                 <div class="card-header">
-                    <span class="emoji-icon">📊</span>
-                    <h3>Submit Correlation</h3>
+                    <span class="emoji-icon">📁</span>
+                    <h3>Saved Exercises</h3>
                 </div>
-                <p>Submit your correlation for review and correction</p>
-                <button id="card-submit-btn" class="btn-solid">Submit Correlation</button>
+                <p>Open a saved exercise and continue to the Correlation Guide to submit</p>
+                <button id="card-submit-btn" class="btn-solid">My Saved Exercises</button>
             </div>
 
             <div class="card">
                 <div class="card-header">
-                    <span class="emoji-icon">📁</span>
-                    <h3>View Previous Submission</h3>
+                    <span class="emoji-icon">📊</span>
+                    <h3>Grades &amp; Submissions</h3>
                 </div>
-                <p>See how much you have improved since your last submission</p>
-                <button id="card-view-btn" class="btn-solid">View Previous Submissions</button>
+                <p>View your submitted correlations and teacher feedback</p>
+                <button id="card-view-btn" class="btn-solid">View Submissions</button>
             </div>
         </section>
     </main>
 
-    <!-- ================= FOOTER ================= -->
     <footer>
         <div class="footer">
             <p>Correlation Assistant - SCSU CSC400 Capstone</p>
