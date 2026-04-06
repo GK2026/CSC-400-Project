@@ -1,33 +1,61 @@
-// Edited By Amir
+// config
+const API_BASE = window.location.origin.includes("gapminder.scsu.southernct.edu")
+    ? "/api"
+    : "http://127.0.0.1:8000";
 
-document.getElementById("returnLogin")?.addEventListener("click", () => {
-    window.location.href = "login.html";
-});
+window.onload = function () {
+    const signupBtn = document.getElementById("questDirect");
+    const returnBtn = document.getElementById("returnLogin");
 
-document.getElementById("questDirect")?.addEventListener("click", async () => {
-    const data = {
-        first_name: document.getElementById("Name")?.value.trim(),
-        email: document.getElementById("usernamesignup")?.value.trim(),
-        password: document.getElementById("passwordEntry")?.value
+    if (!signupBtn || !returnBtn) {
+        console.error("Signup page buttons not found.");
+        return;
+    }
+
+    returnBtn.onclick = function () {
+        window.location.href = "login.html";
     };
 
-    try {
-        const res = await fetch("http://127.0.0.1:8000/auth/register", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data)
-        });
+    signupBtn.onclick = async function () {
+        const firstName = document.getElementById("Name")?.value.trim();
+        const email = document.getElementById("usernamesignup")?.value.trim();
+        const password = document.getElementById("passwordEntry")?.value;
 
-        const result = await res.json();
-
-        if (res.ok) {
-            alert("Signup successful! Please log in.");
-            window.location.href = "login.html";
-        } else {
-            alert(result.detail || "Signup failed.");
+        if (!firstName || !email || !password) {
+            alert("Please fill in all fields.");
+            return;
         }
-    } catch (err) {
-        alert("Network error: could not connect to backend.");
-        console.error(err);
-    }
-});
+
+        if (!email.endsWith("@southernct.edu")) {
+            alert("Please use your Southern email.");
+            return;
+        }
+
+        try {
+            const response = await fetch(`${API_BASE}/auth/register`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    first_name: firstName,
+                    email: email,
+                    password: password
+                })
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                alert(result.detail || result.error || "Signup failed.");
+                return;
+            }
+
+            alert("Signup successful. Please log in.");
+            window.location.href = "login.html";
+        } catch (error) {
+            console.error("Signup error:", error);
+            alert("Could not connect to backend.");
+        }
+    };
+};

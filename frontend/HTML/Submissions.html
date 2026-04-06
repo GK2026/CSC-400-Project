@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>My Submissions - Correlation Assistant</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../CSS/Submissions.css">
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        <span class="logo-icon">CA</span>
+        <span class="logo-text">Correlation Assistant</span>
+    </div>
+    <nav>
+        <a href="Home.html" id="link-home">Home</a>
+        <a href="ExploreData1.html" id="link-explore">Explore Data</a>
+        <a href="SavedExercises.html" id="link-saved">Saved Exercises</a>
+        <a href="Submissions.html" id="link-correlation" class="active">My Submissions</a>
+    </nav>
+    <div class="nav-auth">
+        <div class="user-menu" id="user-menu">
+            <button class="user-menu-btn" id="user-menu-btn">
+                <span id="user-name-display">Student</span> ▾
+            </button>
+            <div class="user-menu-dropdown" id="user-menu-dropdown">
+                <button id="logout-btn">Logout</button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="breadcrumbs">
+    <a href="Home.html">Home</a> &#10145;
+    <span>My Submissions</span>
+</div>
+
+<div style="max-width:900px; margin:0 auto; padding:32px 24px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+        <h2 style="margin:0; color:#111827;">My Submissions</h2>
+        <a href="SavedExercises.html" style="padding:10px 18px; background:#f3f4f6; color:#374151; border:none; border-radius:8px; font-weight:600; cursor:pointer; text-decoration:none; display:inline-flex; align-items:center;">&#8592; Saved Exercises</a>
+    </div>
+
+    <p style="font-size:0.875rem; color:#6b7280; margin-bottom:20px; background:#f9fafb; border-left:3px solid #7c3aed; padding:10px 14px; border-radius:0 6px 6px 0;">
+        These are correlations you have submitted for grading. Your teacher will leave feedback in the <strong>Feedback</strong> column — check back after class.
+    </p>
+
+    <div class="table-container">
+        <table id="submissionsTable">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Indicators</th>
+                    <th>Pearson r</th>
+                    <th>Type</th>
+                    <th>Your Explanation</th>
+                    <th>Feedback</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td colspan="5">Loading...</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<footer><div class="footer"><p>Correlation Assistant - SCSU CSC400 Capstone</p></div></footer>
+
+<script src="../JS/utils.js"></script>
+<script src="../JS/Submissions.js"></script>
+</body>
+</html>
