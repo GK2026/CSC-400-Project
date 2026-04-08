@@ -150,7 +150,7 @@ def calculate_pearson_from_rows(rows: list[dict]) -> float:
 
 
 def require_teacher(current_user: User):
-    if current_user.role != "teacher":
+    if current_user.role not in ("teacher", "instructor"):
         raise HTTPException(status_code=403, detail="Teacher access required.")
 
 
