@@ -11,6 +11,7 @@ class SubmitExerciseRequest(BaseModel):
 
 class SubmissionFeedbackRequest(BaseModel):
     teacher_feedback: str = Field(..., min_length=1)
+    teacher_grade: str | None = None
 
 
 class SubmissionSummary(BaseModel):
@@ -21,6 +22,7 @@ class SubmissionSummary(BaseModel):
     computed_pearson_r: float
     is_correct_label: bool
     teacher_feedback: str | None
+    teacher_grade: str | None
     submitted_at: datetime
 
 
