@@ -4,7 +4,6 @@ let activeFeedbackId = null;
 // session
 function setupTeacherSession() {
     const role = sessionStorage.getItem("role") || localStorage.getItem("role");
-    const firstName = sessionStorage.getItem("first_name") || localStorage.getItem("first_name") || "Teacher";
 
     if (!role || (role !== "teacher" && role !== "instructor")) {
         window.location.href = "login.html";
@@ -12,7 +11,6 @@ function setupTeacherSession() {
     }
 
     populateStudentDropdown("login.html");
-
     return true;
 }
 
@@ -24,6 +22,18 @@ function formatDate(dateStr) {
     });
 }
 
+function getPendingCount() {
+    return allSubmissions.filter(r => !r.teacher_feedback || !r.teacher_feedback.trim()).length;
+}
+
+function updatePendingBadge() {
+    const badge = document.getElementById("pendingBadge");
+    if (!badge) return;
+    const count = getPendingCount();
+    badge.textContent = count > 0 ? `${count} pending` : "";
+    badge.style.display = count > 0 ? "inline-block" : "none";
+}
+
 function renderRows(rows) {
     const tbody = document.getElementById("submissionsBody");
     const count = document.getElementById("submissionCount");
@@ -32,7 +42,7 @@ function renderRows(rows) {
     if (count) count.textContent = `${rows.length} submission${rows.length !== 1 ? "s" : ""}`;
 
     if (!rows.length) {
-        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:#6b7280;">No submissions found.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; color:#6b7280;">No submissions found.</td></tr>`;
         return;
     }
 
@@ -42,6 +52,15 @@ function renderRows(rows) {
         const hasFeedback = row.teacher_feedback && row.teacher_feedback.trim();
         const tr = document.createElement("tr");
         tr.className = hasFeedback ? "row-reviewed" : "row-pending";
+
+        const studentR = row.student_pearson_r !== null && row.student_pearson_r !== undefined
+            ? Number(row.student_pearson_r).toFixed(3)
+            : "—";
+        const computedR = Number(row.computed_pearson_r).toFixed(3);
+
+        const gradeHtml = row.teacher_grade
+            ? `<span class="grade-badge">${row.teacher_grade}</span>`
+            : `<span style="color:#9ca3af; font-size:0.8rem;">—</span>`;
 
         tr.innerHTML = `
             <td>
@@ -55,7 +74,10 @@ function renderRows(rows) {
                 <div>${row.indicator_2_name}</div>
             </td>
             <td class="r-cell">
-                <span class="r-value">${Number(row.computed_pearson_r).toFixed(3)}</span>
+                <div style="font-size:0.75rem; color:#9ca3af; margin-bottom:2px;">Student</div>
+                <span class="r-value">${studentR}</span>
+                <div style="font-size:0.75rem; color:#9ca3af; margin-top:4px; margin-bottom:2px;">Computed</div>
+                <span class="r-value" style="color:#059669;">${computedR}</span>
             </td>
             <td>
                 <span class="type-badge type-${row.student_selected_label}">${row.student_selected_label || "—"}</span>
@@ -70,6 +92,7 @@ function renderRows(rows) {
                     : `<button class="give-feedback-btn" onclick="openFeedbackModal(${row.id})">Give Feedback</button>`
                 }
             </td>
+            <td style="text-align:center;">${gradeHtml}</td>
         `;
 
         tbody.appendChild(tr);
@@ -104,13 +127,19 @@ function openFeedbackModal(submissionId) {
 
     activeFeedbackId = submissionId;
 
+    const studentR = row.student_pearson_r !== null && row.student_pearson_r !== undefined
+        ? Number(row.student_pearson_r).toFixed(3)
+        : "—";
+    const computedR = Number(row.computed_pearson_r).toFixed(3);
+
     const info = document.getElementById("feedbackSubmissionInfo");
     if (info) {
         info.innerHTML = `
             <strong>${row.student_name || "Student"}</strong> —
             ${row.indicator_1_name} vs ${row.indicator_2_name}<br>
             <span style="color:#6b7280; font-size:0.85rem;">
-                Pearson r: ${Number(row.computed_pearson_r).toFixed(3)} &nbsp;·&nbsp;
+                Student r: <strong>${studentR}</strong> &nbsp;·&nbsp;
+                Computed r: <strong style="color:#059669;">${computedR}</strong> &nbsp;·&nbsp;
                 Type: ${row.student_selected_label}
             </span><br>
             <span style="color:#374151; font-size:0.85rem; margin-top:6px; display:block;">
@@ -121,6 +150,9 @@ function openFeedbackModal(submissionId) {
 
     const textarea = document.getElementById("feedbackTextarea");
     if (textarea) textarea.value = row.teacher_feedback || "";
+
+    const gradeInput = document.getElementById("gradeInput");
+    if (gradeInput) gradeInput.value = row.teacher_grade || "";
 
     document.getElementById("feedbackOverlay").classList.add("visible");
     textarea?.focus();
@@ -136,6 +168,8 @@ async function saveFeedback() {
     if (!activeFeedbackId) return;
 
     const note = document.getElementById("feedbackTextarea")?.value.trim();
+    const grade = document.getElementById("gradeInput")?.value.trim();
+
     if (!note) {
         alert("Write your feedback before saving.");
         return;
@@ -148,7 +182,10 @@ async function saveFeedback() {
         const res = await fetch(`${API_BASE}/gapminder/submissions/${activeFeedbackId}/feedback`, {
             method: "PATCH",
             headers: authHeaders({ "Content-Type": "application/json" }),
-            body: JSON.stringify({ teacher_feedback: note })
+            body: JSON.stringify({
+                teacher_feedback: note,
+                teacher_grade: grade || null
+            })
         });
 
         const result = await res.json();
@@ -159,10 +196,14 @@ async function saveFeedback() {
         }
 
         const idx = allSubmissions.findIndex(r => r.id === activeFeedbackId);
-        if (idx !== -1) allSubmissions[idx].teacher_feedback = note;
+        if (idx !== -1) {
+            allSubmissions[idx].teacher_feedback = note;
+            allSubmissions[idx].teacher_grade = grade || null;
+        }
 
         closeFeedbackModal();
         renderRows(getFilteredRows());
+        updatePendingBadge();
     } catch (err) {
         console.error(err);
         alert("Could not save feedback.");
@@ -173,7 +214,7 @@ async function saveFeedback() {
 
 async function loadTeacherSubmissions() {
     const tbody = document.getElementById("submissionsBody");
-    if (tbody) tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;">Loading...</td></tr>`;
+    if (tbody) tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;">Loading...</td></tr>`;
 
     try {
         const res = await fetch(`${API_BASE}/gapminder/submissions`, { headers: authHeaders() });
@@ -181,6 +222,7 @@ async function loadTeacherSubmissions() {
         if (!res.ok) { renderRows([]); return; }
         allSubmissions = data;
         renderRows(getFilteredRows());
+        updatePendingBadge();
     } catch (err) {
         console.error(err);
         renderRows([]);

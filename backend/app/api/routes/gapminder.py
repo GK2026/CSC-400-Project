@@ -150,7 +150,7 @@ def calculate_pearson_from_rows(rows: list[dict]) -> float:
 
 
 def require_teacher(current_user: User):
-    if current_user.role != "teacher":
+    if current_user.role not in ("teacher", "instructor"):
         raise HTTPException(status_code=403, detail="Teacher access required.")
 
 
@@ -1081,6 +1081,7 @@ def get_my_submissions(
             "computed_pearson_r": submission.computed_pearson_r,
             "is_correct_label": submission.is_correct_label,
             "teacher_feedback": submission.teacher_feedback,
+            "teacher_grade": submission.teacher_grade,
             "submitted_at": submission.submitted_at
         })
 
@@ -1121,6 +1122,7 @@ def get_one_my_submission(
         "computed_pearson_r": submission.computed_pearson_r,
         "is_correct_label": submission.is_correct_label,
         "teacher_feedback": submission.teacher_feedback,
+            "teacher_grade": submission.teacher_grade,
         "submitted_at": submission.submitted_at
     }
 
@@ -1160,6 +1162,8 @@ def get_all_submissions_for_teacher(
             "computed_pearson_r": submission.computed_pearson_r,
             "is_correct_label": submission.is_correct_label,
             "teacher_feedback": submission.teacher_feedback,
+            "teacher_grade": submission.teacher_grade,
+			"teacher_grade": submission.teacher_grade,
             "submitted_at": submission.submitted_at
         })
 
@@ -1207,6 +1211,8 @@ def get_one_submission_for_teacher(
         "computed_pearson_r": submission.computed_pearson_r,
         "is_correct_label": submission.is_correct_label,
         "teacher_feedback": submission.teacher_feedback,
+            "teacher_grade": submission.teacher_grade,
+        "teacher_grade": submission.teacher_grade,
         "submitted_at": submission.submitted_at
     }
 
@@ -1227,14 +1233,22 @@ def add_teacher_feedback(
         raise HTTPException(status_code=404, detail="Submission not found.")
 
     submission.teacher_feedback = payload.teacher_feedback.strip()
+    if payload.teacher_grade is not None:
+        submission.teacher_grade = payload.teacher_grade.strip()
     db.commit()
     db.refresh(submission)
 
     return {
         "message": "Teacher feedback saved successfully",
         "submission_id": submission.id,
-        "teacher_feedback": submission.teacher_feedback
+        "teacher_feedback": submission.teacher_feedback,
+            "teacher_grade": submission.teacher_grade,
+        "teacher_grade": submission.teacher_grade
     }
+
+
+
+
 
 
 # data

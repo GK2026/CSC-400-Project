@@ -29,7 +29,10 @@
 </header>
 
 <main class="dashboard-container">
-    <h2 class="dashboard-title">Teacher Dashboard</h2>
+    <div class="dashboard-header-row">
+        <h2 class="dashboard-title">Teacher Dashboard</h2>
+        <span class="pending-badge" id="pendingBadge" style="display:none;"></span>
+    </div>
 
     <div class="dashboard-controls">
         <input type="text" id="student-search" placeholder="Search by student, indicator..." class="search-input">
@@ -54,10 +57,11 @@
                     <th>Type</th>
                     <th>Explanation</th>
                     <th>Feedback</th>
+                    <th>Grade</th>
                 </tr>
             </thead>
             <tbody id="submissionsBody">
-                <tr><td colspan="7">Loading...</td></tr>
+                <tr><td colspan="8">Loading...</td></tr>
             </tbody>
         </table>
     </div>
@@ -71,8 +75,13 @@
         </div>
         <div class="feedback-modal-body">
             <div class="feedback-submission-info" id="feedbackSubmissionInfo"></div>
-            <label class="feedback-label">Your feedback to the student</label>
+
+            <label class="feedback-label">Grade (optional)</label>
+            <input type="text" id="gradeInput" placeholder="e.g. A, B+, 95, Excellent..." class="grade-input" />
+
+            <label class="feedback-label" style="margin-top:14px;">Your feedback to the student</label>
             <textarea id="feedbackTextarea" placeholder="Write your feedback here..." rows="5"></textarea>
+
             <div class="feedback-modal-actions">
                 <button class="feedback-cancel-btn" onclick="closeFeedbackModal()">Cancel</button>
                 <button class="feedback-save-btn" onclick="saveFeedback()">Save Feedback</button>
