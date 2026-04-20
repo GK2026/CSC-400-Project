@@ -5,7 +5,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const heroTitle = document.getElementById("hero-title");
 
     if (firstName) {
+        const role = sessionStorage.getItem("role") || localStorage.getItem("role") || "";
+        const bellHtml = (role !== "teacher" && role !== "instructor")
+            ? `<a href="Announcements.html" id="link-announcements" style="position:relative; display:inline-flex; align-items:center; color:white; font-size:1.1rem; margin-right:10px; text-decoration:none;">🔔</a>`
+            : "";
+
         navAuth.innerHTML = `
+            ${bellHtml}
             <div class="user-menu" id="user-menu">
                 <button class="user-menu-btn" id="user-menu-btn">
                     <span id="user-name-display">${firstName}</span> &#9662;
@@ -19,6 +25,8 @@ document.addEventListener("DOMContentLoaded", () => {
         if (heroTitle) {
             heroTitle.innerText = `Welcome back to Correlation Assistant, ${firstName}!`;
         }
+
+        if (typeof loadAnnouncementBadge === "function") startAnnouncementPolling();
 
         const menuBtn = document.getElementById("user-menu-btn");
         const dropdown = document.getElementById("user-menu-dropdown");

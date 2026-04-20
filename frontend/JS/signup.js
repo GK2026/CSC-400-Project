@@ -14,14 +14,18 @@ window.onload = function () {
         return;
     }
 
+    const sectionGroup = document.getElementById("sectionGroup");
+
     isTeacherCheckbox.onchange = function () {
         if (this.checked) {
             inviteSection.classList.add("visible");
             pageTitle.textContent = "Teacher Registration";
+            if (sectionGroup) sectionGroup.style.display = "none";
         } else {
             inviteSection.classList.remove("visible");
             pageTitle.textContent = "Create Account";
             document.getElementById("inviteCode").value = "";
+            if (sectionGroup) sectionGroup.style.display = "block";
         }
     };
 
@@ -36,6 +40,7 @@ window.onload = function () {
         const confirmPassword = document.getElementById("confirmPassword")?.value;
         const isTeacher = isTeacherCheckbox.checked;
         const inviteCode = document.getElementById("inviteCode")?.value.trim();
+        const section = document.getElementById("sectionSelect")?.value || null;
         const passwordError = document.getElementById("passwordError");
         const confirmInput = document.getElementById("confirmPassword");
 
@@ -58,6 +63,11 @@ window.onload = function () {
             confirmInput.classList.remove("input-error");
         }
 
+        if (!isTeacher && !section) {
+            alert("Please select your section.");
+            return;
+        }
+
         if (isTeacher && !inviteCode) {
             alert("Please enter your invite code to register as a teacher.");
             return;
@@ -74,7 +84,7 @@ window.onload = function () {
             const res = await fetch(endpoint, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ first_name: firstName, email, password })
+                body: JSON.stringify({ first_name: firstName, email, password, section: isTeacher ? null : section })
             });
 
             const result = await res.json();
