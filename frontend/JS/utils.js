@@ -125,6 +125,35 @@ function populateStudentDropdown(logoutDest = "login.html") {
 
 const setupStudentDropdown = populateStudentDropdown;
 
+// announcement badge - polls every 10 seconds
+function startAnnouncementPolling() {
+    loadAnnouncementBadge();
+    setInterval(loadAnnouncementBadge, 10000);
+}
+
+async function loadAnnouncementBadge() {
+    if (!isLoggedIn()) return;
+    const role = sessionStorage.getItem("role") || localStorage.getItem("role") || "";
+    if (role === "teacher" || role === "instructor") return;
+    try {
+        const res = await fetch(`${API_BASE}/gapminder/announcements`, { headers: authHeaders() });
+        if (!res.ok) return;
+        const data = await res.json();
+
+        const link = document.getElementById("link-announcements");
+        if (!link) return;
+
+        const lastSeenId = parseInt(localStorage.getItem("announcements_last_seen") || "0");
+        const unread = data.filter(a => a.id > lastSeenId).length;
+
+        if (unread > 0) {
+            link.innerHTML = `🔔<span style="position:absolute; top:-6px; right:-4px; background:#dc2626; color:white; border-radius:50%; min-width:16px; height:16px; font-size:0.65rem; font-weight:700; display:inline-flex; align-items:center; justify-content:center; padding:0 3px;">${unread}</span>`;
+        } else {
+            link.innerHTML = "🔔";
+        }
+    } catch(e) { console.error("Badge error:", e); }
+}
+
 // status
 function setStatus(message) {
     const status = document.getElementById("statusMessage");
@@ -189,7 +218,12 @@ function fillSelect(selectId, values, firstText) {
         if (selectId === "countrySelect" && typeof value === "object" && value !== null) {
             const code = value.country_code ?? value.code ?? value.value ?? "";
             const name = value.country ?? value.country_name ?? value.name ?? "";
-            const displayName = name && name.toLowerCase() !== code.toLowerCase() ? name : code;
+            let displayName;
+            if (name && name.toLowerCase() !== code.toLowerCase()) {
+                displayName = name;
+            } else {
+                displayName = code.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+            }
             option.value = code;
             option.textContent = displayName;
         } else {
@@ -224,7 +258,9 @@ function renderSuggestions(boxId, items, type, callbacks = {}) {
         if (type === "country") {
             const code = item.country_code ?? "";
             const name = item.country ?? "";
-            const displayName = name && name.toLowerCase() !== code.toLowerCase() ? name : code;
+            const displayName = (name && name.toLowerCase() !== code.toLowerCase())
+                ? name
+                : code.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
             div.textContent = displayName;
             div.addEventListener("click", () => {
                 if (callbacks.onCountrySelect) callbacks.onCountrySelect(code, name);

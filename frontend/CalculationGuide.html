@@ -3,476 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Correlation Guide - Correlation Assistant</title>
-    <link rel="stylesheet" href="CSS/CalculationGuide.css" />
-    <style>
-        .guide-layout {
-            display: flex;
-            flex-direction: column;
-            gap: 0;
-            padding: 0;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 24px 20px;
-        }
-
-        .dataset-banner {
-            background: white;
-            border-radius: 12px;
-            padding: 16px 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-
-        .dataset-banner .banner-label {
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: #7c3aed;
-        }
-
-        .dataset-banner .banner-title {
-            font-weight: 700;
-            font-size: 1rem;
-            color: #111827;
-        }
-
-        .dataset-banner .banner-meta {
-            color: #6b7280;
-            font-size: 0.875rem;
-        }
-
-        .steps-progress {
-            display: flex;
-            align-items: center;
-            gap: 0;
-            margin-bottom: 28px;
-            overflow-x: auto;
-            padding-bottom: 4px;
-        }
-
-        .step-pill {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.82rem;
-            font-weight: 600;
-            cursor: pointer;
-            white-space: nowrap;
-            border: 2px solid #e5e7eb;
-            background: white;
-            color: #9ca3af;
-            transition: all 0.2s;
-        }
-
-        .step-pill.active {
-            border-color: #7c3aed;
-            background: #7c3aed;
-            color: white;
-        }
-
-        .step-pill.completed {
-            border-color: #22c55e;
-            background: #f0fdf4;
-            color: #16a34a;
-        }
-
-        .step-pill .pill-num {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            background: rgba(0,0,0,0.1);
-            flex-shrink: 0;
-        }
-
-        .step-pill.active .pill-num { background: rgba(255,255,255,0.25); }
-        .step-pill.completed .pill-num { background: #22c55e; color: white; }
-
-        .step-connector {
-            width: 24px;
-            height: 2px;
-            background: #e5e7eb;
-            flex-shrink: 0;
-        }
-
-        .step-panel {
-            display: none;
-            background: white;
-            border-radius: 12px;
-            padding: 28px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-            animation: fadeIn 0.2s ease;
-        }
-
-        .step-panel.active { display: block; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .step-header {
-            display: flex;
-            align-items: flex-start;
-            gap: 14px;
-            margin-bottom: 20px;
-        }
-
-        .step-badge {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: #7c3aed;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 0.9rem;
-            flex-shrink: 0;
-        }
-
-        .step-header-text h2 {
-            margin: 0 0 4px 0;
-            font-size: 1.15rem;
-            color: #111827;
-        }
-
-        .step-header-text p {
-            margin: 0;
-            color: #6b7280;
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-
-        .formula-display {
-            background: #faf5ff;
-            border: 1px solid #ddd6fe;
-            border-radius: 8px;
-            padding: 14px 18px;
-            font-family: 'Courier New', monospace;
-            color: #4c1d95;
-            font-size: 1rem;
-            margin: 16px 0;
-            line-height: 1.7;
-        }
-
-        .data-table-wrapper {
-            overflow-x: auto;
-            margin: 16px 0;
-        }
-
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.875rem;
-        }
-
-        .data-table th {
-            background: #7c3aed;
-            color: white;
-            padding: 10px 12px;
-            text-align: center;
-            font-weight: 600;
-        }
-
-        .data-table td {
-            border: 1px solid #e5e7eb;
-            padding: 9px 12px;
-            text-align: center;
-            background: #fafafa;
-        }
-
-        .data-table tr:nth-child(even) td { background: #f3f4f6; }
-
-        .input-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin: 12px 0;
-            flex-wrap: wrap;
-        }
-
-        .input-row label {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #374151;
-            min-width: 220px;
-        }
-
-        .calc-input {
-            width: 140px;
-            padding: 9px 12px;
-            border: 2px solid #d1d5db;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            text-align: center;
-            transition: border-color 0.2s;
-            margin: 0;
-        }
-
-        .calc-input:focus {
-            outline: none;
-            border-color: #7c3aed;
-        }
-
-        .calc-input.correct { border-color: #22c55e; background: #f0fdf4; }
-        .calc-input.incorrect { border-color: #ef4444; background: #fef2f2; }
-
-        .check-btn {
-            padding: 9px 20px;
-            background: #7c3aed;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 0.875rem;
-            transition: background 0.2s;
-        }
-
-        .check-btn:hover { background: #6d28d9; }
-
-        .hint-text {
-            font-size: 0.82rem;
-            color: #9ca3af;
-            margin-top: 4px;
-        }
-
-        .feedback-inline {
-            font-size: 0.85rem;
-            font-weight: 600;
-            padding: 2px 0;
-        }
-
-        .feedback-inline.ok { color: #16a34a; }
-        .feedback-inline.bad { color: #dc2626; }
-
-        .nav-buttons {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 28px;
-            padding-top: 20px;
-            border-top: 1px solid #f3f4f6;
-        }
-
-        .btn-back {
-            padding: 10px 22px;
-            background: white;
-            color: #7c3aed;
-            border: 2px solid #7c3aed;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-
-        .btn-back:hover { background: #faf5ff; }
-
-        .btn-next {
-            padding: 10px 28px;
-            background: #7c3aed;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-
-        .btn-next:hover { background: #6d28d9; }
-        .btn-next:disabled { background: #d1d5db; cursor: not-allowed; }
-
-        .result-box {
-            background: #f0fdf4;
-            border: 2px solid #22c55e;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 16px 0;
-            text-align: center;
-        }
-
-        .result-box .result-r {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: #15803d;
-        }
-
-        .result-box .result-label {
-            font-size: 1rem;
-            color: #166534;
-            margin-top: 4px;
-        }
-
-        .result-box .result-interpretation {
-            margin-top: 10px;
-            color: #374151;
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-
-        .result-box.incorrect-box {
-            background: #fef2f2;
-            border-color: #ef4444;
-        }
-
-        .result-box.incorrect-box .result-r { color: #dc2626; }
-        .result-box.incorrect-box .result-label { color: #991b1b; }
-
-        .submit-section {
-            margin-top: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .submit-section select,
-        .submit-section input[type="text"] {
-            width: 100%;
-            padding: 10px 12px;
-            border: 2px solid #d1d5db;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            margin: 0;
-        }
-
-        .submit-section select:focus,
-        .submit-section input[type="text"]:focus {
-            outline: none;
-            border-color: #7c3aed;
-        }
-
-        .submit-btn {
-            padding: 12px;
-            background: #7c3aed;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-        }
-
-        .submit-btn:hover { background: #6d28d9; }
-
-        .save-btn {
-            padding: 12px;
-            background: white;
-            color: #7c3aed;
-            border: 2px solid #7c3aed;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-        }
-
-        .save-btn:hover { background: #faf5ff; }
-
-        #answerFeedback {
-            margin-top: 8px;
-            font-size: 0.9rem;
-            line-height: 1.6;
-            padding: 12px 16px;
-            border-radius: 8px;
-            display: none;
-        }
-
-        #answerFeedback.feedback-correct {
-            display: block;
-            color: #15803d;
-            background: #f0fdf4;
-            border-left: 4px solid #22c55e;
-        }
-
-        #answerFeedback.feedback-close {
-            display: block;
-            color: #92400e;
-            background: #fffbeb;
-            border-left: 4px solid #f59e0b;
-        }
-
-        #answerFeedback.feedback-incorrect {
-            display: block;
-            color: #991b1b;
-            background: #fef2f2;
-            border-left: 4px solid #ef4444;
-        }
-
-        .inline-save-box {
-            display: none;
-            flex-direction: column;
-            gap: 8px;
-            background: #faf5ff;
-            border: 1px solid #ddd6fe;
-            border-radius: 8px;
-            padding: 12px;
-        }
-
-        .inline-save-box.visible { display: flex; }
-
-        .inline-save-box input {
-            padding: 9px 12px;
-            border: 2px solid #d1d5db;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            margin: 0;
-        }
-
-        .inline-save-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .inline-save-actions button {
-            flex: 1;
-            padding: 8px;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 0.875rem;
-            cursor: pointer;
-        }
-
-        #confirmSaveBtn { background: #7c3aed; color: white; border: none; }
-        #cancelSaveBtn { background: white; color: #7c3aed; border: 2px solid #7c3aed; }
-
-        .step-complete-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: #f0fdf4;
-            color: #16a34a;
-            border: 1px solid #bbf7d0;
-            border-radius: 20px;
-            padding: 4px 12px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-bottom: 12px;
-        }
-
-        .running-total {
-            background: #f5f3ff;
-            border: 1px solid #ddd6fe;
-            border-radius: 8px;
-            padding: 12px 16px;
-            margin: 12px 0;
-            font-size: 0.875rem;
-            color: #4c1d95;
-        }
-
-        .running-total span { font-weight: 700; }
-    </style>
+    <title>GapMinder - Explore Data</title>
+    <link rel="stylesheet" href="CSS/ExploreData3.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -488,9 +21,10 @@
         <a href="Submissions.html" id="link-correlation">My Submissions</a>
     </nav>
     <div class="nav-auth">
+        <a href="Announcements.html" id="link-announcements" style="position:relative; display:inline-flex; align-items:center; color:white; font-size:1.1rem; margin-right:10px; text-decoration:none;">🔔</a>
         <div class="user-menu" id="user-menu">
             <button class="user-menu-btn" id="user-menu-btn">
-                <span id="user-name-display">Student</span> ▾
+                <span id="user-name-display">Student</span> &#9662;
             </button>
             <div class="user-menu-dropdown" id="user-menu-dropdown">
                 <button id="logout-btn">Logout</button>
@@ -501,235 +35,114 @@
 
 <div class="breadcrumbs">
     <a href="#" id="Return">Home</a> ➔
-    <a href="#" id="Back">Back to Dataset</a> ➔
-    <span>Correlation Guide</span>
+    <a href="#" id="Back">Explore Data Choices</a> ➔
+    <a href="#" id="Current">Explore Data Choices: Across Countries</a>
 </div>
 
-<main class="guide-layout">
+<main>
+    <div class="explore-container">
 
-    <div class="dataset-banner">
-        <div>
-            <div class="banner-label">Current Dataset</div>
-            <div class="banner-title" id="bannerTitle">No dataset loaded</div>
-            <div class="banner-meta" id="bannerMeta"></div>
-        </div>
-    </div>
+        <aside class="input-panel">
+            <h2>Explore your data</h2>
+            <button id="tutorialBtn" type="button" class="tutorial-top-btn">📖 How to Use This Page</button>
 
-    <div class="steps-progress">
-        <div class="step-pill active" data-step="1" onclick="goToStep(1)">
-            <span class="pill-num">1</span> Your Data
-        </div>
-        <div class="step-connector"></div>
-        <div class="step-pill" data-step="2" onclick="goToStep(2)">
-            <span class="pill-num">2</span> Find the Means
-        </div>
-        <div class="step-connector"></div>
-        <div class="step-pill" data-step="3" onclick="goToStep(3)">
-            <span class="pill-num">3</span> Deviations
-        </div>
-        <div class="step-connector"></div>
-        <div class="step-pill" data-step="4" onclick="goToStep(4)">
-            <span class="pill-num">4</span> Products & Squares
-        </div>
-        <div class="step-connector"></div>
-        <div class="step-pill" data-step="5" onclick="goToStep(5)">
-            <span class="pill-num">5</span> Final Answer
-        </div>
-    </div>
+            <div class="search-filter-container">
+                <!-- Indicator 1 -->
+                <label for="indicatorSearch">Search Indicator 1</label>
+                <input type="text" id="indicatorSearch" placeholder="Type to filter indicators">
+                <div id="indicator1Suggestions" class="suggestions-box"></div>
+                <select id="indicatorSelect"><option value="">Select Indicator 1</option></select>
 
-    <!-- STEP 1: Your Data -->
-    <div class="step-panel active" id="step-1">
-        <div class="step-header">
-            <div class="step-badge">1</div>
-            <div class="step-header-text">
-                <h2>Your Data</h2>
-                <p>Here is your generated dataset. Treat <strong>Indicator 1 as X</strong> and <strong>Indicator 2 as Y</strong>. Get familiar with the numbers before we start calculating.</p>
+                <!-- Indicator 2 -->
+                <label for="indicatorSearch2">Search Indicator 2</label>
+                <input type="text" id="indicatorSearch2" placeholder="Type to filter indicators">
+                <div id="indicator2Suggestions" class="suggestions-box"></div>
+                <select id="indicatorSelect2"><option value="">Select Indicator 2</option></select>
+
+                <!-- Year -->
+                <label for="yearSelect">Year</label>
+                <select id="yearSelect"><option value="">Select 1 Year</option></select>
+
+                <!-- Country search + list -->
+                <label for="countrySearch">Add Countries (2-10)</label>
+                <input type="text" id="countrySearch" placeholder="Search country">
+                <div id="countrySuggestions" class="suggestions-box"></div>
+                <select id="countrySelect"><option value="">Select Country</option></select>
+
+                <div class="country-action-row">
+                    <button type="button" id="addCountryBtn">+ Add Country</button>
+                    <button type="button" id="clearCountriesBtn">Clear All</button>
+                </div>
+
+                <div class="table-container">
+                    <h3>Selected Countries <span id="countryCount">(0 / 10)</span></h3>
+                    <table id="selectedCountriesTable">
+                        <thead>
+                            <tr><th>Country</th><th>Remove</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="2">No countries selected yet</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                
+                
+            </div>
+            
+
+            <button class="export-btn" id="generateDatasetBtn" type="button">Generate Dataset</button>
+
+            <div class="action-buttons">
+                <button id="goToGuideBtn" type="button">Continue to Correlation Guide</button>
+                <button id="saveExerciseBtn" type="button">Save Exercise</button>
+                <div id="saveExerciseInline" style="display:none;" class="inline-save-box">
+                    <input type="text" id="exerciseNameInput" placeholder="Enter exercise name" maxlength="80">
+                    <div class="inline-save-actions">
+                        <button id="confirmSaveBtn" type="button">Confirm Save</button>
+                        <button id="cancelSaveBtn" type="button">Cancel</button>
+                    </div>
+                </div>
+                <button id="newExerciseBtn" type="button">New Exercise</button>
+                <button id="whatIfBtn" class="whatif-btn" type="button">🔬 Explore What-If</button>
+            </div>
+        </aside>
+
+        <div class="output-panel">
+            <div id="whatIfBanner" class="whatif-banner">
+                <div class="whatif-banner-text">
+                    Exploration Mode — What-If
+                    <span>Changes here are not saved or submitted. The original dataset is preserved.</span>
+                </div>
+                <span id="whatIfR" class="whatif-r-display" style="display:none;"></span>
+                <button id="whatIfResetBtn" class="whatif-reset-btn" type="button">Reset to Original</button>
+            </div>
+
+            <h2>Visualization</h2>
+            <canvas id="dataChart"></canvas>
+
+            <h2>Country Values</h2>
+
+            <div class="tables-wrapper">
+                <div class="table-container">
+                    <h3>Generated Dataset &nbsp;<span style="color:#dc2626; font-size:0.8rem; font-weight:600;">⚠ A gap in years means no data is available for that year.</span></h3>
+                    <table id="dataTable">
+                        <thead>
+                            <tr>
+                                <th>Country</th>
+                                <th>Indicator 1</th>
+                                <th>Indicator 2</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="3">No dataset generated yet.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
-        <div class="data-table-wrapper">
-            <table class="data-table" id="step1Table">
-                <thead>
-                    <tr>
-                        <th id="col1Header">Label</th>
-                        <th id="col2Header">Indicator 1 (X)</th>
-                        <th id="col3Header">Indicator 2 (Y)</th>
-                    </tr>
-                </thead>
-                <tbody id="step1Body">
-                    <tr><td colspan="3">No dataset loaded.</td></tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="formula-display">
-		 <p>Correlation</p>
-        </div>
-
-        <p class="hint-text">We will work through each part of this formula one step at a time.</p>
-
-        <div class="nav-buttons">
-            <span></span>
-            <button class="btn-next" onclick="goToStep(2)">Next: Find the Means →</button>
-        </div>
     </div>
-
-    <!-- STEP 2: Means -->
-    <div class="step-panel" id="step-2">
-        <div class="step-header">
-            <div class="step-badge">2</div>
-            <div class="step-header-text">
-                <h2>Find the Means</h2>
-                <p>Add up all X values and divide by the number of rows to get X̄. Do the same for Y to get Ȳ. Round to 3 decimal places.</p>
-            </div>
-        </div>
-
-        <div class="formula-display">
-            X̄ = (X₁ + X₂ + ... + Xₙ) / n<br>
-            Ȳ = (Y₁ + Y₂ + ... + Yₙ) / n
-        </div>
-
-        <div class="running-total" id="sumHint"></div>
-
-        <div class="input-row">
-            <label>Mean of X (X̄) =</label>
-            <input type="text" class="calc-input" id="inputMeanX" placeholder="e.g. 42.5" inputmode="decimal">
-            <button class="check-btn" onclick="checkMeanX()">Check</button>
-            <span class="feedback-inline" id="feedbackMeanX"></span>
-        </div>
-
-        <div class="input-row">
-            <label>Mean of Y (Ȳ) =</label>
-            <input type="text" class="calc-input" id="inputMeanY" placeholder="e.g. 18.2" inputmode="decimal">
-            <button class="check-btn" onclick="checkMeanY()">Check</button>
-            <span class="feedback-inline" id="feedbackMeanY"></span>
-        </div>
-
-        <div class="nav-buttons">
-            <button class="btn-back" onclick="goToStep(1)">← Back</button>
-            <button class="btn-next" id="nextStep2" onclick="goToStep(3)" disabled>Next: Deviations →</button>
-        </div>
-    </div>
-
-    <!-- STEP 3: Deviations -->
-    <div class="step-panel" id="step-3">
-        <div class="step-header">
-            <div class="step-badge">3</div>
-            <div class="step-header-text">
-                <h2>Calculate the Deviations</h2>
-                <p>For each row, subtract the mean from each value. <strong>X − X̄</strong> and <strong>Y − Ȳ</strong>. Round each to 3 decimal places.</p>
-            </div>
-        </div>
-
-        <div class="formula-display" id="deviationFormula"></div>
-
-        <div class="data-table-wrapper">
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th id="devCol1">Label</th>
-                        <th>X</th>
-                        <th>Y</th>
-                        <th>X − X̄</th>
-                        <th>Y − Ȳ</th>
-                    </tr>
-                </thead>
-                <tbody id="step3Body"></tbody>
-            </table>
-        </div>
-
-        <p class="hint-text">Fill in all deviation cells, then click Check All to continue.</p>
-        <button class="check-btn" onclick="checkAllDeviations()" style="margin-top:8px;">Check All Deviations</button>
-        <div id="feedbackDeviations" style="margin-top:8px; font-size:0.85rem; color:#6b7280;"></div>
-
-        <div class="nav-buttons">
-            <button class="btn-back" onclick="goToStep(2)">← Back</button>
-            <button class="btn-next" id="nextStep3" onclick="goToStep(4)" disabled>Next: Products & Squares →</button>
-        </div>
-    </div>
-
-    <!-- STEP 4: Products and Squares -->
-    <div class="step-panel" id="step-4">
-        <div class="step-header">
-            <div class="step-badge">4</div>
-            <div class="step-header-text">
-                <h2>Products and Squared Deviations</h2>
-                <p>For each row multiply <strong>(X − X̄) × (Y − Ȳ)</strong>, then square each deviation separately. Then sum each column.</p>
-            </div>
-        </div>
-
-        <div class="data-table-wrapper">
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th id="prodCol1">Label</th>
-                        <th>X − X̄</th>
-                        <th>Y − Ȳ</th>
-                        <th>(X−X̄)(Y−Ȳ)</th>
-                        <th>(X−X̄)²</th>
-                        <th>(Y−Ȳ)²</th>
-                    </tr>
-                </thead>
-                <tbody id="step4Body"></tbody>
-                <tfoot id="step4Foot"></tfoot>
-            </table>
-        </div>
-
-        <p class="hint-text">Fill in every cell in the table, then click Check All.</p>
-        <button class="check-btn" onclick="checkAllProducts()" style="margin-top:8px;">Check All</button>
-        <div id="feedbackProducts" style="margin-top:8px; font-size:0.85rem; color:#6b7280;"></div>
-
-        <div class="nav-buttons">
-            <button class="btn-back" onclick="goToStep(3)">← Back</button>
-            <button class="btn-next" id="nextStep4" onclick="goToStep(5)" disabled>Next: Final Answer →</button>
-        </div>
-    </div>
-
-    <!-- STEP 5: Final Answer -->
-    <div class="step-panel" id="step-5">
-        <div class="step-header">
-            <div class="step-badge">5</div>
-            <div class="step-header-text">
-                <h2>Calculate Pearson's r</h2>
-                <p>You have everything you need. Plug your sums into the formula and compute the final r value.</p>
-            </div>
-        </div>
-
-        <div class="formula-display" id="finalFormulaDisplay"></div>
-
-        <div class="input-row">
-            <label>Your Pearson r =</label>
-            <input type="text" class="calc-input" id="userCorrelationInput" placeholder="e.g. 0.742" inputmode="decimal">
-            <button class="check-btn" onclick="checkFinalAnswer()">Check Answer</button>
-        </div>
-
-        <div class="answer-range-hint">−1 ≤ r ≤ 1</div>
-        <div id="answerFeedback"></div>
-
-        <div class="submit-section" id="submitSection" style="display:none;">
-            <p style="font-weight:600; color:#374151; margin:0;">&#127881; Great work! Submit your exercise for grading.</p>
-            <p style="font-size:0.85rem; color:#6b7280; margin:0;">Name your exercise, describe the relationship, then click Submit. Your teacher will review it and leave feedback on your My Submissions page.</p>
-
-            <input type="text" id="exerciseNameInput" placeholder="Exercise name (e.g. Brazil GDP vs Life Expectancy)" maxlength="80" style="width:100%; padding:10px 12px; border:2px solid #d1d5db; border-radius:8px; font-size:0.9rem;">
-
-            <select id="relationshipSelect">
-                <option value="">Select the type of correlation</option>
-                <option value="positive">Positive</option>
-                <option value="none">None / No correlation</option>
-                <option value="negative">Negative</option>
-            </select>
-
-            <textarea id="verbalExplanation" placeholder="Explain the relationship in your own words. What do these two indicators tell us? Why might they be correlated?" rows="4" style="width:100%; padding:10px 12px; border:2px solid #d1d5db; border-radius:8px; font-size:0.9rem; font-family:inherit; resize:vertical;"></textarea>
-
-            <button class="submit-btn" onclick="saveAndSubmit()">Save &amp; Submit for Grading</button>
-        </div>
-
-        <div class="nav-buttons">
-            <button class="btn-back" onclick="goToStep(4)">← Back</button>
-            <span></span>
-        </div>
-    </div>
-
 </main>
 
 <footer>
@@ -738,7 +151,76 @@
     </div>
 </footer>
 
+<div class="tutorial-overlay" id="tutorialOverlay">
+    <div class="tutorial-modal">
+        <div class="tutorial-modal-header">
+            <h3>How to use Correlation Assistant</h3>
+            <button class="tutorial-close-btn" onclick="closeTutorial()">✕</button>
+        </div>
+        <div class="tutorial-steps-nav" id="tutorialTabs"></div>
+        <div class="tutorial-body" id="tutorialBody"></div>
+        <div class="tutorial-modal-footer">
+            <span class="tutorial-step-counter" id="tutorialCounter"></span>
+            <div class="tutorial-nav-btns">
+                <button class="tutorial-btn-back" id="tutorialBack" onclick="tutorialPrev()">← Back</button>
+                <button class="tutorial-btn-next" id="tutorialNext" onclick="tutorialNext()">Next →</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const TUTORIAL_STEPS = [
+    { icon: "🔍", title: "Search for Indicators", body: "Type in the search boxes to filter the indicator list. Click a suggestion to select it. You need two different indicators — one will be X, the other Y.", tip: "Try searching something like 'life expectancy' or 'fertility' to see what's available." },
+    { icon: "📅", title: "Choose a Year", body: "After selecting Indicator 1, the year dropdown fills in automatically. Pick a single year — this view compares multiple countries at one point in time.", tip: "Choose a year where you expect data to be available for most countries." },
+    { icon: "🌍", title: "Add Countries", body: "Search for a country, then click Add Selected Country. Repeat until you have between 5 and 10 countries.", tip: "Use Clear Countries to start over if you want to change your selection." },
+    { icon: "⚡", title: "Generate the Dataset", body: "Click the orange Generate Dataset button. A scatter plot and data table appear on the right. The scatter plot shows Indicator 1 on X and Indicator 2 on Y.", tip: "If a country is missing it means there is no data for that indicator in that year." },
+    { icon: "🔬", title: "Explore What-If", body: "Click 'Explore What-If' to edit values in the table and see the scatter plot and r value update live. Changes are never saved.", tip: "Try removing an extreme outlier and watch how much r changes. That's a great way to understand what outliers do." },
+    { icon: "🧮", title: "Calculate the Correlation", body: "Click Continue to Correlation Guide. The guide walks you through each step of Pearson's formula.", tip: "You must get each step right before moving to the next." },
+    { icon: "📬", title: "Save and Submit", body: "On the final step of the guide, save your exercise with a name, then submit it for grading.", tip: "You must save before you can submit." }
+];
+
+let tutorialCurrentStep = 0;
+
+function startTutorial() {
+    tutorialCurrentStep = 0;
+    renderTutorial();
+    document.getElementById("tutorialOverlay").classList.add("visible");
+}
+
+function closeTutorial() {
+    document.getElementById("tutorialOverlay").classList.remove("visible");
+}
+
+function renderTutorial() {
+    const tabs = document.getElementById("tutorialTabs");
+    const body = document.getElementById("tutorialBody");
+    const counter = document.getElementById("tutorialCounter");
+    const backBtn = document.getElementById("tutorialBack");
+    const nextBtn = document.getElementById("tutorialNext");
+
+    tabs.innerHTML = TUTORIAL_STEPS.map((s, i) => `
+        <button class="tutorial-step-tab ${i === tutorialCurrentStep ? "active" : ""}" onclick="tutorialGoTo(${i})">${i + 1}. ${s.title}</button>
+    `).join("");
+
+    const step = TUTORIAL_STEPS[tutorialCurrentStep];
+    body.innerHTML = `<div class="tutorial-step-content active"><div class="step-icon">${step.icon}</div><h4>${step.title}</h4><p>${step.body}</p><div class="tutorial-tip">💡 ${step.tip}</div></div>`;
+
+    counter.textContent = `${tutorialCurrentStep + 1} of ${TUTORIAL_STEPS.length}`;
+    backBtn.style.visibility = tutorialCurrentStep === 0 ? "hidden" : "visible";
+    nextBtn.textContent = tutorialCurrentStep === TUTORIAL_STEPS.length - 1 ? "Done" : "Next →";
+}
+
+function tutorialGoTo(n) { tutorialCurrentStep = n; renderTutorial(); }
+function tutorialNext() { if (tutorialCurrentStep === TUTORIAL_STEPS.length - 1) { closeTutorial(); return; } tutorialCurrentStep++; renderTutorial(); }
+function tutorialPrev() { if (tutorialCurrentStep === 0) return; tutorialCurrentStep--; renderTutorial(); }
+
+document.getElementById("tutorialOverlay").addEventListener("click", (e) => {
+    if (e.target === document.getElementById("tutorialOverlay")) closeTutorial();
+});
+</script>
+
 <script src="JS/utils.js"></script>
-<script src="JS/CalculationGuide.js"></script>
+<script src="JS/ExploreData3.js"></script>
 </body>
 </html>

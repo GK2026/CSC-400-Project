@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Announcements - Correlation Assistant</title>
+    <link rel="stylesheet" href="CSS/Submissions.css">
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        <span class="logo-icon">CA</span>
+        <span class="logo-text">Correlation Assistant</span>
+    </div>
+    <nav>
+        <a href="Home.html" id="link-home">Home</a>
+        <a href="ExploreData1.html" id="link-explore">Explore Data</a>
+        <a href="SavedExercises.html" id="link-saved">Saved Exercises</a>
+        <a href="Submissions.html" id="link-correlation">My Submissions</a>
+    </nav>
+    <div class="nav-auth">
+        <div class="user-menu" id="user-menu">
+            <button class="user-menu-btn" id="user-menu-btn">
+                <span id="user-name-display">Student</span> ▾
+            </button>
+            <div class="user-menu-dropdown" id="user-menu-dropdown">
+                <button id="logout-btn">Logout</button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="breadcrumbs">
+    <a href="Home.html">Home</a> &#10145;
+    <span>Announcements</span>
+</div>
+
+<div class="page-layout">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+        <h2 style="margin:0; color:#111827;">📢 Announcements</h2>
+    </div>
+
+    <p style="font-size:0.875rem; color:#6b7280; margin-bottom:20px; background:#f9fafb; border-left:3px solid #7c3aed; padding:10px 14px; border-radius:0 6px 6px 0;">
+        Announcements and assignments from your teacher. Check back regularly.
+    </p>
+
+    <div id="announcementsList">
+        <p style="color:#9ca3af; text-align:center; padding:32px;">Loading...</p>
+    </div>
+</div>
+
+<footer><div class="footer"><p>Correlation Assistant - SCSU CSC400 Capstone</p></div></footer>
+
+<script src="JS/utils.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+    if (!requireLogin()) return;
+    populateStudentDropdown();
+
+    // Mark all as read
+    const lastSeen = allAnnouncements => {
+        if (allAnnouncements.length) {
+            localStorage.setItem("announcements_last_seen", allAnnouncements[0].id);
+        }
+    };
+
+    try {
+        const res = await fetch(`${API_BASE}/gapminder/announcements`, { headers: authHeaders() });
+        const data = await res.json();
+        const container = document.getElementById("announcementsList");
+
+        if (!res.ok || !data.length) {
+            container.innerHTML = `<p style="color:#9ca3af; text-align:center; padding:32px;">No announcements yet.</p>`;
+            return;
+        }
+
+        container.innerHTML = "";
+        data.forEach(a => {
+            const div = document.createElement("div");
+            div.style.cssText = "background:white; border-radius:10px; padding:16px 20px; margin-bottom:12px; box-shadow:0 1px 3px rgba(0,0,0,0.08); border-left:4px solid #7c3aed;";
+            const date = new Date(a.created_at).toLocaleString(undefined, { month:"short", day:"numeric", year:"numeric", hour:"numeric", minute:"2-digit" });
+            div.innerHTML = `
+                <div style="font-size:0.8rem; color:#6b7280; margin-bottom:8px;">
+                    ${date} · <strong>${a.target_section ? "Section " + a.target_section : "All Sections"}</strong>
+                </div>
+                <p style="margin:0; color:#111827; font-size:0.9rem; line-height:1.6; white-space:pre-wrap;">${a.message}</p>
+            `;
+            container.appendChild(div);
+        });
+
+        lastSeen(data);
+        localStorage.setItem("announcement_badge", "0");
+
+    } catch (err) {
+        console.error(err);
+        document.getElementById("announcementsList").innerHTML = `<p style="color:#dc2626;">Could not load announcements.</p>`;
+    }
+});
+</script>
+</body>
+</html>

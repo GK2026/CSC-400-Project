@@ -1359,3 +1359,131 @@ def compare_countries(
         }
         for r in rows
     ]
+
+
+# ── Students management (teacher only) ────────────────────────────────────────
+
+@router.get("/students")
+def get_students(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    require_teacher(current_user)
+    from sqlalchemy import text
+    students = db.query(User).filter(User.role == "student").order_by(User.section.asc(), User.first_name.asc()).all()
+    return [
+        {
+            "id": s.id,
+            "first_name": s.first_name,
+            "email": s.email,
+            "section": s.section or "Unassigned",
+            "submission_count": db.query(Submission).filter(Submission.user_id == s.id).count(),
+            "exercise_count": db.query(Exercise).filter(Exercise.user_id == s.id).count()
+        }
+        for s in students
+    ]
+
+
+@router.delete("/students/{user_id}")
+def delete_student(
+    user_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    require_teacher(current_user)
+
+    student = db.query(User).filter(User.id == user_id, User.role == "student").first()
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found.")
+
+    # Delete all submissions and exercises
+    submission_ids = [s.id for s in db.query(Submission).filter(Submission.user_id == user_id).all()]
+    db.query(Submission).filter(Submission.user_id == user_id).delete()
+    db.query(Exercise).filter(Exercise.user_id == user_id).delete()
+    db.delete(student)
+    db.commit()
+
+    return {"message": f"Student {student.first_name} and all their data deleted."}
+
+
+# ── Announcements ──────────────────────────────────────────────────────────────
+
+@router.get("/announcements")
+def get_announcements(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    from app.models.announcement import Announcement
+    query = db.query(Announcement)
+
+    # Students only see announcements for their section or all
+    if current_user.role not in ("teacher", "instructor"):
+        user_section = getattr(current_user, "section", None)
+        query = query.filter(
+            (Announcement.target_section == None) |
+            (Announcement.target_section == user_section)
+        )
+
+    announcements = query.order_by(Announcement.created_at.desc()).all()
+    return [
+        {
+            "id": a.id,
+            "teacher_name": a.teacher_name,
+            "message": a.message,
+            "target_section": a.target_section,
+            "created_at": a.created_at
+        }
+        for a in announcements
+    ]
+
+
+@router.post("/announcements")
+def create_announcement(
+    payload: dict,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    from app.models.announcement import Announcement
+    require_teacher(current_user)
+
+    message = payload.get("message", "").strip()
+    target_section = payload.get("target_section") or None
+
+    if not message:
+        raise HTTPException(status_code=400, detail="Message cannot be empty.")
+
+    ann = Announcement(
+        teacher_id=current_user.id,
+        teacher_name=current_user.first_name,
+        message=message,
+        target_section=target_section
+    )
+    db.add(ann)
+    db.commit()
+    db.refresh(ann)
+
+    return {
+        "id": ann.id,
+        "teacher_name": ann.teacher_name,
+        "message": ann.message,
+        "target_section": ann.target_section,
+        "created_at": ann.created_at
+    }
+
+
+@router.delete("/announcements/{announcement_id}")
+def delete_announcement(
+    announcement_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    from app.models.announcement import Announcement
+    require_teacher(current_user)
+
+    ann = db.query(Announcement).filter(Announcement.id == announcement_id).first()
+    if not ann:
+        raise HTTPException(status_code=404, detail="Announcement not found.")
+
+    db.delete(ann)
+    db.commit()
+    return {"message": "Announcement deleted."}
