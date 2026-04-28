@@ -233,7 +233,7 @@ def build_dataset_xlsx(
     set_cell(ws, r, 1, "Correlation Assistant — Student Worksheet",
              font=title_font,
              alignment=Alignment(horizontal="left", vertical="center"))
-    ws.merge_cells(start_row=r, start_column=1, end_row=r, end_column=4)
+    ws.merge_cells(start_row=r, start_column=1, end_row=r, end_column=3)
     r += 1
 
     # blank gap
@@ -265,17 +265,17 @@ def build_dataset_xlsx(
 
     # instructions row
     ws.row_dimensions[r].height = 36
-    instr = ("Use the X and Y values below to calculate Pearson’s r by hand. "
+    instr = ("Use the X and Y values below to calculate your correlation. "
              "Record your work in the Correlation Guide.")
     set_cell(ws, r, 1, instr,
              font=muted_font,
              alignment=Alignment(horizontal="left", vertical="center", wrap_text=True))
-    ws.merge_cells(start_row=r, start_column=1, end_row=r, end_column=4)
+    ws.merge_cells(start_row=r, start_column=1, end_row=r, end_column=3)
     r += 1
 
     # column headers
     col1_label = "Year" if is_over_time else "Country"
-    headers = [col1_label, f"X  —  {indicator_1_name}", f"Y  —  {indicator_2_name}", "X − X̄  (fill in)"]
+    headers = [col1_label, f"X  —  {indicator_1_name}", f"Y  —  {indicator_2_name}"]
     ws.row_dimensions[r].height = 36
     for ci, h in enumerate(headers, start=1):
         set_cell(ws, r, ci, h,
@@ -300,43 +300,46 @@ def build_dataset_xlsx(
         set_cell(ws, r, 3, row["indicator_2_value"], font=value_font, fill=fill,
                  alignment=Alignment(horizontal="center", vertical="center"), border=thin_border,
                  number_format="0.000")
-        set_cell(ws, r, 4, "",         font=value_font, fill=plain_fill,
-                 alignment=Alignment(horizontal="center", vertical="center"), border=thin_border)
+
         r += 1
 
     r += 1
 
-    # work area
-    work_labels = [
-        ("Mean of X  (X̄)", ""),
-        ("Mean of Y  (Ȳ)", ""),
-        ("Sum of (X−X̄)(Y−Ȳ)", ""),
-        ("Sum of (X−X̄)²", ""),
-        ("Sum of (Y−Ȳ)²", ""),
-        ("Pearson r  =", ""),
-    ]
-    set_cell(ws, r, 1, "My Calculations",
+    # result area
+    r += 1
+    set_cell(ws, r, 1, "My Results",
              font=Font(bold=True, color=purple, size=11),
              alignment=Alignment(horizontal="left", vertical="center"))
-    ws.merge_cells(start_row=r, start_column=1, end_row=r, end_column=4)
+    ws.merge_cells(start_row=r, start_column=1, end_row=r, end_column=3)
     r += 1
 
-    for lbl, _ in work_labels:
-        ws.row_dimensions[r].height = 20
-        set_cell(ws, r, 1, lbl, font=label_font, fill=label_fill,
-                 alignment=Alignment(horizontal="left", vertical="center"), border=thin_border)
-        set_cell(ws, r, 2, "", fill=plain_fill, border=thin_border)
-        ws.merge_cells(start_row=r, start_column=2, end_row=r, end_column=4)
-        r += 1
+    # instructions row
+    ws.row_dimensions[r].height = 40
+    instr2 = (
+        "In Excel or Google Sheets, use =CORREL(X_range, Y_range) on the data above to get your correlation value. "
+        "Enter the result in the cell to the right."
+    )
+    set_cell(ws, r, 1, instr2,
+             font=muted_font,
+             alignment=Alignment(horizontal="left", vertical="center", wrap_text=True))
+    ws.merge_cells(start_row=r, start_column=1, end_row=r, end_column=3)
+    r += 1
+
+    # Correlation entry row
+    ws.row_dimensions[r].height = 24
+    set_cell(ws, r, 1, "Correlation  =", font=label_font, fill=label_fill,
+             alignment=Alignment(horizontal="left", vertical="center"), border=thin_border)
+    set_cell(ws, r, 2, "", fill=plain_fill, border=thin_border)
+    ws.merge_cells(start_row=r, start_column=2, end_row=r, end_column=4)
+    r += 1
 
     # column widths
     ws.column_dimensions["A"].width = 20
     ws.column_dimensions["B"].width = max(28, min(len(indicator_1_name) + 6, 48))
     ws.column_dimensions["C"].width = max(28, min(len(indicator_2_name) + 6, 48))
-    ws.column_dimensions["D"].width = 18
 
-    # freeze panes below header
-    ws.freeze_panes = ws.cell(row=header_data_row + 1, column=1)
+
+    # no freeze panes - fully scrollable
 
     buf = BytesIO()
     wb.save(buf)
