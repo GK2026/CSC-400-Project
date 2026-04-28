@@ -59,8 +59,8 @@
         .submit-btn:disabled { background: #a78bfa; cursor: not-allowed; }
 
         .export-row { display: flex; gap: 10px; margin: 16px 0; flex-wrap: wrap; }
-        .export-btn-sm { padding: 9px 18px; background: #7c3aed; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 0.875rem; }
-        .export-btn-sm:hover { background: #6d28d9; }
+        .export-btn-sm { padding: 9px 18px; background: #f59e0b; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 0.875rem; }
+        .export-btn-sm:hover { background: #d97706; }
     </style>
 </head>
 <body>
@@ -117,13 +117,12 @@
         </div>
     </div>
 
-  
     <div class="step-panel active" id="step-1">
         <div class="step-header">
             <div class="step-badge">1</div>
             <div class="step-header-text">
                 <h2>Your Data</h2>
-                <p>Here is your dataset. Review the values — you will use these to calculate Pearson's r in the next step.</p>
+                <p>Here is your dataset. Review the values — you will use these to calculate the correlation in the next step.</p>
             </div>
         </div>
 
@@ -148,12 +147,11 @@
         </div>
     </div>
 
-    <!-- STEP 2: Calculate -->
     <div class="step-panel" id="step-2">
         <div class="step-header">
             <div class="step-badge">2</div>
             <div class="step-header-text">
-                <h2>Calculate Pearson's r</h2>
+                <h2>Calculate the Correlation</h2>
                 <p>Use Excel or Google Sheets to calculate the correlation between your two indicators.</p>
             </div>
         </div>
@@ -166,8 +164,8 @@
             <strong>How to calculate in Excel or Google Sheets:</strong><br><br>
             1. Open your downloaded dataset<br>
             2. Put all X values in one column and all Y values in another<br>
-            3. In an empty cell, type: <strong>=CORREL(A2:A20, B2:B20)</strong>You may have to adjust the range to match your data<br>
-            4. The result is your Pearson r value. It will be between −1 and 1<br><br>
+            3. In an empty cell, type: <strong>=CORREL(A2:A20, B2:B20)</strong> Adjust the range to match your data<br>
+            4. The result is your correlation value. It will be between −1 and 1<br><br>
             <strong>Tip:</strong> A value close to 1 means strong positive correlation, close to −1 means strong negative, close to 0 means little to no correlation.
         </div>
 
@@ -177,13 +175,12 @@
         </div>
     </div>
 
-    <!-- STEP 3: Submit -->
     <div class="step-panel" id="step-3">
         <div class="step-header">
             <div class="step-badge">3</div>
             <div class="step-header-text">
                 <h2>Submit Your Work</h2>
-                <p>Enter your calculated r value, describe the relationship, and submit for grading.</p>
+                <p>Enter your calculated correlation value, describe the relationship, and submit for grading.</p>
             </div>
         </div>
 
@@ -193,7 +190,7 @@
         </div>
 
         <div class="form-group">
-            <label for="userCorrelationInput">Your Pearson r value</label>
+            <label for="userCorrelationInput">Your correlation value</label>
             <input type="text" id="userCorrelationInput" placeholder="e.g. −0.742" inputmode="decimal">
             <p class="hint-text">Enter the value you calculated in Excel or Google Sheets. Must be between −1 and 1.</p>
         </div>
