@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", async () => {
     if (!requireLogin()) return;
     populateStudentDropdown();
+    startAnnouncementPolling();
 
     document.getElementById("new-exercise-btn")?.addEventListener("click", () => {
         sessionStorage.removeItem("current_saved_exercise");

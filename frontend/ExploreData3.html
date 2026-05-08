@@ -21,6 +21,7 @@
         <a href="Submissions.html" id="link-correlation">My Submissions</a>
     </nav>
     <div class="nav-auth">
+        <a href="Announcements.html" id="link-announcements" style="position:relative; display:inline-flex; align-items:center; color:white; font-size:1.1rem; margin-right:10px; text-decoration:none;">🔔</a>
         <div class="user-menu" id="user-menu">
             <button class="user-menu-btn" id="user-menu-btn">
                 <span id="user-name-display">Student</span> &#9662;
@@ -86,8 +87,7 @@
                 </div>
 
                 
-                <p id="statusMessage" class="subtitle">Choose an indicator to begin.</p>
-<div class="subtitle" id="statusMessage">A gap in the years means no data is available.</div>
+                
             </div>
             
 
@@ -103,7 +103,6 @@
                         <button id="cancelSaveBtn" type="button">Cancel</button>
                     </div>
                 </div>
-                <button id="exportCsvBtn" type="button">Export CSV</button>
                 <button id="newExerciseBtn" type="button">New Exercise</button>
                 <button id="whatIfBtn" class="whatif-btn" type="button">🔬 Explore What-If</button>
             </div>
@@ -123,11 +122,10 @@
             <canvas id="dataChart"></canvas>
 
             <h2>Country Values</h2>
-            <div class="subtitle">Generate the dataset here, then use the Correlation Guide page to work through the math.</div>
 
             <div class="tables-wrapper">
                 <div class="table-container">
-                    <h3>Generated Dataset</h3>
+                    <h3>Generated Dataset &nbsp;<span style="color:#dc2626; font-size:0.8rem; font-weight:600;">⚠ A gap in years means no data is available for that year.</span></h3>
                     <table id="dataTable">
                         <thead>
                             <tr>

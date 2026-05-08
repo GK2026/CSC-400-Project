@@ -10,7 +10,7 @@ let whatIfRows = [];
 // load indicators
 async function loadIndicators(search = "") {
     try {
-        setStatus("Loading indicators...");
+        // loading
 
         
         const statusRes = await fetch(`${API_BASE}/gapminder/data-status`);
@@ -26,7 +26,7 @@ async function loadIndicators(search = "") {
         allIndicatorOptions = indicators;
         fillIndicatorSelect("indicator1Select", indicators, "Indicator 1");
         fillIndicatorSelect("indicator2Select", indicators, "Indicator 2");
-        setStatus("Choose both indicators, a year range, and one country.");
+        // ready
     } catch (err) {
         console.error(err);
         setStatus("Could not load indicators. Make sure the backend is running at " + API_BASE);
@@ -115,9 +115,18 @@ function pearsonR(rows) {
 }
 
 // render table
-function renderTable(rows) {
+function renderTable(rows, indicator1Name, indicator2Name) {
     const tbody = document.querySelector("#table1 tbody");
     if (!tbody) return;
+
+    // update headers if names provided
+    if (indicator1Name && indicator2Name) {
+        const headers = document.querySelectorAll("#table1 thead th");
+        if (headers.length >= 3) {
+            headers[1].textContent = indicator1Name;
+            headers[2].textContent = indicator2Name;
+        }
+    }
 
     tbody.innerHTML = "";
 
@@ -210,7 +219,7 @@ function exitWhatIfMode() {
     if (display) display.textContent = "";
 
     if (latestGenerated) {
-        renderTable(latestGenerated.rows);
+        renderTable(latestGenerated.rows, latestGenerated.indicator_1_name, latestGenerated.indicator_2_name);
         renderChart(latestGenerated.rows, latestGenerated.indicator_1_name, latestGenerated.indicator_2_name);
     }
 }
@@ -348,7 +357,7 @@ async function handleGenerateDataset() {
         latestSavedExerciseId = null;
         saveGeneratedExercise(latestGenerated);
 
-        renderTable(generated.rows);
+        renderTable(generated.rows, generated.indicator_1.name, generated.indicator_2.name);
         renderChart(generated.rows, generated.indicator_1.name, generated.indicator_2.name);
         setStatus(`Dataset ready. Points used: ${generated.points_used}. Next: open the Correlation Guide page to solve Pearson's r.`);
 
@@ -481,7 +490,7 @@ function restoreSavedExerciseOnly() {
             ? loaded.pearson_r
             : Number(loaded.pearson_r);
 
-        renderTable(loaded.rows || []);
+        renderTable(loaded.rows || [], loaded.indicator_1_name, loaded.indicator_2_name);
         renderChart(loaded.rows || [], loaded.indicator_1_name || "Indicator 1", loaded.indicator_2_name || "Indicator 2");
         setStatus(`Saved exercise loaded${loaded.name ? `: ${loaded.name}` : ""}.`);
 
@@ -510,7 +519,6 @@ function wirePageButtons() {
     document.getElementById("saveExerciseBtn")?.addEventListener("click", handleSaveExercise);
     document.getElementById("confirmSaveBtn")?.addEventListener("click", confirmSave);
     document.getElementById("cancelSaveBtn")?.addEventListener("click", cancelSave);
-    document.getElementById("exportCsvBtn")?.addEventListener("click", handleExportCsv);
     document.getElementById("newExerciseBtn")?.addEventListener("click", handleNewExercise);
     document.getElementById("tutorialBtn")?.addEventListener("click", startTutorial);
     document.getElementById("whatIfBtn")?.addEventListener("click", enterWhatIfMode);
@@ -537,6 +545,7 @@ function wireSearchInputs() {
 // init
 document.addEventListener("DOMContentLoaded", async () => {
     populateStudentDropdown();
+    startAnnouncementPolling();
     wireNavigation();
     wirePageButtons();
     wireSearchInputs();
@@ -560,7 +569,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 latestGenerated = ex;
                 latestSavedExerciseId = ex.exercise_id || null;
                 hiddenCorrelationAnswer = typeof ex.pearson_r === "number" ? ex.pearson_r : Number(ex.pearson_r);
-                renderTable(ex.rows || []);
+                renderTable(ex.rows || [], ex.indicator_1_name, ex.indicator_2_name);
                 renderChart(ex.rows || [], ex.indicator_1_name || "Indicator 1", ex.indicator_2_name || "Indicator 2");
                 setStatus(`Dataset restored: ${ex.name || ex.indicator_1_name + " vs " + ex.indicator_2_name}`);
                 setPostGenerateState();

@@ -34,39 +34,88 @@
         <span class="pending-badge" id="pendingBadge" style="display:none;"></span>
     </div>
 
-    <div class="dashboard-controls">
-        <input type="text" id="student-search" placeholder="Search by student, indicator..." class="search-input">
-        <div class="filter-group">
-            <select id="filterStatus">
-                <option value="">All Submissions</option>
-                <option value="pending">Needs Feedback</option>
-                <option value="reviewed">Feedback Given</option>
-            </select>
-        </div>
-        <span class="submission-count" id="submissionCount"></span>
+    <!-- Tabs -->
+    <div class="tab-bar">
+        <button class="tab-btn active" onclick="switchTab('submissions')">📋 Submissions</button>
+        <button class="tab-btn" onclick="switchTab('students')">👥 Students</button>
+        <button class="tab-btn" onclick="switchTab('announcements')">📢 Announcements</button>
     </div>
 
-    <div class="table-wrapper">
-        <table class="dashboard-table">
-            <thead>
-                <tr>
-                    <th>Student</th>
-                    <th>Submitted</th>
-                    <th>Indicators</th>
-                    <th>Pearson r</th>
-                    <th>Type</th>
-                    <th>Explanation</th>
-                    <th>Feedback</th>
-                    <th>Grade</th>
-                </tr>
-            </thead>
-            <tbody id="submissionsBody">
-                <tr><td colspan="8">Loading...</td></tr>
-            </tbody>
-        </table>
+    <!-- SUBMISSIONS TAB -->
+    <div id="tab-submissions" class="tab-panel active">
+        <div class="dashboard-controls">
+            <input type="text" id="student-search" placeholder="Search by student, indicator..." class="search-input">
+            <div class="filter-group">
+                <select id="filterStatus">
+                    <option value="">All Submissions</option>
+                    <option value="pending">Needs Feedback</option>
+                    <option value="reviewed">Feedback Given</option>
+                </select>
+            </div>
+            <span class="submission-count" id="submissionCount"></span>
+        </div>
+
+        <div class="table-wrapper">
+            <table class="dashboard-table">
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Submitted</th>
+                        <th>Indicators</th>
+                        <th>Pearson r</th>
+                        <th>Type</th>
+                        <th>Explanation</th>
+                        <th>Feedback</th>
+                    </tr>
+                </thead>
+                <tbody id="submissionsBody">
+                    <tr><td colspan="7" style="text-align:center;">Loading...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- STUDENTS TAB -->
+    <div id="tab-students" class="tab-panel" style="display:none;">
+        <div class="dashboard-controls">
+            <input type="text" id="student-search-2" placeholder="Search by name or indicator..." class="search-input">
+            <div class="filter-group">
+                <select id="filterSection">
+                    <option value="">All Sections</option>
+                    <option value="1">Section 1</option>
+                    <option value="2">Section 2</option>
+                    <option value="3">Section 3</option>
+                    <option value="Unassigned">Unassigned</option>
+                </select>
+            </div>
+            <span class="submission-count" id="studentCount"></span>
+        </div>
+
+        <div id="studentsContainer"></div>
+    </div>
+
+    <!-- ANNOUNCEMENTS TAB -->
+    <div id="tab-announcements" class="tab-panel" style="display:none;">
+        <div class="announcement-composer">
+            <h3>Post an Announcement</h3>
+            <textarea id="announcementMessage" placeholder="Write your announcement or assignment description..." rows="4"></textarea>
+            <div class="announcement-controls">
+                <select id="announcementSection">
+                    <option value="">All Sections</option>
+                    <option value="1">Section 1 only</option>
+                    <option value="2">Section 2 only</option>
+                    <option value="3">Section 3 only</option>
+                </select>
+                <button class="post-btn" onclick="postAnnouncement()">Post Announcement</button>
+            </div>
+        </div>
+
+        <h3 style="margin:24px 0 12px; color:#111827;">Posted Announcements</h3>
+        <div id="announcementsList"></div>
     </div>
 </main>
 
+<!-- Feedback Modal -->
 <div class="feedback-overlay" id="feedbackOverlay">
     <div class="feedback-modal">
         <div class="feedback-modal-header">
@@ -75,13 +124,8 @@
         </div>
         <div class="feedback-modal-body">
             <div class="feedback-submission-info" id="feedbackSubmissionInfo"></div>
-
-            <label class="feedback-label">Grade (optional)</label>
-            <input type="text" id="gradeInput" placeholder="e.g. A, B+, 95, Excellent..." class="grade-input" />
-
-            <label class="feedback-label" style="margin-top:14px;">Your feedback to the student</label>
+            <label class="feedback-label">Your feedback to the student</label>
             <textarea id="feedbackTextarea" placeholder="Write your feedback here..." rows="5"></textarea>
-
             <div class="feedback-modal-actions">
                 <button class="feedback-cancel-btn" onclick="closeFeedbackModal()">Cancel</button>
                 <button class="feedback-save-btn" onclick="saveFeedback()">Save Feedback</button>

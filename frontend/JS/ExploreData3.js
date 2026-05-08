@@ -11,7 +11,7 @@ let whatIfRows = [];
 // load indicators
 async function loadIndicators(search = "") {
     try {
-        setStatus("Loading indicators...");
+        // loading
 
         
         const statusRes = await fetch(`${API_BASE}/gapminder/data-status`);
@@ -27,7 +27,7 @@ async function loadIndicators(search = "") {
         allIndicatorOptions = indicators;
         fillIndicatorSelect("indicatorSelect", indicators, "Select Indicator 1");
         fillIndicatorSelect("indicatorSelect2", indicators, "Select Indicator 2");
-        setStatus("Choose two indicators, one year, and multiple countries.");
+        // ready
     } catch (err) {
         console.error(err);
         setStatus("Could not load indicators. Make sure the backend is running at " + API_BASE);
@@ -171,9 +171,17 @@ function pearsonR(rows) {
 }
 
 // render table
-function renderTable(rows) {
+function renderTable(rows, indicator1Name, indicator2Name) {
     const tbody = document.querySelector("#dataTable tbody");
     if (!tbody) return;
+
+    if (indicator1Name && indicator2Name) {
+        const headers = document.querySelectorAll("#dataTable thead th");
+        if (headers.length >= 3) {
+            headers[1].textContent = indicator1Name;
+            headers[2].textContent = indicator2Name;
+        }
+    }
 
     tbody.innerHTML = "";
 
@@ -183,9 +191,14 @@ function renderTable(rows) {
     }
 
     rows.forEach((row) => {
+        const raw = row.country || row.country_name || row.country_code || "";
+        const code = row.country_code || "";
+        const label = (raw && raw.toLowerCase() !== code.toLowerCase())
+            ? raw
+            : code.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
         const tr = document.createElement("tr");
         tr.innerHTML = `
-            <td>${row.country || row.country_name || row.country_code || ""}</td>
+            <td>${label}</td>
             <td>${row.indicator_1_value ?? ""}</td>
             <td>${row.indicator_2_value ?? ""}</td>
         `;
@@ -266,54 +279,72 @@ function exitWhatIfMode() {
     if (display) display.textContent = "";
 
     if (latestGenerated) {
-        renderTable(latestGenerated.rows);
+        renderTable(latestGenerated.rows, latestGenerated.indicator_1_name, latestGenerated.indicator_2_name);
         renderChart(latestGenerated.rows, latestGenerated.indicator_1_name, latestGenerated.indicator_2_name);
     }
 }
 
-// render chart
+// render chart - grouped bar
 function renderChart(rows, indicator1Name, indicator2Name) {
     const canvas = document.getElementById("dataChart");
     if (!canvas) return;
 
-    canvas.style.height = "300px";
+    canvas.style.height = "360px";
     const ctx = canvas.getContext("2d");
 
-    const points = rows.map((row) => ({
-        x: row.indicator_1_value,
-        y: row.indicator_2_value,
-        label: row.country || row.country_code || ""
-    }));
+    const labels = rows.map(row => {
+        const raw = row.country || row.country_name || row.country_code || "";
+        const code = row.country_code || "";
+        return (raw && raw.toLowerCase() !== code.toLowerCase())
+            ? raw
+            : code.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+    });
 
     if (dataChart) dataChart.destroy();
 
     dataChart = new Chart(ctx, {
-        type: "scatter",
+        type: "bar",
         data: {
-            datasets: [{
-                label: `${indicator1Name} vs ${indicator2Name}`,
-                data: points,
-                pointRadius: 6,
-                pointHoverRadius: 8,
-                backgroundColor: whatIfActive ? "rgba(234, 88, 12, 0.7)" : "rgba(106, 27, 154, 0.7)"
-            }]
+            labels,
+            datasets: [
+                {
+                    label: indicator1Name,
+                    data: rows.map(r => r.indicator_1_value),
+                    backgroundColor: "rgba(124, 58, 237, 0.75)",
+                    yAxisID: "y1"
+                },
+                {
+                    label: indicator2Name,
+                    data: rows.map(r => r.indicator_2_value),
+                    backgroundColor: "rgba(234, 88, 12, 0.75)",
+                    yAxisID: "y2"
+                }
+            ]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-                tooltip: {
-                    callbacks: {
-                        label: (context) => {
-                            const pt = points[context.dataIndex];
-                            return `${pt.label}: (${pt.x}, ${pt.y})`;
-                        }
-                    }
-                }
+                legend: { position: "top" }
             },
             scales: {
-                x: { title: { display: true, text: indicator1Name } },
-                y: { title: { display: true, text: indicator2Name } }
+                x: {
+                    title: { display: true, text: "Country" }
+                },
+                y1: {
+                    type: "linear",
+                    position: "left",
+                    title: { display: true, text: indicator1Name },
+                    ticks: { color: "#7c3aed" },
+                    grid: { drawOnChartArea: true }
+                },
+                y2: {
+                    type: "linear",
+                    position: "right",
+                    title: { display: true, text: indicator2Name },
+                    ticks: { color: "#ea580c" },
+                    grid: { drawOnChartArea: false }
+                }
             }
         }
     });
@@ -423,7 +454,7 @@ async function handleGenerateDataset() {
         latestSavedExerciseId = null;
         saveGeneratedExercise(latestGenerated);
 
-        renderTable(generated.rows);
+        renderTable(generated.rows, generated.indicator_1.name, generated.indicator_2.name);
         renderChart(generated.rows, generated.indicator_1.name, generated.indicator_2.name);
         setStatus(`Dataset ready. Countries used: ${generated.points_used}. Next: open the Correlation Guide page to solve Pearson's r.`);
 
@@ -561,7 +592,7 @@ function restoreSavedExerciseOnly() {
         selectedCountries = (loaded.countries || []).map((code) => ({ code, name: code }));
 
         renderSelectedCountries();
-        renderTable(loaded.rows || []);
+        renderTable(loaded.rows || [], loaded.indicator_1_name, loaded.indicator_2_name);
         renderChart(loaded.rows || [], loaded.indicator_1_name || "Indicator 1", loaded.indicator_2_name || "Indicator 2");
         setStatus(`Saved exercise loaded${loaded.name ? `: ${loaded.name}` : ""}.`);
 
@@ -591,7 +622,6 @@ function wirePageButtons() {
     document.getElementById("saveExerciseBtn")?.addEventListener("click", handleSaveExercise);
     document.getElementById("confirmSaveBtn")?.addEventListener("click", confirmSave);
     document.getElementById("cancelSaveBtn")?.addEventListener("click", cancelSave);
-    document.getElementById("exportCsvBtn")?.addEventListener("click", handleExportCsv);
     document.getElementById("newExerciseBtn")?.addEventListener("click", handleNewExercise);
     document.getElementById("tutorialBtn")?.addEventListener("click", startTutorial);
     document.getElementById("whatIfBtn")?.addEventListener("click", enterWhatIfMode);
@@ -618,6 +648,7 @@ function wireSearchInputs() {
 // init
 document.addEventListener("DOMContentLoaded", async () => {
     populateStudentDropdown();
+    startAnnouncementPolling();
     wireNavigation();
     wirePageButtons();
     renderSelectedCountries();
@@ -644,7 +675,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 hiddenCorrelationAnswer = typeof ex.pearson_r === "number" ? ex.pearson_r : Number(ex.pearson_r);
                 selectedCountries = (ex.countries || []).map((code) => ({ code, name: code }));
                 renderSelectedCountries();
-                renderTable(ex.rows || []);
+                renderTable(ex.rows || [], ex.indicator_1_name, ex.indicator_2_name);
                 renderChart(ex.rows || [], ex.indicator_1_name || "Indicator 1", ex.indicator_2_name || "Indicator 2");
                 setStatus(`Dataset restored: ${ex.name || ex.indicator_1_name + " vs " + ex.indicator_2_name}`);
                 setPostGenerateState();

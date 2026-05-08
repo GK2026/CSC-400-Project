@@ -15,7 +15,12 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
     if existing:
         raise HTTPException(status_code=400, detail="Email already registered")
 
-    return create_user(db, user.first_name, user.email, user.password)
+    new_user = create_user(db, user.first_name, user.email, user.password)
+    if hasattr(user, "section") and user.section:
+        new_user.section = user.section
+        db.commit()
+        db.refresh(new_user)
+    return new_user
 
 # config
 TEACHER_INVITE_CODE = "CAteacher2024"

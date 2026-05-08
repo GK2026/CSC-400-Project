@@ -61,7 +61,7 @@ document.getElementById("signUp")?.addEventListener("click", () => {
 });
 
 document.getElementById("teacherSignUp")?.addEventListener("click", () => {
-    window.location.href = "TeacherSignup.html";
+    window.location.href = "signup.html";
 });
 
 document.getElementById("questDirect")?.addEventListener("click", async () => {
