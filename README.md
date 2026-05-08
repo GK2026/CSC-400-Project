@@ -18,7 +18,7 @@ Installation Instructions -
 4. Use the terminal to log into the server
 5. Access the application from chrome 
 
-Running the Application - Use a school computer and put in the URL to start it. Then Explore dada in the way that you want. After you move onto the correlation guide, then you download the data so that it in a Excell/Sheets file, compute correlation, Finally check you correlation once your done.  
+Running the Application - Use a school computer and put in the URL to start it. Then Explore data in the way that you want. After you move onto the correlation guide, then you download the data so that it in a Excell/Sheets file, compute correlation, Finally check you correlation once your done.  
 
 Deployment - It is deployed on a SCSU server  
 
