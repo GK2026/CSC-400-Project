@@ -23,3 +23,9 @@ Running the Application - Use a school computer and put in the URL to start it. 
 Deployment - It is deployed on a SCSU server  
 
 Screenshots - 2-3 key screenshots 
+
+
+<img width="1434" height="743" alt="Screenshot 2026-05-08 at 8 21 14 AM" src="https://github.com/user-attachments/assets/24cadb6e-d215-430d-bbec-5981f92b9b0f" />
+<img width="1430" height="754" alt="Screenshot 2026-05-08 at 8 21 01 AM" src="https://github.com/user-attachments/assets/495535f2-46c9-4caa-954c-c0992589fadd" />
+
+
