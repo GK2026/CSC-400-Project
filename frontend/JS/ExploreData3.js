@@ -146,7 +146,7 @@ function addSelectedCountry() {
     const country = getSelectedCountryOption();
     if (!country) { alert("Choose a country first."); return; }
     if (selectedCountries.some((item) => item.code === country.code)) { alert("That country is already selected."); return; }
-    if (selectedCountries.length >= 10) { alert("You can select up to 10 countries."); return; }
+    
     selectedCountries.push(country);
     renderSelectedCountries();
 }
