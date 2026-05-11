@@ -64,7 +64,7 @@
                 <select id="yearSelect"><option value="">Select 1 Year</option></select>
 
                 <!-- Country search + list -->
-                <label for="countrySearch">Add Countries (2-10)</label>
+                <label for="countrySearch">Add Countries</label>
                 <input type="text" id="countrySearch" placeholder="Search country">
                 <div id="countrySuggestions" class="suggestions-box"></div>
                 <select id="countrySelect"><option value="">Select Country</option></select>
@@ -75,7 +75,7 @@
                 </div>
 
                 <div class="table-container">
-                    <h3>Selected Countries <span id="countryCount">(0 / 10)</span></h3>
+                    <h3>Selected Countries <span id="countryCount"></span></h3>
                     <table id="selectedCountriesTable">
                         <thead>
                             <tr><th>Country</th><th>Remove</th></tr>
@@ -125,7 +125,7 @@
 
             <div class="tables-wrapper">
                 <div class="table-container">
-                    <h3>Generated Dataset &nbsp;<span style="color:#dc2626; font-size:0.8rem; font-weight:600;">⚠ A gap in years means no data is available for that year.</span></h3>
+                    <h3>Generated Dataset &nbsp;<span style="color:#dc2626; font-size:0.8rem; font-weight:600;">⚠ A gap in countries means no data is available for that country.</span></h3>
                     <table id="dataTable">
                         <thead>
                             <tr>
@@ -173,7 +173,7 @@
 const TUTORIAL_STEPS = [
     { icon: "🔍", title: "Search for Indicators", body: "Type in the search boxes to filter the indicator list. Click a suggestion to select it. You need two different indicators — one will be X, the other Y.", tip: "Try searching something like 'life expectancy' or 'fertility' to see what's available." },
     { icon: "📅", title: "Choose a Year", body: "After selecting Indicator 1, the year dropdown fills in automatically. Pick a single year — this view compares multiple countries at one point in time.", tip: "Choose a year where you expect data to be available for most countries." },
-    { icon: "🌍", title: "Add Countries", body: "Search for a country, then click Add Selected Country. Repeat until you have between 5 and 10 countries.", tip: "Use Clear Countries to start over if you want to change your selection." },
+    { icon: "🌍", title: "Add Countries", body: "Search for a country and click Add Selected Country. Add as many as you need.", tip: "Use Clear Countries to start over if you want to change your selection." },
     { icon: "⚡", title: "Generate the Dataset", body: "Click the orange Generate Dataset button. A scatter plot and data table appear on the right. The scatter plot shows Indicator 1 on X and Indicator 2 on Y.", tip: "If a country is missing it means there is no data for that indicator in that year." },
     { icon: "🔬", title: "Explore What-If", body: "Click 'Explore What-If' to edit values in the table and see the scatter plot and r value update live. Changes are never saved.", tip: "Try removing an extreme outlier and watch how much r changes. That's a great way to understand what outliers do." },
     { icon: "🧮", title: "Calculate the Correlation", body: "Click Continue to Correlation Guide. The guide walks you through each step of Pearson's formula.", tip: "You must get each step right before moving to the next." },
